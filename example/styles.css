@@ -1,0 +1,172 @@
+
+html, body {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	height: 100%;
+	overflow: hidden;
+	background: black;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+.grabbable {
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+/* Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active { 
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+}
+/* Sidebars */
+.bar {
+	background: white;
+	transition: opacity 0.2s ease;
+	display: flex;
+	align-items: center;
+	align-content: flex-start;
+}
+.bar:not(.visible) {
+	opacity: 0;
+	pointer-events: none;
+}
+.sidebar {
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	height: 100%;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+	flex-direction: column;
+}
+.bar article,
+.terrain-tools {
+	padding: 1rem;
+	padding-top: 0.5rem;
+	display: flex;
+	flex-direction: column;
+}
+.terrain-tools label {
+	margin-bottom: 1em;
+}
+.bar article:hover {
+	background: rgba(0, 0, 0, 0.08);
+}
+.bar article:active,
+.bar article.selected {
+	background: rgba(0, 0, 0, 0.12);
+}
+.bar article canvas {
+	background: rgba(50, 200, 255, 0.7);
+}
+.bar article:hover canvas,
+.bar article:active canvas,
+.bar article.selected canvas {
+	background: rgba(50, 200, 255, 1);
+}
+.bar h1 {
+	text-align: center;
+	font-size: 2em;
+	font-weight: normal;
+	margin: 0.1em 0;
+}
+.bar article > h1 {
+	pointer-events: none;
+}
+.bar article .title-bar {
+	display: flex;
+	flex-direction: row;
+}
+.bar .name {
+	font-size: 1.2em;
+	font-weight: normal;
+	font-family: sans-serif;
+	margin: 0;
+	margin-bottom: 0.1em;
+}
+.entities-bar .name {
+	text-align: center;
+}
+.bar article .mdl-textfield {
+	width: auto;
+	padding: 0;
+	padding-bottom: 0.3rem;
+}
+button,
+canvas,
+img {
+	flex: 0 0 auto;
+}
+.anim-bar {
+	flex-direction: row;
+	align-items: flex-start;
+}
+.anim-bar > * {
+	height: 100%;
+}
+/* TODO: refactor bars and subbars */
+.anim-bar > *:not(:first-child) {
+	border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+.anims,
+.anim-group {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.anims,
+.animation-frames {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.anims > * {
+	flex-shrink: 0;
+}
+/* TODO: refactor bars and subbars */
+.animation-frames {
+	/*transition: 0.1s ease;*/
+}
+.animation-frames:not(.visible) {
+	opacity: 0;
+	pointer-events: none;
+	width: 0;
+	/*transform: translate(-100%, 0);*/
+}
+.add-anim-fab {
+	margin: 0.5rem 0 !important;
+	align-self: center;
+}
+.poses,
+.animations {
+	width: 100%;
+}
+article.placeholder {
+	padding: 2rem;
+	text-align: center;
+	background: rgba(128, 59, 110, 0.16);
+	color: rgba(0, 0, 0, 0.5);
+	font-size: 1.4em;
+	pointer-events: none;
+}
+
+.warning {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 50;
+	margin: 15px;
+	padding: 15px;
+	background: #FFF9C4;
+	color: #BF360C;
+	border-radius: 2px;
+	transition: opacity 0.2s ease;
+}
+.warning:not(.show) {
+	pointer-events: none;
+	opacity: 0;
+}
