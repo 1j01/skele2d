@@ -121,6 +121,7 @@ class @Editor
 					Entity.saveAnimations(EntityClass)
 				
 				# TODO: allow flipping the current pose, just don't save it? or save the world where it's stored?
+				# also, allow flipping terrain
 				menu.append(new nw.MenuItem(
 					label: 'Flip Pose Horizontally'
 					enabled: @editing_entity_anim_name and @editing_entity_anim_name isnt "Current Pose"

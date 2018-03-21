@@ -2,9 +2,7 @@
 
 these could be considered manual tests
 and some could be automated perhaps
-
 but it's also a sketch of functionality
-
 not all of these things are implemented,
 so if one of these doesn't work, it's not necessarily a *bug*
 
@@ -24,6 +22,7 @@ while editing an entity
 	double clicking on the entity should not stop editing the entity
 	drag on a selected point to move all selected points
 	drag on a non-selected point to select that point and move it
+	alt+drag to drag the selection from anywhere
 	click on a point to select that point
 		(even when it's one of multiple points in the selection)
 	shift+click or ctrl+click on a point to toggle the selected state of that point
@@ -33,6 +32,7 @@ otherwise
 	press delete to delete selected entities
 	with selected entities
 		drag on a selected entity to move all selected entities
+		alt+drag to drag the selection from anywhere
 		double click on a selected entity to edit the entity
 			(should always make it the only selected entity)
 		click on a selected entity to make it the only selected entity
@@ -60,7 +60,13 @@ delete, undo, redo, etc. should work while dragging entities or points
 minimum drag distances should be based on view positions, not world positions
 undo states should only be created once a drag starts
 
-esc should cancel dragging or exit edit mode
+pressing esc should either
+	1. cancel a selection/dragging gesture, resetting to the state before the gesture (including removing an entity dragged from the entities bar),
+	2. deselect any points,
+	3. exit entity editing mode, or
+	4. deselect any entities,
+in that order of priority
+alt+tabbing away from the window should cancel any gesture in the same way as esc
 
 entities and points should have hover styles
 
@@ -72,6 +78,6 @@ MMB-dragging from the entities bar should either work or not
 there should be a way to regenerate an entity
 	it could be something like right click
 	it should work for both placed entities and entities in the entities bar
-	entity previews in the entities bar could show the exact random entity you would receive and then generate a new one once you place it
+	entity previews in the entities bar could show the exact random entity you would receive (and then generate a new one in the bar)
 
 context menus

@@ -9,8 +9,31 @@
   "bugs": {
     "url": "http://github.com/1j01/skele2d/issues"
   },
+  "keywords": [
+    "game-engine",
+    "engine",
+    "point-based",
+    "points",
+    "skeleton",
+    "skeletal",
+    "bones",
+    "structure",
+    "polygons",
+    "polygon",
+    "animation",
+    "pose",
+    "canvas",
+    "canvas-game",
+    "game",
+    "game-development",
+    "2d",
+    "editor",
+    "game-editor",
+    "level-editor",
+    "world-editor",
+    "game-world"
+  ],
   "license": "UNLICENSED",
-  "private": true,
   "scripts": {
     "install-example": "npm link && cd example && npm install && npm link skele2d",
     "example": "cd example && npm start"

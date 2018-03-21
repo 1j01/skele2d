@@ -9,7 +9,6 @@ class @TerrainBar extends React.Component
 		{visible} = @state
 		
 		{sculpt_mode, brush_size} = editor
-		# console.log sculpt_mode, brush_size
 		
 		E ".bar.sidebar.terrain-bar", class: {visible},
 			E "h1", "Terrain"
@@ -20,6 +19,8 @@ class @TerrainBar extends React.Component
 					ref: (@sculpt_mode_switch)=>
 					E "input.mdl-switch__input",
 						type: "checkbox", checked: sculpt_mode
+						# FIXME: Warning: TerrainBar is changing a uncontrolled input of type checkbox to be controlled. Input elements should not switch from uncontrolled to controlled (or vice versa). Decide between using a controlled or uncontrolled input element for the lifetime of the component.
+						# checked: false is apparently interpreted by ReactScript as leaving off the checked attribute
 						onChange: (e)=>
 							editor.sculpt_mode = e.target.checked
 							editor.renderDOM()
@@ -33,6 +34,8 @@ class @TerrainBar extends React.Component
 						onChange: (e)=>
 							editor.brush_size = e.target.value
 							editor.renderDOM()
+				E "p", style: maxWidth: 400,
+					if sculpt_mode then "Note: sculpt mode is not actually implemented. It currently just pushes points around in a generally unpleasant way."
 	
 	componentDidMount: ->
 		componentHandler.upgradeElement(ReactDOM.findDOMNode(@sculpt_mode_switch))
