@@ -78,4 +78,4 @@ do animate = ->
 	
 	editor.updateGUI()
 	
-	keyboard.endStep()
+	# keyboard.endStep()
