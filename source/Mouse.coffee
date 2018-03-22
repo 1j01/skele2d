@@ -29,7 +29,7 @@ class @Mouse
 			MB.pressed = yes
 			@double_clicked = yes
 	
-	endStep: ->
+	resetForNextStep: ->
 		@LMB.pressed = no
 		@MMB.pressed = no
 		@RMB.pressed = no

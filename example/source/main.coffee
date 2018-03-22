@@ -65,7 +65,7 @@ do animate = ->
 	
 	view.easeTowards(view_to, view_smoothness)
 	editor.step() if editor.editing
-	mouse.endStep()
+	mouse.resetForNextStep()
 	
 	world.drawBackground(ctx, view)
 	ctx.save()
@@ -80,4 +80,4 @@ do animate = ->
 	
 	editor.updateGUI()
 	
-	# keyboard.endStep()
+	# keyboard.resetForNextStep()

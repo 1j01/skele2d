@@ -22,10 +22,10 @@ addEventListener "keydown", (e)-> keys[e.keyCode] = true
 addEventListener "keyup", (e)-> delete keys[e.keyCode]
 
 @keyboard =
-	wasPressed: (keyName)->
+	wasJustPressed: (keyName)->
 		keys[keyCodeFor(keyName)]? and not prev_keys[keyCodeFor(keyName)]?
 	isHeld: (keyName)->
 		keys[keyCodeFor(keyName)]?
-	endStep: ->
+	resetForNextStep: ->
 		prev_keys = {}
 		prev_keys[k] = v for k, v of keys
