@@ -28,7 +28,7 @@ class @TerrainBar extends React.Component
 				E "label",
 					E "span.mdl-checkbox__label.mdl-slider__label", "Brush Size"
 					E "input.mdl-slider.mdl-js-slider",
-						type: "range", min: 0, max: 100, value: brush_size, tabindex: 0
+						type: "range", min: 0, max: 100, value: brush_size, tabIndex: 0
 						disabled: not sculpt_mode
 						ref: (@brush_size_slider)=>
 						onChange: (e)=>
