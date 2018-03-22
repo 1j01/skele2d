@@ -14,25 +14,27 @@ document.body.appendChild(canvas)
 ctx = canvas.getContext("2d")
 
 @view = new View
+@view_to = new View
+view_smoothness = 7
 @mouse = new Mouse(canvas, view)
 
-@editor = new Editor(world, view, canvas)
+@editor = new Editor(world, view, view_to, canvas)
 try
 	editor.load()
 catch e
 	console?.error? "Failed to load save:", e
 
 try
-	view.center_x_to = view.center_x = parseFloat(localStorage.view_center_x) unless isNaN(localStorage.view_center_x)
-	view.center_y_to = view.center_y = parseFloat(localStorage.view_center_y) unless isNaN(localStorage.view_center_y)
-	view.scale_to = view.scale = parseFloat(localStorage.view_scale) unless isNaN(localStorage.view_scale)
+	view_to.center_x = view.center_x = parseFloat(localStorage.view_center_x) unless isNaN(localStorage.view_center_x)
+	view_to.center_y = view.center_y = parseFloat(localStorage.view_center_y) unless isNaN(localStorage.view_center_y)
+	view_to.scale = view.scale = parseFloat(localStorage.view_scale) unless isNaN(localStorage.view_scale)
 
 setInterval ->
 	if editor.editing
 		# TODO: should probably only save if you pan/zoom
 		localStorage.view_center_x = view.center_x
 		localStorage.view_center_y = view.center_y
-		localStorage.view_scale = view.scale_to
+		localStorage.view_scale = view_to.scale
 , 200
 
 do animate = ->
@@ -55,13 +57,13 @@ do animate = ->
 		
 		# TODO: allow margin of offcenterednses
 		# player = world.getEntitiesOfType(Player)[0]
-		# view.center_x_to = player.x
-		# view.center_y_to = player.y
+		# view_to.center_x = player.x
+		# view_to.center_y = player.y
 	
 	view.width = canvas.width
 	view.height = canvas.height
 	
-	view.step()
+	view.easeTowards(view_to, view_smoothness)
 	editor.step() if editor.editing
 	mouse.endStep()
 	

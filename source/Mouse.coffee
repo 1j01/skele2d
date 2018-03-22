@@ -8,6 +8,8 @@ class @Mouse
 		@RMB = {down: no, pressed: no, released: no}
 		@double_clicked = no
 		
+		# TODO: maybe have an init / initListeners / addListeners method?
+		# doesn't seem good to add listeners in a constructor
 		addEventListener "mousemove", (e)=>
 			@x = e.clientX
 			@y = e.clientY
@@ -27,6 +29,9 @@ class @Mouse
 			MB.pressed = yes
 			@double_clicked = yes
 	
+	# TODO: Is there something better that can be done here?
+	# Currently Mouse requires a view, just to provide this convenience method.
+	# Is it worth it? ...Looks like it's used 3 times. Not worth it. Not worth it!
 	toWorld: ->
 		@view.toWorld(@)
 	

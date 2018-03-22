@@ -6,7 +6,7 @@ fs = require? "fs"
 path = require? "path"
 
 class @Editor
-	constructor: (@world, @view, canvas)->
+	constructor: (@world, @view, @view_to, canvas)->
 		@editing = yes
 		
 		@selected_entities = []
@@ -156,21 +156,21 @@ class @Editor
 			current_center_x = @view.center_x
 			current_center_y = @view.center_y
 			
-			@view.scale = @view.scale_to
-			@view.center_x = @view.center_x_to
-			@view.center_y = @view.center_y_to
+			@view.scale = @view_to.scale
+			@view.center_x = @view_to.center_x
+			@view.center_y = @view_to.center_y
 			
 			pivot = @view.toWorld(x: e.clientX, y: e.clientY)
-			@view.scale_to =
+			@view_to.scale =
 				if e.detail < 0 or e.wheelDelta > 0
-					@view.scale_to * zoom_factor
+					@view_to.scale * zoom_factor
 				else
-					@view.scale_to / zoom_factor
+					@view_to.scale / zoom_factor
 			
-			@view.scale = @view.scale_to
+			@view.scale = @view_to.scale
 			mouse_after_preliminary_scale = @view.toWorld(x: e.clientX, y: e.clientY)
-			@view.center_x_to += (pivot.x - mouse_after_preliminary_scale.x)
-			@view.center_y_to += (pivot.y - mouse_after_preliminary_scale.y)
+			@view_to.center_x += (pivot.x - mouse_after_preliminary_scale.x)
+			@view_to.center_y += (pivot.y - mouse_after_preliminary_scale.y)
 			
 			@view.scale = current_scale
 			@view.center_x = current_center_x
@@ -455,8 +455,8 @@ class @Editor
 		
 		@view.center_x -= @view_drag_momentum.x
 		@view.center_y -= @view_drag_momentum.y
-		@view.center_x_to -= @view_drag_momentum.x
-		@view.center_y_to -= @view_drag_momentum.y
+		@view_to.center_x -= @view_drag_momentum.x
+		@view_to.center_y -= @view_drag_momentum.y
 		@view_drag_momentum.x *= 0.8
 		@view_drag_momentum.y *= 0.8
 		
@@ -472,8 +472,8 @@ class @Editor
 			if mouse.MMB.down
 				@view.center_x -= mouse_in_world.x - @view_drag_start_in_world.x
 				@view.center_y -= mouse_in_world.y - @view_drag_start_in_world.y
-				@view.center_x_to = @view.center_x
-				@view.center_y_to = @view.center_y
+				@view_to.center_x = @view.center_x
+				@view_to.center_y = @view.center_y
 				@view_drag_momentum.x = 0
 				@view_drag_momentum.y = 0
 			else
