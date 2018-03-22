@@ -16,7 +16,7 @@ with tweening/interpolation helpers for cyclical and linear animations
 * Entity previews and previews of animations and animation frames, shown with *your* arbitrary drawing code
 * You can select entities, drag them around, pose them, cut, copy and paste, undo and redo
 * Both keyboard shortcuts *and* context menus!
-* Arbitrary data can be associated with / tacked onto points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it!
+* Arbitrary data can be associated with / tacked onto points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it! (literally, of course)
 
 
 ## Demo
@@ -32,6 +32,17 @@ See [Tiamblia][] for a better demo.
 ### Better Demo
 
 Clone [Tiamblia][] instead, `npm i` to install, and `npm start` to run
+
+
+## Setup / API
+
+For now, you'd have to look at the source code, and copy from the examples.
+
+I wouldn't recommend using this yet!
+
+Right now there's a bunch of CoffeeScript files in [`sources/`](sources/), along with `sources/style.css`, published in the [`skele2d`](https://www.npmjs.com/package/skele2d) package,
+and you have to include other stuff like Material UI, React, and CoffeeScript as seen in [`example/index.html`](example/index.html)
+(but not everything in there is required)
 
 
 ## Roadmap
