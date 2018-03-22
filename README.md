@@ -54,3 +54,37 @@ with tweening/interpolation helpers for cyclical and linear animations
 * [Clone this repository](https://help.github.com/articles/cloning-a-repository/)
 * In a command prompt / terminal, in the project directory, run `npm install && npm run install-example`
 * Then to run the demo, from now on you can just do `npm run example`
+
+## Changelog
+
+The software is essentially unreleased, but I thought I might as well get in a habit of doing a changelog.
+
+Update: hey look it's not actually that hard. You already have commit history, so it's just a matter of presenting that information to users (theoretical users in this case - heh, maybe that helps), highlighting API changes.
+
+### v0.0.0
+
+- In the process of extracting this from [Tiamblia](https://github.com/1j01/tiamblia-game),
+published so I can reference this version in Tiamblia, starting to use it as a package (but not so much as a library).
+- Published as uncompiled CoffeeScript.
+
+### v0.0.1
+
+- Moved the required CSS into the package at `source/styles.css` (Material UI CSS and other external resources are still required).
+- Removed `keyboard.coffee` from the package. It was only used by Tiamblia, as a helper, not by the editor. (Kept the code in the example, unused.)
+- `View` easing works differently now. Instead of `View` having `*_to` properties, it now only represents a specific viewport. You create two views, i.e. `view` and `view_to`, and call `view.easeTowards(view_to, smoothness)`
+- `new Editor(world, view, canvas)` -> `new Editor(world, view, view_to, canvas)`
+- `Mouse` no longer takes a `View` just to provide a silly helper function, so `new Mouse(canvas, view)` -> `new Mouse(canvas)`
+- `mouse.toWorld()` is gone, so you can do `view.toWorld(mouse)` instead
+- `mouse.endStep()` -> `mouse.resetForNextStep()`
+
+### v0.0.2
+
+- Updated for CoffeeScript 2 compatibility.
+
+### v0.0.3
+
+- Editor GUI fixes
+	- The entities bar now correctly shows a scrollbar when there's overflow
+	- Placeholders for when there are no animations/poses now consistently take up full width
+- Fixed a React warning
+
