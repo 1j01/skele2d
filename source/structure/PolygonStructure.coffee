@@ -1,14 +1,14 @@
 
 class @PolygonStructure extends Structure
 	constructor: ->
-		super
+		super() # calls @clear()
+		# don't need to worry about calling onchange because can't be set at this point
+	
+	clear: ->
+		super()
 		@id_counter = 0
 		@last_point_name = null
 		@first_point_name = null
-	
-	clear: ->
-		super
-		@constructor()
 		@onchange?()
 	
 	toJSON: ->

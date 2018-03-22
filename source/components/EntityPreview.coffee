@@ -1,7 +1,7 @@
 
 class @EntityPreview extends React.Component
 	constructor: (props)->
-		super
+		super()
 		{entity, max_width, max_height} = props
 		@entity = Entity.fromJSON(JSON.parse(JSON.stringify(entity)))
 		@entity.facing_x = 1

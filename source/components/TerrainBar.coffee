@@ -1,7 +1,7 @@
 
 class @TerrainBar extends React.Component
 	constructor: ->
-		super
+		super()
 		@state = {visible: no}
 	
 	render: ->

@@ -3,7 +3,7 @@
 
 class @Anim extends React.Component
 	constructor: ->
-		super
+		super()
 	
 	render: ->
 		{entity, EntityClass, name, type_of_anims, selected, select, delete_item, update, editor} = @props

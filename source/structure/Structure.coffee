@@ -1,9 +1,8 @@
 
 class @Structure
 	constructor: ->
-		@points = {}
-		@segments = {}
-	
+		@clear()
+
 	clear: ->
 		@points = {}
 		@segments = {}

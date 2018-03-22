@@ -2,7 +2,7 @@
 class @Rock extends Terrain
 	addEntityClass(@)
 	constructor: ->
-		super
+		super()
 		@bbox_padding = 20
 	
 	draw: (ctx, view)->

@@ -1,7 +1,7 @@
 
 class @EntitiesBar extends React.Component
 	constructor: ->
-		super
+		super()
 		@state = {visible: no}
 		@cells = []
 		@entity_previews = []
