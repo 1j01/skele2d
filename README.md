@@ -6,6 +6,7 @@ This project is pre-alpha. Consider it **unreleased**.
 
 <!-- TODO: add GIFs; also a logo would be good -->
 
+
 ## Features
 
 * Animation & pose system lets you manipulate and compose poses and animations any way you want,
@@ -16,6 +17,22 @@ with tweening/interpolation helpers for cyclical and linear animations
 * You can select entities, drag them around, pose them, cut, copy and paste, undo and redo
 * Both keyboard shortcuts *and* context menus!
 * Arbitrary data can be associated with / tacked onto points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it!
+
+
+## Demo
+
+The demo is really lame at the moment; there are no entities to animate!
+See [Tiamblia][] for a better demo.
+
+* Install [Node.js](https://nodejs.org/) if you don't have it.
+* [Clone this repository](https://help.github.com/articles/cloning-a-repository/)
+* In a command prompt / terminal, in the project directory, run `npm install && npm run install-example`
+* Then to run the demo, from now on you can just do `npm run example`
+
+### Better Demo
+
+Clone [Tiamblia][] instead, `npm i` to install, and `npm start` to run
+
 
 ## Roadmap
 
@@ -48,19 +65,6 @@ with tweening/interpolation helpers for cyclical and linear animations
 
 * Use this in a few different games
 
-## Demo
-
-The demo is really lame at the moment; there are no entities to animate!
-See [Tiamblia][] for a better demo.
-
-* Install [Node.js](https://nodejs.org/) if you don't have it.
-* [Clone this repository](https://help.github.com/articles/cloning-a-repository/)
-* In a command prompt / terminal, in the project directory, run `npm install && npm run install-example`
-* Then to run the demo, from now on you can just do `npm run example`
-
-### Better Demo
-
-Clone [Tiamblia][] instead, `npm i` to install, and `npm start` to run
 
 ## Changelog
 
@@ -69,5 +73,6 @@ The software is essentially unreleased, but I thought I might as well get in a h
 See [CHANGELOG.md](CHANGELOG.md)
 
 Hey look it's not actually that hard. You already have commit history, so it's just a matter of presenting that information to users (theoretical users in this case - heh, maybe that helps), highlighting API changes.
+
 
 [Tiamblia]: https://github.com/1j01/tiamblia-game
