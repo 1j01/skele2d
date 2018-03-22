@@ -92,7 +92,9 @@
 }
 button,
 canvas,
-img {
+img,
+article, /* representing entities, poses, animations, animation frames - things with EntityPreviews in them */
+.anims > * { /* includes headings and .anim-groups */
 	flex: 0 0 auto;
 }
 .anim-bar {
@@ -113,12 +115,10 @@ img {
 	align-items: center;
 }
 .anims,
-.animation-frames {
+.animation-frames,
+.entities-bar {
 	overflow-y: auto;
 	overflow-x: hidden;
-}
-.anims > * {
-	flex-shrink: 0;
 }
 /* TODO: refactor bars and subbars */
 .animation-frames {
