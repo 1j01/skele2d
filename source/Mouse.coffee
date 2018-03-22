@@ -1,6 +1,6 @@
 
 class @Mouse
-	constructor: (canvas, @view)->
+	constructor: (canvas)->
 		@x = -Infinity
 		@y = -Infinity
 		@LMB = {down: no, pressed: no, released: no}
@@ -28,12 +28,6 @@ class @Mouse
 			MB = @["#{"LMR"[e.button]}MB"]
 			MB.pressed = yes
 			@double_clicked = yes
-	
-	# TODO: Is there something better that can be done here?
-	# Currently Mouse requires a view, just to provide this convenience method.
-	# Is it worth it? ...Looks like it's used 3 times. Not worth it. Not worth it!
-	toWorld: ->
-		@view.toWorld(@)
 	
 	endStep: ->
 		@LMB.pressed = no

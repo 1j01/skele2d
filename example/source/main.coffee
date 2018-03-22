@@ -16,7 +16,7 @@ ctx = canvas.getContext("2d")
 @view = new View
 @view_to = new View
 view_smoothness = 7
-@mouse = new Mouse(canvas, view)
+@mouse = new Mouse(canvas)
 
 @editor = new Editor(world, view, view_to, canvas)
 try

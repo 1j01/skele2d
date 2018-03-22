@@ -379,7 +379,7 @@ class @Editor
 				center.x /= centroids.length
 				center.y /= centroids.length
 				
-				mouse_in_world = mouse.toWorld()
+				mouse_in_world = @view.toWorld(mouse)
 				
 				for entity in new_entities
 					entity.x += mouse_in_world.x - center.x
@@ -391,7 +391,7 @@ class @Editor
 	
 	step: ->
 		
-		mouse_in_world = mouse.toWorld()
+		mouse_in_world = @view.toWorld(mouse)
 		
 		if mouse.LMB.released
 			if @dragging_points.length
@@ -727,7 +727,7 @@ class @Editor
 		
 		if @editing_entity?
 			if @editing_entity instanceof Terrain and @sculpt_mode
-				mouse_in_world = mouse.toWorld()
+				mouse_in_world = @view.toWorld(mouse)
 				ctx.beginPath()
 				# ctx.arc(mouse_in_world.x, mouse_in_world.y, @brush_size / view.scale, 0, TAU)
 				ctx.arc(mouse_in_world.x, mouse_in_world.y, @brush_size, 0, TAU)
