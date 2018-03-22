@@ -34,9 +34,9 @@ class @AnimGroup extends React.Component
 										array_to_push_anims_to.push(anim) if anim?
 								}
 						else
-							E "article.placeholder", "No poses"
+							E "article.placeholder", key: "placeholder", "No poses"
 					else
-						E "article.placeholder", "Entity class is not initialized for animation"
+						E "article.placeholder", key: "placeholder", "Entity class is not initialized for animation"
 				else if type_of_anims is "animations"
 					if EntityClass.animations?
 						if Object.keys(EntityClass.animations).length > 0
@@ -68,9 +68,9 @@ class @AnimGroup extends React.Component
 										array_to_push_anims_to.push(anim) if anim?
 								}
 						else
-							E "article.placeholder", "No animations"
+							E "article.placeholder", key: "placeholder", "No animations"
 					else
-						E "article.placeholder", "Entity class is not initialized for animation"
+						E "article.placeholder", key: "placeholder", "Entity class is not initialized for animation"
 				else if type_of_anims is "animation-frames"
 					if EntityClass.animations?
 						animation_name = editor.editing_entity_anim_name
@@ -100,12 +100,13 @@ class @AnimGroup extends React.Component
 										array_to_push_anims_to.push(anim) if anim?
 								}
 						else
-							E "article.placeholder", "Error: Trying to display the frames of a non-existant animation"
+							E "article.placeholder", key: "placeholder", "Error: Trying to display the frames of a non-existant animation"
 					else
-						E "article.placeholder", "Error: Entity class is not initialized for animation, trying to display the frames of an animation?"
+						E "article.placeholder", key: "placeholder", "Error: Entity class is not initialized for animation, trying to display the frames of an animation?"
 				else
-					E "article.placeholder", "Error: weird type_of_anims for AnimGroup #{type_of_anims}"
+					E "article.placeholder", key: "placeholder", "Error: weird type_of_anims for AnimGroup #{type_of_anims}"
 			E "button.add-anim-fab.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored",
+				key: "add-button"
 				ref: (@new_anim_button)=>
 				onClick: =>
 					if type_of_anims is "animation-frames"
