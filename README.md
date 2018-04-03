@@ -61,10 +61,20 @@ and you have to include other stuff like Material UI, React, and CoffeeScript as
 	* Documentation!
 		* Setup
 		* API
-		* Document things like `initLayout`'s heuristics based on names of points containing "left"/"right", and special casing the default pose if there's "Default"/"Stand"/"Standing"/"Idle" available
+		* For now, it is very much a framework, so document how to stay within the bounds of it, and conventions that make it a smoother experience
+			* References to other entities must be at the top level for now
+			* Adding data to other entities currently works, but the entity data might be versioned later and not accept extra data (or it might be that you can easily allow exceptions,) but/so it might be better to store extra data within an entity relating to other entities, like a key value store with the keys as entity IDs (but that's not fun) (using entity references as keys could be a *little* bit fun, but overal the paradigm wouldn't be)
+			* When animations/poses don't exist, default to `@structure.getPose()`
+			* Name points and segments like how you'd name properties, so you can access them as such when drawing/stepping (e.g. `let {leftArm, rightArm} = @structure.points`)
+			* A default pose is decided by the (overridable) method `initLayout`, and if you use "left"/"right" in the names of points it moves them to the left or right, and it uses poses named "Default"/"Stand"/"Standing"/"Idle" in that order (most to least preferred), if one is available.
 		* Demos or it didn't happen!
+			* Deploy to the web; it's actually already set up to use `localStorage` (in place of `fs`) and such, and XHR to load the existing world data and animation data
 			* Improve the one demo (maybe make a logo as part of it)
+			* Could make a better version of [pbp2d](https://github.com/1j01/pbp2d), a point based physics sandbox; or a full blown physics engine playground; rigid bodies use polygons and polygons use points too, and generating shapes and bodies from other types of structures would be very much possible too
 			* Could do a demo with a totally different renderer, overriding `Editor.draw` and maybe `View`. Three.js could be fun :)
+
+* Versioning of world data
+	* Code patterns for upgrading [can be pretty simple](https://github.com/1j01/wavey/blob/12203a2166c27aab783592184263dbb2daad0e44/src/components/AudioEditor.coffee#L88-L128)
 
 * Add <kbd>shift</kbd>/<kbd>ctrl</kbd> selection-manipulation modifiers
 
@@ -75,6 +85,9 @@ and you have to include other stuff like Material UI, React, and CoffeeScript as
 * Make undo/redo efficient (currently it saves the entire world state every operation!)
 
 * Use this in a few different games
+
+* It would be nice to have vector maths, haha! Kinda silly how this whole thing is based around points and there's no vector operations
+	* We want to keep (the ability to keep) arbitrary data on (or at *least* associated with) points
 
 
 ## Changelog

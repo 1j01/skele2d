@@ -15,7 +15,7 @@ Check out this fancy Unreleased section, based off of React's changelog:
 		Click to see more.
 	</summary>
 
-* Update React to v16.2.0 (not exactly a user-facing change, no new APIs are used - yet, anyway; but they could be and at *that* point it could matter; the supported version is now v16)
+* The supported version of React is now v16 (updated to v16.2.0 in the demo from v15); no new APIs are used (*yet* anyway); but they could be and at that point this could come into play.
 
 </details>
 

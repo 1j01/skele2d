@@ -66,8 +66,7 @@ pressing esc should either
 	3. exit entity editing mode, or
 	4. deselect any entities,
 in that order of priority
-alt+tabbing away from the window should cancel any gesture in the same way as esc
-so should exiting edit mode
+alt+tabbing away from the window or exiting edit mode should cancel any gesture in the same way as esc, and should reset the hover state
 
 entities and points should have hover styles
 
