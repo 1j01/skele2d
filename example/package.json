@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "repository": {
     "type": "git",
-    "url": "http://github.com/1j01/skele2d.git"
+    "url": "https://github.com/1j01/skele2d.git"
   },
   "bugs": {
-    "url": "http://github.com/1j01/skele2d/issues"
+    "url": "https://github.com/1j01/skele2d/issues"
   },
   "license": "UNLICENSED",
   "private": true,
