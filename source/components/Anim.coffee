@@ -1,7 +1,11 @@
 
 # awkward component Anim represents a pose OR an animation OR an animation frame (which is an unnamed pose)
 
-class @Anim extends React.Component
+{Component} = require "react"
+E = require "react-script"
+{rename_object_key} = require "../helpers.coffee"
+
+module.exports = class Anim extends Component
 	constructor: ->
 		super()
 	

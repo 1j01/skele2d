@@ -1,5 +1,16 @@
 
-seedrandom("A world")
+View = require "../../source/View.coffee"
+Mouse = require "../../source/Mouse.coffee"
+Editor = require "../../source/Editor.coffee"
+
+World = require "./World.coffee"
+Rock = require "./entities/terrain/Rock.coffee"
+Snow = require "./entities/terrain/Snow.coffee"
+# keyboard = require "./keyboard.coffee"
+
+window.dont_mangle_my_names = {Rock, Snow}
+
+Math.seedrandom("A world")
 
 world = new World
 
@@ -13,12 +24,12 @@ canvas = document.createElement("canvas")
 document.body.appendChild(canvas)
 ctx = canvas.getContext("2d")
 
-@view = new View
-@view_to = new View
+view = new View
+view_to = new View
 view_smoothness = 7
-@mouse = new Mouse(canvas)
+mouse = new Mouse(canvas)
 
-@editor = new Editor(world, view, view_to, canvas)
+editor = @editor = new Editor(world, view, view_to, canvas, mouse)
 try
 	editor.load()
 catch e

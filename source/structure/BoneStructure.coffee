@@ -1,5 +1,6 @@
+Structure = require "./Structure.coffee"
 
-class @BoneStructure extends Structure
+module.exports = class BoneStructure extends Structure
 	
 	addPoint: (name)->
 		if @points[name]
@@ -31,7 +32,7 @@ class @BoneStructure extends Structure
 			if center
 				dx = center_around.x - point.x
 				dy = center_around.y - point.y
-				dist = sqrt(dx * dx + dy * dy)
+				dist = Math.sqrt(dx * dx + dy * dy)
 				forces[point_name].x += dx * dist / 100000
 				forces[point_name].y += dy * dist / 100000
 			
@@ -39,7 +40,7 @@ class @BoneStructure extends Structure
 				for other_point_name, other_point of @points
 					dx = other_point.x - point.x
 					dy = other_point.y - point.y
-					dist = sqrt(dx * dx + dy * dy)
+					dist = Math.sqrt(dx * dx + dy * dy)
 					delta_dist = 5 - dist
 					unless delta_dist is 0
 						forces[point_name].x += dx / delta_dist / 1000
@@ -51,9 +52,9 @@ class @BoneStructure extends Structure
 		for segment_name, segment of @segments
 			dx = segment.a.x - segment.b.x
 			dy = segment.a.y - segment.b.y
-			dist = sqrt(dx * dx + dy * dy)
+			dist = Math.sqrt(dx * dx + dy * dy)
 			delta_dist = dist - (segment.length ? 50)
-			delta_dist = min(delta_dist, 100)
+			delta_dist = Math.min(delta_dist, 100)
 			forces[segment.a.name].x -= dx * delta_dist / 1000
 			forces[segment.a.name].y -= dy * delta_dist / 1000
 			forces[segment.b.name].x += dx * delta_dist / 1000

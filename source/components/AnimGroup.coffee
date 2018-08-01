@@ -1,5 +1,8 @@
+{Component} = require "react"
+ReactDOM = require "react-dom"
+E = require "react-script"
 
-class @AnimGroup extends React.Component
+module.exports = class AnimGroup extends Component
 	render: ->
 		{entity, EntityClass, array_to_push_anims_to, update, type_of_anims} = @props
 		E ".anim-group",

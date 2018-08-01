@@ -2,11 +2,28 @@
 # TODO: reasonable terrain editing
 # TODO: shift+select (and alternatively ctrl+select)
 
+ReactDOM = require "react-dom"
+E = require "react-script"
+EntitiesBar = require "./components/EntitiesBar.coffee"
+AnimBar = require "./components/AnimBar.coffee"
+TerrainBar = require "./components/TerrainBar.coffee"
+Terrain = require "./base-entities/Terrain.coffee"
+Entity = require "./base-entities/Entity.coffee"
+BoneStructure = require "./structure/BoneStructure.coffee"
+{distanceToLineSegment, distance, entity_classes} = require "./helpers.coffee"
+TAU = Math.PI * 2
+
+require "./styles.css"
+
 fs = require? "fs"
 path = require? "path"
+# XXX: hack for webpack
+# TODO: use ifdef conditionals or something
+fs = null if not fs.readFileSync
+path = null if not path.join
 
-class @Editor
-	constructor: (@world, @view, @view_to, canvas)->
+module.exports = class Editor
+	constructor: (@world, @view, @view_to, canvas, @mouse)->
 		@editing = yes
 		
 		@selected_entities = []
@@ -58,7 +75,9 @@ class @Editor
 		addEventListener "contextmenu", (e)=>
 			e.preventDefault()
 			return unless @editing
-			
+
+			# TODO: context menus outside of NW.js, in the browser
+
 			menu = new nw.Menu
 			
 			# if @selected_entities.length is 0
@@ -379,7 +398,7 @@ class @Editor
 				center.x /= centroids.length
 				center.y /= centroids.length
 				
-				mouse_in_world = @view.toWorld(mouse)
+				mouse_in_world = @view.toWorld(@mouse)
 				
 				for entity in new_entities
 					entity.x += mouse_in_world.x - center.x
@@ -391,9 +410,9 @@ class @Editor
 	
 	step: ->
 		
-		mouse_in_world = @view.toWorld(mouse)
+		mouse_in_world = @view.toWorld(@mouse)
 		
-		if mouse.LMB.released
+		if @mouse.LMB.released
 			if @dragging_points.length
 				@dragging_points = []
 				@savePose()
@@ -424,10 +443,10 @@ class @Editor
 			relative_y1 = @selection_box.y1 - entity.y
 			relative_x2 = @selection_box.x2 - entity.x
 			relative_y2 = @selection_box.y2 - entity.y
-			relative_min_x = min(relative_x1, relative_x2)
-			relative_max_x = max(relative_x1, relative_x2)
-			relative_min_y = min(relative_y1, relative_y2)
-			relative_max_y = max(relative_y1, relative_y2)
+			relative_min_x = Math.min(relative_x1, relative_x2)
+			relative_max_x = Math.max(relative_x1, relative_x2)
+			relative_min_y = Math.min(relative_y1, relative_y2)
+			relative_max_y = Math.max(relative_y1, relative_y2)
 			relative_min_x <= point.x <= relative_max_x and
 			relative_min_y <= point.y <= relative_max_y and
 			relative_min_x <= point.x <= relative_max_x and
@@ -438,10 +457,10 @@ class @Editor
 			relative_y1 = @selection_box.y1 - entity.y
 			relative_x2 = @selection_box.x2 - entity.x
 			relative_y2 = @selection_box.y2 - entity.y
-			relative_min_x = min(relative_x1, relative_x2)
-			relative_max_x = max(relative_x1, relative_x2)
-			relative_min_y = min(relative_y1, relative_y2)
-			relative_max_y = max(relative_y1, relative_y2)
+			relative_min_x = Math.min(relative_x1, relative_x2)
+			relative_max_x = Math.max(relative_x1, relative_x2)
+			relative_min_y = Math.min(relative_y1, relative_y2)
+			relative_max_y = Math.max(relative_y1, relative_y2)
 			return false if Object.keys(entity.structure.segments).length is 0
 			for segment_name, segment of entity.structure.segments
 				unless (
@@ -469,7 +488,7 @@ class @Editor
 				@editing_entity.structure.points[point.name]
 		
 		if @view_drag_start_in_world
-			if mouse.MMB.down
+			if @mouse.MMB.down
 				@view.center_x -= mouse_in_world.x - @view_drag_start_in_world.x
 				@view.center_y -= mouse_in_world.y - @view_drag_start_in_world.y
 				@view_to.center_x = @view.center_x
@@ -480,9 +499,9 @@ class @Editor
 				@view_drag_momentum.x = mouse_in_world.x - @view_drag_start_in_world.x
 				@view_drag_momentum.y = mouse_in_world.y - @view_drag_start_in_world.y
 				@view_drag_start_in_world = null
-		else if mouse.MMB.pressed
+		else if @mouse.MMB.pressed
 			@view_drag_start_in_world = {x: mouse_in_world.x, y: mouse_in_world.y}
-		else if mouse.double_clicked
+		else if @mouse.double_clicked
 			# TODO: reject double clicks where the first click was not on the same entity
 			# TODO: reject double click and drag
 			if @hovered_entities.length
@@ -514,8 +533,8 @@ class @Editor
 			else
 				@hovered_entities = (entity for entity in @world.entities when entity_within_selection_box(entity))
 		else if @grab_start
-			if mouse.LMB.down
-				if distance(mouse, @grab_start) > 2
+			if @mouse.LMB.down
+				if distance(@mouse, @grab_start) > 2
 					if @selected_points.length
 						@dragPoints(@selected_points, @grab_start_in_world)
 					else if @selected_entities.length
@@ -524,7 +543,7 @@ class @Editor
 			else
 				@grab_start = null
 		else if @sculpting
-			if mouse.LMB.down
+			if @mouse.LMB.down
 				# if @sculpt_additive
 					
 				# else
@@ -533,7 +552,7 @@ class @Editor
 				for point_name, point of @editing_entity.structure.points
 					dx = point.x - local_mouse_position.x
 					dy = point.y - local_mouse_position.y
-					dist = sqrt(dx*dx + dy*dy)
+					dist = Math.sqrt(dx*dx + dy*dy)
 					if dist < @brush_size
 						# TODO: additive/subtractative/legit behavior
 						point.x += dx/10
@@ -573,7 +592,7 @@ class @Editor
 				if closest_entity?
 					@hovered_entities = [closest_entity]
 			
-			if mouse.LMB.pressed
+			if @mouse.LMB.pressed
 				@dragging_points = []
 				@dragging_segments = []
 				
@@ -620,13 +639,13 @@ class @Editor
 		
 		for segment_name, segment of entity.structure.segments
 			dist = distanceToLineSegment(from_point, segment.a, segment.b)
-			# dist = max(0, dist - segment.width / 2) if segment.width?
-			closest_dist = min(closest_dist, dist)
+			# dist = Math.max(0, dist - segment.width / 2) if segment.width?
+			closest_dist = Math.min(closest_dist, dist)
 			
 		for point_name, point of entity.structure.points
 			dist = distance(from_point, point)
-			# dist = max(0, dist - segment.radius) if segment.radius?
-			closest_dist = min(closest_dist, dist)
+			# dist = Math.max(0, dist - segment.radius) if segment.radius?
+			closest_dist = Math.min(closest_dist, dist)
 		
 		closest_dist
 	
@@ -637,7 +656,7 @@ class @Editor
 				@warn "No pose is selected. Select a pose to edit."
 				return
 		
-		@grab_start = {x: mouse.x, y: mouse.y}
+		@grab_start = {x: @mouse.x, y: @mouse.y}
 		@grab_start_in_world = mouse_in_world
 		@selected_points = (point for point in points)
 		local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
@@ -657,7 +676,7 @@ class @Editor
 				y: point.y - local_mouse_position.y
 	
 	grabEntities: (entities, mouse_in_world)->
-		@grab_start = {x: mouse.x, y: mouse.y}
+		@grab_start = {x: @mouse.x, y: @mouse.y}
 		@grab_start_in_world = mouse_in_world
 		@selected_entities = (entity for entity in entities)
 		@drag_offsets =
@@ -727,7 +746,7 @@ class @Editor
 		
 		if @editing_entity?
 			if @editing_entity instanceof Terrain and @sculpt_mode
-				mouse_in_world = @view.toWorld(mouse)
+				mouse_in_world = @view.toWorld(@mouse)
 				ctx.beginPath()
 				# ctx.arc(mouse_in_world.x, mouse_in_world.y, @brush_size / view.scale, 0, TAU)
 				ctx.arc(mouse_in_world.x, mouse_in_world.y, @brush_size, 0, TAU)

@@ -1,5 +1,9 @@
+{Component} = require "react"
+E = require "react-script"
+{entity_classes} = require "../helpers.coffee"
+AnimGroup = require "./AnimGroup.coffee"
 
-class @AnimBar extends React.Component
+module.exports = class AnimBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}

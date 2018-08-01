@@ -1,5 +1,8 @@
+# TODO: Terrain = require "skele2d/source/base-entities/Terrain.coffee"
+Terrain = require "../../../../source/base-entities/Terrain.coffee"
+{addEntityClass} = require "../../../../source/helpers.coffee"
 
-class @Rock extends Terrain
+module.exports = class Rock extends Terrain
 	addEntityClass(@)
 	constructor: ->
 		super()

@@ -38,5 +38,11 @@
     "install-example": "npm link && cd example && npm install && npm link skele2d",
     "example": "cd example && npm start"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "css-loader": "^1.0.0",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-script": "^2.0.5",
+    "style-loader": "^0.21.0"
+  }
 }

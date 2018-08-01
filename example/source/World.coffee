@@ -1,5 +1,7 @@
+Terrain = require "../../source/base-entities/Terrain.coffee"
+Entity = require "../../source/base-entities/Entity.coffee"
 
-class @World
+module.exports = class World
 	constructor: ->
 		@entities = []
 	

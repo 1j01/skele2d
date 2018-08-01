@@ -1,5 +1,6 @@
+Structure = require "./Structure.coffee"
 
-class @PolygonStructure extends Structure
+module.exports = class PolygonStructure extends Structure
 	constructor: ->
 		super() # calls @clear()
 		# don't need to worry about calling onchange because can't be set at this point

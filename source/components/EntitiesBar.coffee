@@ -1,5 +1,9 @@
+{Component} = require "react"
+E = require "react-script"
+{entity_classes, distance} = require "../helpers.coffee"
+EntityPreview = require "./EntityPreview.coffee"
 
-class @EntitiesBar extends React.Component
+module.exports = class EntitiesBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}

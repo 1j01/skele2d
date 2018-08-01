@@ -1,5 +1,9 @@
+{Component} = require "react"
+E = require "react-script"
+Entity = require "../base-entities/Entity.coffee"
+View = require "../View.coffee"
 
-class @EntityPreview extends React.Component
+module.exports = class EntityPreview extends Component
 	constructor: (props)->
 		super()
 		{entity, max_width, max_height} = props
@@ -9,7 +13,7 @@ class @EntityPreview extends React.Component
 		entity_bbox = @entity.bbox()
 		center_x = entity_bbox.x + entity_bbox.width / 2 - @entity.x
 		center_y = entity_bbox.y + entity_bbox.height / 2 - @entity.y
-		height = min(entity_bbox.height, max_height)
+		height = Math.min(entity_bbox.height, max_height)
 		scale = height / entity_bbox.height
 		@view = new View
 		@view.width = max_width

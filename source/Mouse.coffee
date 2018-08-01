@@ -1,5 +1,5 @@
 
-class @Mouse
+module.exports = class Mouse
 	constructor: (canvas)->
 		@x = -Infinity
 		@y = -Infinity

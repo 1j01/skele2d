@@ -1,5 +1,10 @@
+ReactDOM = require "react-dom"
+{Component} = require "react"
+E = require "react-script"
 
-class @TerrainBar extends React.Component
+Terrain = require "../base-entities/Terrain.coffee"
+
+module.exports = class TerrainBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}

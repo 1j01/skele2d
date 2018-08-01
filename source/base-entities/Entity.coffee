@@ -2,7 +2,10 @@
 fs = require? "fs"
 path = require? "path"
 
-class @Entity
+BoneStructure = require "../structure/BoneStructure.coffee"
+{entity_classes} = require "../helpers.coffee"
+
+module.exports = class Entity
 	constructor: ->
 		@structure = new BoneStructure
 		@x = 0
@@ -106,10 +109,10 @@ class @Entity
 		min_point = {x: +Infinity, y: +Infinity}
 		max_point = {x: -Infinity, y: -Infinity}
 		for point_name, point of @structure.points
-			min_point.x = min(min_point.x, point.x)
-			min_point.y = min(min_point.y, point.y)
-			max_point.x = max(max_point.x, point.x)
-			max_point.y = max(max_point.y, point.y)
+			min_point.x = Math.min(min_point.x, point.x)
+			min_point.y = Math.min(min_point.y, point.y)
+			max_point.x = Math.max(max_point.x, point.x)
+			max_point.y = Math.max(max_point.y, point.y)
 		min_point.x = 0 unless isFinite(min_point.x)
 		min_point.y = 0 unless isFinite(min_point.y)
 		max_point.x = 0 unless isFinite(max_point.x)

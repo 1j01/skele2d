@@ -1,5 +1,6 @@
+Pose = require "./Pose.coffee"
 
-class @Structure
+module.exports = class Structure
 	constructor: ->
 		@clear()
 

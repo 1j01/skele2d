@@ -1,5 +1,7 @@
 
-class @Pose
+{lerpPoints} = require "../helpers.coffee"
+
+module.exports = class Pose
 	constructor: (def)->
 		@points = {}
 		# if points?
