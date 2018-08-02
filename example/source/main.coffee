@@ -8,8 +8,6 @@ Rock = require "./entities/terrain/Rock.coffee"
 Snow = require "./entities/terrain/Snow.coffee"
 # keyboard = require "./keyboard.coffee"
 
-window.dont_mangle_my_names = {Rock, Snow}
-
 Math.seedrandom("A world")
 
 world = new World
@@ -29,7 +27,7 @@ view_to = new View
 view_smoothness = 7
 mouse = new Mouse(canvas)
 
-editor = @editor = new Editor(world, view, view_to, canvas, mouse)
+editor = new Editor(world, view, view_to, canvas, mouse)
 try
 	editor.load()
 catch e
