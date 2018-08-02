@@ -15,9 +15,24 @@ Check out this fancy Unreleased section, based off of React's changelog:
 		Click to see more.
 	</summary>
 
-* The supported version of React is now v16 (updated to v16.2.0 in the demo from v15); no new APIs are used (*yet* anyway); but they could be and at that point this could come into play.
 
 </details>
+
+## v0.0.4
+
+- No more global variables
+    - (There's still a global store of entity classes added with `addEntityClass`, not stored on a class or anything)
+- You basically have to use Webpack (or similar) now
+    - Remove all Skele2D scripts, React, CoffeeScript
+    - Add `<script src="build/bundle.js">`
+    - Copy Webpack configuration `webpack.config.js`
+    - Install modules `npm i --save-dev webpack webpack-cli webpack-dev-server coffee-loader coffeescript@2.2.3 style-loader css-loader null-loader noop-loader`
+    - (CSS is included via `style-loader` (except for Material Design))
+    - Add `require`s for things
+        - `require` all your entities so they can be added with `addEntityClass` (this might as well be a list at this point)
+        - `require("skele2d/source/base-entities/Entity.coffee")` etc.
+        - So many things
+- The supported version of React is now v16 (updated to v16.2.0 in the demo from v15); no new APIs are used (*yet* anyway)
 
 ## v0.0.3
 

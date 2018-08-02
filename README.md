@@ -2,7 +2,7 @@
 
 Skele2D is a game engine based around points, with a fancy in-game editor.
 
-This project is pre-alpha. Consider it **unreleased**.
+This project is pre-alpha. **Consider it unreleased**.
 
 <!-- TODO: add GIFs; also a logo would be good -->
 
@@ -16,7 +16,7 @@ with tweening/interpolation helpers for cyclical and linear animations
 * Entity previews and previews of animations and animation frames, shown with *your* arbitrary drawing code
 * You can select entities, drag them around, pose them, cut, copy and paste, undo and redo
 * Both keyboard shortcuts *and* context menus!
-* Arbitrary data can be associated with / tacked onto points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it! (literally, of course)
+* Arbitrary data can be associated with / tacked onto points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it! (*literally*, of course)
 
 
 ## Demo
@@ -36,20 +36,19 @@ Clone [Tiamblia][] instead, `npm i` to install, and `npm start` to run
 
 ## Setup / API
 
-For now, you'd have to look at the source code, and copy from the examples.
+So far, if you wanted to use this, you'd have to look at the source code, and copy from the examples.
 
 I wouldn't recommend using this yet!
 
-Right now there's a bunch of CoffeeScript files in [`sources/`](sources/), along with `sources/style.css`, published in the [`skele2d`](https://www.npmjs.com/package/skele2d) package,
-and you have to include other stuff like Material UI, React, and CoffeeScript as seen in [`example/index.html`](example/index.html)
-(but not everything in there is required)
+Right now the [module](https://www.npmjs.com/package/skele2d) is published as CoffeeScript source files
+and you have to include other stuff like Material UI, and setup Webpack with CoffeeScript support as seen in [`example/index.html`](example/index.html) and [`example/webpack.config.js`](example/webpack.config.js)
 
 
 ## Roadmap
 
 * Finish separating this out into a reusable library / framework (from [Tiamblia][])
 	* Find a good boundary between the engine and game, and think about how to minimize assumptions
-		* When something is part of an application/game, there aren't necessesarily any barriers between it and the application/game code, which can make it easy to introduce coupling, which is bad, but importantly, there are no barriers to editing any part of it, which is really nice: you can adapt it to your needs as your needs progress. When you go to separate it out into a library, suddenly you're confronted with either having to remove all the coupling (which takes significant effort and thought), or just sort of "include everything" and make it a grab-bag framework with all the functionality you need for each applications you intend to use it with - which is of course, bad. Or somewhere in between, or whatever.
+		* When something is part of an application/game, there aren't necessarily any barriers between it and the application/game code, which can make it easy to introduce coupling, which is bad, but importantly, there are no barriers to editing any part of it, which is really nice: you can adapt it to your needs as your needs progress. When you go to separate it out into a library, suddenly you're confronted with either having to remove all the coupling (which takes significant effort and thought), or just sort of "include everything" and make it a grab-bag framework with all the functionality you need for each applications you intend to use it with - which is of course, bad. Or somewhere in between, or whatever.
 			* OOP introduces problems with reusability, with its methods on classes/objects. Also if you have any private variables.
 		* Try to remove the proscribed `Entity` class (currently relied upon: `x`, `y`, `structure`, `toWorld`, `fromWorld`, and serialization)
 		* Ditto for `World` (currently relied upon for serialization, and directly accessing `entities`)
@@ -57,7 +56,7 @@ and you have to include other stuff like Material UI, React, and CoffeeScript as
 			* I did make a system for serializing and deserializing references to other entities, but it only supports references to other entities as top level properties of an entity, because that's all I needed - the player can hold a bow, and an arrow, but for instance if you wanted to have an array of references to other entities (perhaps multiple arrows!), it wouldn't work. I don't think it would actually be that hard to extend it to arbitrarily nested properties, but it would certainly be nice to offload that work and complexity to a library.
 		* Separate out world saving/loading logic (you could want to save to and load from a file like I have it now in NW.js, or over the network to a server (Node, Python, PHP, whatever), or to localStorage, IndexedDB, whatever)
 		* Make context menus work without NW.js (could also support Electron natively)
-	* Get rid of [ReactScript](https://github.com/1j01/react-script) (an old library I made which is deprecated) in favor of JSX in CoffeeScript 2 (requires a JSX compilation step!)
+	* Get rid of [ReactScript](https://github.com/1j01/react-script) (an old library I made, deprecated) in favor of JSX in CoffeeScript 2 (requires a JSX compilation step!)
 	* Documentation!
 		* Setup
 		* API
@@ -87,7 +86,7 @@ and you have to include other stuff like Material UI, React, and CoffeeScript as
 * Use this in a few different games
 
 * It would be nice to have vector maths, haha! Kinda silly how this whole thing is based around points and there's no vector operations
-	* We want to keep (the ability to keep) arbitrary data on (or at *least* associated with) points
+	* We want to keep (the ability to keep) arbitrary data on (or at least associated with) points
 
 
 ## Changelog
@@ -96,7 +95,7 @@ The software is essentially unreleased, but I thought I might as well get in a h
 
 See [CHANGELOG.md](CHANGELOG.md)
 
-Hey look it's not actually that hard. You already have commit history, so it's just a matter of presenting that information to users (theoretical users in this case - heh, maybe that helps), highlighting API changes.
+Hey look it's not actually that hard. You already have commit history, so it's just a matter of presenting that information to users (theoretical users in this case... heh, maybe that helps), highlighting API changes.
 
 
 [Tiamblia]: https://github.com/1j01/tiamblia-game
