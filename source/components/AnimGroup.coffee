@@ -1,10 +1,13 @@
 {Component} = require "react"
 ReactDOM = require "react-dom"
 E = require "react-script"
+Anim = require "./Anim.coffee"
+Pose = require "../structure/Pose.coffee"
+Entity = require "../base-entities/Entity.coffee"
 
 module.exports = class AnimGroup extends Component
 	render: ->
-		{entity, EntityClass, array_to_push_anims_to, update, type_of_anims} = @props
+		{entity, EntityClass, array_to_push_anims_to, update, type_of_anims, editor} = @props
 		E ".anim-group",
 			if EntityClass?
 				if type_of_anims is "poses"

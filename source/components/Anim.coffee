@@ -2,7 +2,10 @@
 # awkward component Anim represents a pose OR an animation OR an animation frame (which is an unnamed pose)
 
 {Component} = require "react"
+ReactDOM = require "react-dom"
 E = require "react-script"
+EntityPreview = require "./EntityPreview.coffee"
+Entity = require "../base-entities/Entity.coffee"
 {rename_object_key} = require "../helpers.coffee"
 
 module.exports = class Anim extends Component

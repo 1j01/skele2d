@@ -21,12 +21,12 @@ module.exports = class AnimBar extends Component
 		E ".bar.sidebar.anim-bar", class: {visible},
 			E ".anims",
 				E "h1", "Poses"
-				E AnimGroup, {entity, EntityClass, array_to_push_anims_to: @anims, update: @update, type_of_anims: "poses"}
+				E AnimGroup, {entity, EntityClass, array_to_push_anims_to: @anims, update: @update, editor, type_of_anims: "poses"}
 				E "h1", "Animations"
-				E AnimGroup, {entity, EntityClass, array_to_push_anims_to: @anims, update: @update, type_of_anims: "animations"}
+				E AnimGroup, {entity, EntityClass, array_to_push_anims_to: @anims, update: @update, editor, type_of_anims: "animations"}
 			E ".animation-frames", class: {visible: visible and editing_an_animation},
 				E "h1", "Frames"
-				E AnimGroup, {entity, EntityClass, array_to_push_anims_to: @anims, update: @update, type_of_anims: "animation-frames", editing_frame_index: editor.editing_entity_animation_frame_index}
+				E AnimGroup, {entity, EntityClass, array_to_push_anims_to: @anims, update: @update, editor, type_of_anims: "animation-frames", editing_frame_index: editor.editing_entity_animation_frame_index}
 	
 	update: (show)=>
 		{editor} = @props

@@ -70,8 +70,8 @@ module.exports = class BoneStructure extends Structure
 				move_x = point.vx
 				move_y = point.vy
 				resolution = 0.5
-				while abs(move_x) > resolution
-					go = sign(move_x) * resolution
+				while Math.abs(move_x) > resolution
+					go = Math.sign(move_x) * resolution
 					if collision({x: point.x + go, y: point.y})
 						point.vx *= 0.99
 						if collision({x: point.x + go, y: point.y - 1})
@@ -80,8 +80,8 @@ module.exports = class BoneStructure extends Structure
 							point.y -= 1
 					move_x -= go
 					point.x += go
-				while abs(move_y) > resolution
-					go = sign(move_y) * resolution
+				while Math.abs(move_y) > resolution
+					go = Math.sign(move_y) * resolution
 					if collision({x: point.x, y: point.y + go})
 						point.vy *= 0.9 # as opposed to `point.vy = 0` so it sticks to the ground when going downhill
 						break

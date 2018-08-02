@@ -1,7 +1,12 @@
 
 fs = require? "fs"
 path = require? "path"
+# XXX: hack for webpack
+# TODO: use ifdef conditionals or something
+fs = null if not fs.readFileSync
+path = null if not path.join
 
+Pose = require "../structure/Pose.coffee"
 BoneStructure = require "../structure/BoneStructure.coffee"
 {entity_classes} = require "../helpers.coffee"
 

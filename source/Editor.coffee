@@ -9,6 +9,7 @@ AnimBar = require "./components/AnimBar.coffee"
 TerrainBar = require "./components/TerrainBar.coffee"
 Terrain = require "./base-entities/Terrain.coffee"
 Entity = require "./base-entities/Entity.coffee"
+Pose = require "./structure/Pose.coffee"
 BoneStructure = require "./structure/BoneStructure.coffee"
 {distanceToLineSegment, distance, entity_classes} = require "./helpers.coffee"
 TAU = Math.PI * 2
