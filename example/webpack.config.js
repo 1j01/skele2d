@@ -22,10 +22,6 @@ const config = {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
       },
-      // {
-      //   test: /fs|path/,
-      //   use: IS_NW ? 'noop-loader' : 'null-loader'
-      // },
     ]
   },
   // TODO: web? specify build target somewhere?
