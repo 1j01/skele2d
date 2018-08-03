@@ -17,7 +17,7 @@ TAU = Math.PI * 2
 
 require "./styles.css"
 
-if nw?	
+if nw?
 	{Menu, MenuItem} = nw
 else
 	{Menu, MenuItem} = require "./jsMenus/jsMenus.js"
@@ -329,6 +329,7 @@ module.exports = class Editor
 				@editing_entity.draw(document.createElement("canvas").getContext("2d"), new View)
 			catch e
 				@undo()
+				# TODO: delete redo entry?
 				if plural
 					alert("Entity needs one or more of those points to render")
 				else
@@ -340,6 +341,7 @@ module.exports = class Editor
 				@editing_entity.fromJSON(ent_def)
 			catch e
 				@undo()
+				# TODO: delete redo entry?
 				console.warn "Entity failed to step after deletion, with", e
 				if plural
 					alert("Entity needs one or more of those points to step")
@@ -638,6 +640,7 @@ module.exports = class Editor
 		@selected_points = []
 		@dragging_entities = []
 		@dragging_points = []
+		@sculpting = no
 	
 	distanceToEntity: (entity, from_point_in_world)->
 		from_point = entity.fromWorld(from_point_in_world)
