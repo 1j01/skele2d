@@ -21,17 +21,16 @@ with tweening/interpolation helpers for cyclical and linear animations
 
 ## Demo
 
-The demo is really lame at the moment; there are no entities to animate!
-See [Tiamblia][] for a better demo.
+There's a really **lame/lacking demo** here currently: https://skele2d-demo.netlify.com
+
+(There's no entities to animate! Or even anything non-polygonal!)
+
+See [Tiamblia][] for a much better demo:
 
 * Install [Node.js](https://nodejs.org/) if you don't have it.
-* [Clone this repository](https://help.github.com/articles/cloning-a-repository/)
-* In a command prompt / terminal, in the project directory, run `npm install && npm run install-example`
-* Then to run the demo, from now on you can just do `npm run example`
-
-### Better Demo
-
-Clone [Tiamblia][] instead, `npm i` to install, and `npm start` to run
+* [Clone the repository](https://help.github.com/articles/cloning-a-repository/) for [Tiamblia][]
+* In a command prompt / terminal in the project directory, run `npm install`
+* Then `npm start`
 
 
 ## Setup / API
@@ -55,7 +54,6 @@ and you have to include other stuff like Material UI, and setup Webpack with Cof
 		* Look into [ResurrectJS](https://github.com/skeeto/resurrect-js) for serialization (I'd come across [cereal](https://github.com/atomizejs/cereal) before, but it doesn't handle prototypes); let's see, there's also [kaiser](https://www.npmjs.com/package/kaiser), and a few others
 			* I did make a system for serializing and deserializing references to other entities, but it only supports references to other entities as top level properties of an entity, because that's all I needed - the player can hold a bow, and an arrow, but for instance if you wanted to have an array of references to other entities (perhaps multiple arrows!), it wouldn't work. I don't think it would actually be that hard to extend it to arbitrarily nested properties, but it would certainly be nice to offload that work and complexity to a library.
 		* Separate out world saving/loading logic (you could want to save to and load from a file like I have it now in NW.js, or over the network to a server (Node, Python, PHP, whatever), or to localStorage, IndexedDB, whatever)
-		* Make context menus work without NW.js (could also support Electron natively)
 	* Get rid of [ReactScript](https://github.com/1j01/react-script) (an old library I made, deprecated) in favor of JSX in CoffeeScript 2 (requires a JSX compilation step!)
 	* Documentation!
 		* Setup

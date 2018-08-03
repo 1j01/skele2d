@@ -15,6 +15,8 @@ Check out this fancy Unreleased section, based off of React's changelog:
 		Click to see more.
 	</summary>
 
+- Context menus are now supported in browser, not just in NW.js
+    - (NW.js retains native context menus)
 
 </details>
 
