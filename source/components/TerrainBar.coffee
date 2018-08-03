@@ -35,12 +35,11 @@ module.exports = class TerrainBar extends Component
 					E "input.mdl-slider.mdl-js-slider",
 						type: "range", min: 0, max: 100, value: brush_size, tabIndex: 0
 						disabled: not sculpt_mode
+						style: minWidth: 200
 						ref: (@brush_size_slider)=>
 						onChange: (e)=>
 							editor.brush_size = e.target.value
 							editor.renderDOM()
-				E "p", style: maxWidth: 400,
-					if sculpt_mode then "Note: sculpt mode is not actually implemented. It currently just pushes points around in a generally unpleasant way."
 	
 	componentDidMount: ->
 		componentHandler.upgradeElement(ReactDOM.findDOMNode(@sculpt_mode_switch))

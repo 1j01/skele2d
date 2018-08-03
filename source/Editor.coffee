@@ -1,7 +1,4 @@
 
-# TODO: reasonable terrain editing
-# TODO: shift+select (and alternatively ctrl+select)
-
 ReactDOM = require "react-dom"
 E = require "react-script"
 EntitiesBar = require "./components/EntitiesBar.coffee"
@@ -32,6 +29,8 @@ path = null if not path.join
 
 module.exports = class Editor
 	constructor: (@world, @view, @view_to, canvas, @mouse)->
+		@previous_mouse_world_x = -Infinity
+		@previous_mouse_world_y = -Infinity
 		@editing = yes
 		
 		@selected_entities = []
@@ -557,15 +556,25 @@ module.exports = class Editor
 					
 				# else
 				# 	
+				mouse_world_velocity_x = mouse_in_world.x - @previous_mouse_world_x
+				mouse_world_velocity_y = mouse_in_world.y - @previous_mouse_world_y
 				local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
 				for point_name, point of @editing_entity.structure.points
 					dx = point.x - local_mouse_position.x
 					dy = point.y - local_mouse_position.y
-					dist = Math.sqrt(dx*dx + dy*dy)
+					dist_squared = dx*dx + dy*dy
+					dist = Math.sqrt(dist_squared)
 					if dist < @brush_size
-						# TODO: additive/subtractative/legit behavior
-						point.x += dx/10
-						point.y += dy/10
+						# point.x += dx/10
+						# point.y += dy/10
+						# point.x += dx/100 * mouse_world_velocity_x
+						# point.y += dy/100 * mouse_world_velocity_y
+						# point.x += mouse_world_velocity_x / Math.max(1, dist)
+						# point.y += mouse_world_velocity_y / Math.max(1, dist)
+						# point.x += mouse_world_velocity_x / 2
+						# point.y += mouse_world_velocity_y / 2
+						point.x += mouse_world_velocity_x / Math.max(1200, dist_squared) * 500
+						point.y += mouse_world_velocity_y / Math.max(1200, dist_squared) * 500
 				@editing_entity.structure.onchange?()
 			else
 				@sculpting = no
@@ -630,6 +639,9 @@ module.exports = class Editor
 			# TODO: and if there isn't an animation frame loaded
 				@editing_entity.structure.stepLayout() for [0..250]
 				# TODO: save afterwards at some point
+
+		@previous_mouse_world_x = mouse_in_world.x
+		@previous_mouse_world_y = mouse_in_world.y
 	
 	editEntity: (entity)->
 		@editing_entity = entity
