@@ -15,13 +15,15 @@ Check out this fancy Unreleased section, based off of React's changelog:
 		Click to see more.
 	</summary>
 
+</details>
+
+## v0.0.5
+
 - Context menus are now supported in browser, not just in NW.js
     - (NW.js retains *native* context menus)
 - Sculpt mode is more useful
     - Correctly saves after each gesture
     - Pushes points in the direction you move the mouse, rather than just away from the mouse, which was a temporary (and rather unpleasant and useless) implementation
-
-</details>
 
 ## v0.0.4
 
