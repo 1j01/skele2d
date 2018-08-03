@@ -421,8 +421,9 @@ module.exports = class Editor
 		mouse_in_world = @view.toWorld(@mouse)
 		
 		if @mouse.LMB.released
-			if @dragging_points.length
+			if @dragging_points.length or @sculpting
 				@dragging_points = []
+				@sculpting = no
 				@savePose()
 				@save()
 			
