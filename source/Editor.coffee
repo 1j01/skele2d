@@ -7,6 +7,7 @@ E = require "react-script"
 EntitiesBar = require "./components/EntitiesBar.coffee"
 AnimBar = require "./components/AnimBar.coffee"
 TerrainBar = require "./components/TerrainBar.coffee"
+
 Terrain = require "./base-entities/Terrain.coffee"
 Entity = require "./base-entities/Entity.coffee"
 Pose = require "./structure/Pose.coffee"
@@ -15,6 +16,12 @@ BoneStructure = require "./structure/BoneStructure.coffee"
 TAU = Math.PI * 2
 
 require "./styles.css"
+
+if nw?	
+	{Menu, MenuItem} = nw
+else
+	{Menu, MenuItem} = require "./jsMenus/jsMenus.js"
+	require "./jsMenus/jsMenus.css"
 
 fs = require? "fs"
 path = require? "path"
@@ -77,51 +84,49 @@ module.exports = class Editor
 			e.preventDefault()
 			return unless @editing
 
-			# TODO: context menus outside of NW.js, in the browser
-
-			menu = new nw.Menu
+			menu = new Menu
 			
 			# if @selected_entities.length is 0
 			if @hovered_entities.length and @hovered_entities[0] not in @selected_entities
 				@selected_entities = (entity for entity in @hovered_entities)
 			
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(
 				label: 'Undo'
 				click: => @undo()
 				enabled: @undos.length
 			))
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(
 				label: 'Redo'
 				click: => @redo()
 				enabled: @redos.length
 			))
-			menu.append(new nw.MenuItem(type: 'separator'))
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(type: 'separator'))
+			menu.append(new MenuItem(
 				label: 'Cut'
 				click: => @cut()
 				enabled: @selected_entities.length
 			))
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(
 				label: 'Copy'
 				click: => @copy()
 				enabled: @selected_points.length or @selected_entities.length
 			))
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(
 				label: 'Paste'
 				click: => @paste()
 				enabled: if @editing_entity then @clipboard.point_positions? else @clipboard.entities?.length
 			))
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(
 				label: 'Delete'
 				click: => @delete()
 				enabled: @selected_entities.length
 			))
-			menu.append(new nw.MenuItem(
+			menu.append(new MenuItem(
 				label: 'Select All'
 				click: => @selectAll()
 				enabled: @world.entities.length
 			))
-			menu.append(new nw.MenuItem(type: 'separator'))
+			menu.append(new MenuItem(type: 'separator'))
 			
 			if @editing_entity
 				
@@ -142,23 +147,23 @@ module.exports = class Editor
 				
 				# TODO: allow flipping the current pose, just don't save it? or save the world where it's stored?
 				# also, allow flipping terrain
-				menu.append(new nw.MenuItem(
+				menu.append(new MenuItem(
 					label: 'Flip Pose Horizontally'
 					enabled: @editing_entity_anim_name and @editing_entity_anim_name isnt "Current Pose"
 					click: => modifyPose(Pose.horizontallyFlip)
 				))
-				menu.append(new nw.MenuItem(
+				menu.append(new MenuItem(
 					label: 'Flip Pose Vertically'
 					enabled: @editing_entity_anim_name and @editing_entity_anim_name isnt "Current Pose"
 					click: => modifyPose(Pose.verticallyFlip)
 				))
-				menu.append(new nw.MenuItem(type: 'separator'))
-				menu.append(new nw.MenuItem(
+				menu.append(new MenuItem(type: 'separator'))
+				menu.append(new MenuItem(
 					label: 'Finish Editing Entity'
 					click: => @finishEditingEntity()
 				))
 			else
-				menu.append(new nw.MenuItem(
+				menu.append(new MenuItem(
 					label: 'Edit Entity'
 					click: => @editEntity(@selected_entities[0])
 					enabled: @selected_entities.length
