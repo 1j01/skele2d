@@ -1,6 +1,6 @@
 {Component} = require "react"
 E = require "react-script"
-{entity_classes} = require "../helpers.coffee"
+{entityClasses} = require "../entity-class-registry.coffee"
 AnimGroup = require "./AnimGroup.coffee"
 
 module.exports = class AnimBar extends Component
@@ -32,7 +32,7 @@ module.exports = class AnimBar extends Component
 		{editor} = @props
 		{editing_entity_anim_name, editing_entity} = editor
 		
-		EntityClass = if editing_entity? then entity_classes[editing_entity._class_]
+		EntityClass = if editing_entity? then entityClasses[editing_entity._class_]
 		show = show and EntityClass?.animations
 		if show
 			for anim in @anims

@@ -6,7 +6,7 @@ ReactDOM = require "react-dom"
 E = require "react-script"
 EntityPreview = require "./EntityPreview.coffee"
 Entity = require "../base-entities/Entity.coffee"
-{rename_object_key} = require "../helpers.coffee"
+renameObjectKey = require "../rename-object-key.coffee"
 
 module.exports = class Anim extends Component
 	constructor: ->
@@ -45,7 +45,7 @@ module.exports = class Anim extends Component
 									return
 								
 								anims_object = EntityClass[type_of_anims]
-								rename_object_key(anims_object, name, new_name)
+								renameObjectKey(anims_object, name, new_name)
 								editor.editing_entity_anim_name = new_name
 								Entity.saveAnimations(EntityClass)
 								

@@ -1,8 +1,5 @@
 
-View = require "../../source/View.coffee"
-Mouse = require "../../source/Mouse.coffee"
-Editor = require "../../source/Editor.coffee"
-
+{View, Mouse, Editor} = require "skele2d"
 World = require "./World.coffee"
 Rock = require "./entities/terrain/Rock.coffee"
 Snow = require "./entities/terrain/Snow.coffee"

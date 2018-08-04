@@ -39,8 +39,7 @@ So far, if you wanted to use this, you'd have to look at the source code, and co
 
 I wouldn't recommend using this yet!
 
-Right now the [module](https://www.npmjs.com/package/skele2d) is published as CoffeeScript source files
-and you have to include other stuff like Material UI, and setup Webpack with CoffeeScript support as seen in [`example/index.html`](example/index.html) and [`example/webpack.config.js`](example/webpack.config.js)
+Right now you have to include Material UI and whatnot in addition to the [module](https://www.npmjs.com/package/skele2d), as seen in [`example/index.html`](example/index.html), and you might need Webpack as seen in [`example/webpack.config.js`](example/webpack.config.js)
 
 
 ## Roadmap

@@ -1,6 +1,7 @@
 {Component} = require "react"
 E = require "react-script"
-{entity_classes, distance} = require "../helpers.coffee"
+{distance} = require "../helpers.coffee"
+{entityClasses} = require "../entity-class-registry.coffee"
 EntityPreview = require "./EntityPreview.coffee"
 
 module.exports = class EntitiesBar extends Component
@@ -9,7 +10,7 @@ module.exports = class EntitiesBar extends Component
 		@state = {visible: no}
 		@cells = []
 		@entity_previews = []
-		for entity_class_name, EntityClass of entity_classes
+		for entity_class_name, EntityClass of entityClasses
 			cell_name = entity_class_name.replace(/[a-z][A-Z]/g, (m)-> "#{m[0]} #{m[1]}")
 			preview_entity = new EntityClass
 			preview_entity.initLayout()

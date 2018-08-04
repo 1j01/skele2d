@@ -1,6 +1,4 @@
-# TODO: Terrain = require "skele2d/source/base-entities/Terrain.coffee"
-Terrain = require "../../../../source/base-entities/Terrain.coffee"
-{addEntityClass} = require "../../../../source/helpers.coffee"
+{Terrain, addEntityClass} = require "skele2d"
 
 module.exports = class Snow extends Terrain
 	addEntityClass(@)

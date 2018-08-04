@@ -8,7 +8,7 @@ path = null if not path.join
 
 Pose = require "../structure/Pose.coffee"
 BoneStructure = require "../structure/BoneStructure.coffee"
-{entity_classes} = require "../helpers.coffee"
+{entityClasses} = require "../entity-class-registry.coffee"
 
 module.exports = class Entity
 	constructor: ->
@@ -71,9 +71,9 @@ module.exports = class Entity
 		unless typeof def._class_ is "string"
 			console.error "Erroneous entity definition:", def
 			throw new Error "Expected entity to have a string _class_, _class_ is #{def._class_}"
-		unless entity_classes[def._class_]
+		unless entityClasses[def._class_]
 			throw new Error "Entity class '#{def._class_}' does not exist"
-		entity = new entity_classes[def._class_]
+		entity = new entityClasses[def._class_]
 		entity.fromJSON(def)
 		entity
 	

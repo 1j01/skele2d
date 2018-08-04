@@ -31,21 +31,3 @@ exports.lerpPoints = (a, b, b_ness)->
 		else
 			result[k] = v
 	result
-
-exports.entity_classes = {}
-exports.addEntityClass = (constructor)->
-	exports.entity_classes[constructor.name] = constructor
-
-# TODO: consistent name formatting (camelCase instead of snake_case, at least for the exports/API)
-exports.rename_object_key = (object, old_key, new_key)->
-	new_object = {}
-	for k, v of object
-		if k is old_key
-			new_object[new_key] = v
-		else
-			new_object[k] = v
-	# return new_object
-	for k, v of object
-		delete object[k]
-	for k, v of new_object
-		object[k] = v

@@ -9,7 +9,8 @@ Terrain = require "./base-entities/Terrain.coffee"
 Entity = require "./base-entities/Entity.coffee"
 Pose = require "./structure/Pose.coffee"
 BoneStructure = require "./structure/BoneStructure.coffee"
-{distanceToLineSegment, distance, entity_classes} = require "./helpers.coffee"
+{distanceToLineSegment, distance} = require "./helpers.coffee"
+{entityClasses} = require "./entity-class-registry.coffee"
 TAU = Math.PI * 2
 
 require "./styles.css"
@@ -130,7 +131,7 @@ module.exports = class Editor
 			if @editing_entity
 				
 				modifyPose = (fn)=>
-					EntityClass = entity_classes[@editing_entity._class_]
+					EntityClass = entityClasses[@editing_entity._class_]
 					frame_index = @editing_entity_animation_frame_index
 					if frame_index?
 						old_pose = EntityClass.animations[@editing_entity_anim_name][frame_index]
@@ -255,7 +256,7 @@ module.exports = class Editor
 	
 	savePose: ->
 		if @editing_entity_anim_name and @editing_entity_anim_name isnt "Current Pose"
-			EntityClass = entity_classes[@editing_entity._class_]
+			EntityClass = entityClasses[@editing_entity._class_]
 			if @editing_entity_animation_frame_index?
 				EntityClass.animations[@editing_entity_anim_name][@editing_entity_animation_frame_index] = @editing_entity.structure.getPose()
 			else
@@ -673,7 +674,7 @@ module.exports = class Editor
 	
 	grabPoints: (points, mouse_in_world)->
 		if @editing_entity and @editing_entity_anim_name is "Current Pose"
-			EntityClass = entity_classes[@editing_entity._class_]
+			EntityClass = entityClasses[@editing_entity._class_]
 			if EntityClass.poses? or EntityClass.animations?
 				@warn "No pose is selected. Select a pose to edit."
 				return

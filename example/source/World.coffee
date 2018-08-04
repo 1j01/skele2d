@@ -1,5 +1,4 @@
-Terrain = require "../../source/base-entities/Terrain.coffee"
-Entity = require "../../source/base-entities/Entity.coffee"
+{Terrain, Entity} = require "skele2d"
 
 module.exports = class World
 	constructor: ->

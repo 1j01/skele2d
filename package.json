@@ -34,15 +34,23 @@
     "game-world"
   ],
   "license": "UNLICENSED",
+  "main": "dist/skele2d.js",
   "scripts": {
     "install-example": "npm link && cd example && npm install && npm link skele2d",
-    "example": "cd example && npm start"
+    "example": "cd example && npm start",
+    "example-nw": "cd example && npm run start-nw",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development"
   },
-  "dependencies": {
+  "devDependencies": {
+    "coffee-loader": "^0.9.0",
+    "coffeescript": "^2.2.3",
     "css-loader": "^1.0.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
     "react-script": "^2.0.5",
-    "style-loader": "^0.21.0"
+    "style-loader": "^0.21.0",
+    "webpack": "^4.16.4",
+    "webpack-cli": "^3.1.0"
   }
 }

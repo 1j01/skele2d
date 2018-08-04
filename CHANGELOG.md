@@ -17,6 +17,16 @@ Check out this fancy Unreleased section, based off of React's changelog:
 
 </details>
 
+## v0.0.6
+
+- CoffeeScript source files are no longer published
+- The module is now published as a compiled bundle, and so you no longer need a complex Webpack setup to use it
+- Classes are exported from `require("skele2d")` (`Entity`, `Terrain`, `Mouse`, etc.)
+- Helpers are exported at `require("skele2d").helpers`
+- `addEntityClass` is moved out of helpers, so it's at `require("skele2d").addEntityClass`
+- `entity_classes` is moved out of helpers and renamed, so it's at `require("skele2d").entityClasses`
+- `rename_object_key` is removed as it was only intended for internal use by the editor
+
 ## v0.0.5
 
 - Context menus are now supported in browser, not just in NW.js
@@ -39,6 +49,7 @@ Check out this fancy Unreleased section, based off of React's changelog:
         - `require` all your entities so they can be added with `addEntityClass` (this might as well be a list at this point)
         - `require("skele2d/source/base-entities/Entity.coffee")` etc.
         - So many things
+- You need to pass `mouse` as an additional argument to the `Editor` constructor
 - The supported version of React is now v16 (updated to v16.2.0 in the demo from v15); no new APIs are used (*yet* anyway)
 
 ## v0.0.3

@@ -49,6 +49,7 @@ module.exports = class TerrainBar extends Component
 		{editor} = @props
 		{editing_entity} = editor
 		
+		# TODO: ducktype? or rather replace the whole UI with a more general toolbox
 		show = show and editing_entity instanceof Terrain
 		
 		@setState visible: show
