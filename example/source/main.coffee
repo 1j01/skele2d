@@ -1,9 +1,9 @@
 
-{View, Mouse, Editor} = require "skele2d"
-World = require "./World.coffee"
-Rock = require "./entities/terrain/Rock.coffee"
-Snow = require "./entities/terrain/Snow.coffee"
-# keyboard = require "./keyboard.coffee"
+import {View, Mouse, Editor} from "skele2d"
+import World from "./World.coffee"
+import Rock from "./entities/terrain/Rock.coffee"
+import Snow from "./entities/terrain/Snow.coffee"
+# import keyboard from "./keyboard.coffee"
 
 Math.seedrandom("A world")
 

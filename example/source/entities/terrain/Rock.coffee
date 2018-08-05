@@ -1,6 +1,6 @@
-{Terrain, addEntityClass} = require "skele2d"
+import {Terrain, addEntityClass} from "skele2d"
 
-module.exports = class Rock extends Terrain
+export default class Rock extends Terrain
 	addEntityClass(@)
 	constructor: ->
 		super()

@@ -30,4 +30,4 @@ keyboard =
 		prev_keys = {}
 		prev_keys[k] = v for k, v of keys
 
-module.exports = keyboard
+export default keyboard

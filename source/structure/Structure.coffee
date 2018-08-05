@@ -1,6 +1,6 @@
-Pose = require "./Pose.coffee"
+import Pose from "./Pose.coffee"
 
-module.exports = class Structure
+export default class Structure
 	constructor: ->
 		@clear()
 

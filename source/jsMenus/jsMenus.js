@@ -1,4 +1,4 @@
-class Menu {
+export class Menu {
 	constructor(settings = {}) {
 		const typeEnum = ['contextmenu', 'menubar'];
 		let items = [];
@@ -431,7 +431,7 @@ Menu._keydownListen = function(value) {
 }
 Menu._keydownListen(true);
 
-class MenuItem {
+export class MenuItem {
 	constructor(settings = {}) {
 
 
@@ -771,10 +771,6 @@ MenuItem.keySymbols = {
 MenuItem.useModifierSymbols =
 	(typeof navigator != "undefined" ? /Mac/.test(navigator.platform)
          : typeof os != "undefined" ? os.platform() == "darwin" : false);
-
-if (typeof module !== "undefined" && module.exports) {
-	module.exports = { Menu: Menu, MenuItem: MenuItem };
-}
 
 // Local Variables:
 // js-indent-level: 8

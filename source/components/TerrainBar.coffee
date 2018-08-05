@@ -1,10 +1,10 @@
-ReactDOM = require "react-dom"
-{Component} = require "react"
-E = require "react-script"
+import ReactDOM from "react-dom"
+import {Component} from "react"
+import E from "react-script"
 
-Terrain = require "../base-entities/Terrain.coffee"
+import Terrain from "../base-entities/Terrain.coffee"
 
-module.exports = class TerrainBar extends Component
+export default class TerrainBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}

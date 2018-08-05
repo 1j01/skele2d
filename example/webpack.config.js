@@ -1,7 +1,5 @@
 const path = require('path');
 
-const IS_NW = false; //TODO
-
 const config = {
   context: path.join(__dirname, 'source'),
   entry: [
@@ -23,13 +21,6 @@ const config = {
         use: [ 'style-loader', 'css-loader' ]
       },
     ]
-  },
-  // TODO: web, not node? specify build target somewhere?
-  // also make sure it works and DOES use the filesystem in NW.js
-  // or in electron-renderer context
-  node: {
-    fs: 'empty',
-    path: 'empty',
   },
 
   // avoiding name-mangling for entity classes

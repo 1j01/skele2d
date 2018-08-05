@@ -1,5 +1,5 @@
 
-module.exports = class View
+export default class View
 	constructor: ->
 		@center_x = 0
 		@center_y = 0

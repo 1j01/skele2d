@@ -1,5 +1,5 @@
 
-module.exports = (object, old_key, new_key)->
+export default (object, old_key, new_key)->
 	new_object = {}
 	for k, v of object
 		if k is old_key

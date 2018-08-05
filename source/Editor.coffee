@@ -1,34 +1,32 @@
 
-ReactDOM = require "react-dom"
-E = require "react-script"
-EntitiesBar = require "./components/EntitiesBar.coffee"
-AnimBar = require "./components/AnimBar.coffee"
-TerrainBar = require "./components/TerrainBar.coffee"
+import ReactDOM from "react-dom"
+import E from "react-script"
+import EntitiesBar from "./components/EntitiesBar.coffee"
+import AnimBar from "./components/AnimBar.coffee"
+import TerrainBar from "./components/TerrainBar.coffee"
 
-Terrain = require "./base-entities/Terrain.coffee"
-Entity = require "./base-entities/Entity.coffee"
-Pose = require "./structure/Pose.coffee"
-BoneStructure = require "./structure/BoneStructure.coffee"
-{distanceToLineSegment, distance} = require "./helpers.coffee"
-{entityClasses} = require "./entity-class-registry.coffee"
+import Terrain from "./base-entities/Terrain.coffee"
+import Entity from "./base-entities/Entity.coffee"
+import Pose from "./structure/Pose.coffee"
+import BoneStructure from "./structure/BoneStructure.coffee"
+import {distanceToLineSegment, distance} from "./helpers.coffee"
+import {entityClasses} from "./entity-class-registry.coffee"
 TAU = Math.PI * 2
 
-require "./styles.css"
+import "./styles.css"
 
+import {Menu as JSMenu, MenuItem as JSMenuItem} from "./jsMenus/jsMenus.js"
+import "./jsMenus/jsMenus.css"
 if nw?
 	{Menu, MenuItem} = nw
 else
-	{Menu, MenuItem} = require "./jsMenus/jsMenus.js"
-	require "./jsMenus/jsMenus.css"
+	Menu = JSMenu
+	MenuItem = JSMenuItem
 
-fs = require? "fs"
-path = require? "path"
-# XXX: hack for webpack
-# TODO: use ifdef conditionals or something
-fs = null if not fs.readFileSync
-path = null if not path.join
+fs = window.require? "fs"
+path = window.require? "path"
 
-module.exports = class Editor
+export default class Editor
 	constructor: (@world, @view, @view_to, canvas, @mouse)->
 		@previous_mouse_world_x = -Infinity
 		@previous_mouse_world_y = -Infinity

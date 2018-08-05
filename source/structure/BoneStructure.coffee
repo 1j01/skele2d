@@ -1,6 +1,6 @@
-Structure = require "./Structure.coffee"
+import Structure from "./Structure.coffee"
 
-module.exports = class BoneStructure extends Structure
+export default class BoneStructure extends Structure
 	
 	addPoint: (name)->
 		if @points[name]

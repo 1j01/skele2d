@@ -1,6 +1,6 @@
 
 distanceSquared = (v, w)-> (v.x - w.x) ** 2 + (v.y - w.y) ** 2
-exports.distance = (v, w)-> Math.sqrt(distanceSquared(v, w))
+export distance = (v, w)-> Math.sqrt(distanceSquared(v, w))
 
 distanceToLineSegmentSquared = (p, v, w)->
 	l2 = distanceSquared(v, w)
@@ -11,10 +11,10 @@ distanceToLineSegmentSquared = (p, v, w)->
 		x: v.x + t * (w.x - v.x)
 		y: v.y + t * (w.y - v.y)
 	})
-exports.distanceToLineSegment = (p, v, w)->
+export distanceToLineSegment = (p, v, w)->
 	Math.sqrt(distanceToLineSegmentSquared(p, v, w))
 
-exports.lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4)->
+export lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4)->
 	a_dx = x2 - x1
 	a_dy = y2 - y1
 	b_dx = x4 - x3
@@ -23,7 +23,7 @@ exports.lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4)->
 	t = (+b_dx * (y1 - y3) - b_dy * (x1 - x3)) / (-b_dx * a_dy + a_dx * b_dy)
 	(0 <= s <= 1 and 0 <= t <= 1)
 
-exports.lerpPoints = (a, b, b_ness)->
+export lerpPoints = (a, b, b_ness)->
 	result = {}
 	for k, v of a
 		if typeof v is "number"

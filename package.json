@@ -39,8 +39,8 @@
     "install-example": "npm link && cd example && npm install && npm link skele2d",
     "example": "cd example && npm start",
     "example-nw": "cd example && npm run start-nw",
-    "build": "webpack --mode production",
-    "watch": "webpack --watch --mode development"
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch --mode=development"
   },
   "devDependencies": {
     "coffee-loader": "^0.9.0",

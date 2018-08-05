@@ -1,9 +1,9 @@
-{Component} = require "react"
-E = require "react-script"
-Entity = require "../base-entities/Entity.coffee"
-View = require "../View.coffee"
+import {Component} from "react"
+import E from "react-script"
+import Entity from "../base-entities/Entity.coffee"
+import View from "../View.coffee"
 
-module.exports = class EntityPreview extends Component
+export default class EntityPreview extends Component
 	constructor: (props)->
 		super()
 		{entity, max_width, max_height} = props

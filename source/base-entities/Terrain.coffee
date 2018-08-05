@@ -1,9 +1,9 @@
 
-Entity = require "./Entity.coffee"
-PolygonStructure = require "../structure/PolygonStructure.coffee"
+import Entity from "./Entity.coffee"
+import PolygonStructure from "../structure/PolygonStructure.coffee"
 TAU = Math.PI * 2
 
-module.exports = class Terrain extends Entity
+export default class Terrain extends Entity
 	constructor: ->
 		super()
 		@structure = new PolygonStructure

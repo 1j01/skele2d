@@ -1,6 +1,6 @@
-Structure = require "./Structure.coffee"
+import Structure from "./Structure.coffee"
 
-module.exports = class PolygonStructure extends Structure
+export default class PolygonStructure extends Structure
 	constructor: ->
 		super() # calls @clear()
 		# don't need to worry about calling onchange because can't be set at this point

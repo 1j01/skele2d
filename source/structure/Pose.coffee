@@ -1,7 +1,7 @@
 
-{lerpPoints} = require "../helpers.coffee"
+import {lerpPoints} from "../helpers.coffee"
 
-module.exports = class Pose
+export default class Pose
 	constructor: (def)->
 		@points = {}
 		# if points?

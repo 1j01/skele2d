@@ -12,8 +12,9 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack-dev-server --hot --inline --watch --mode development",
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch --mode=development",
+    "start": "webpack-dev-server --hot --inline --watch --mode=development",
     "start-nw": "nw"
   },
   "main": "index.html",

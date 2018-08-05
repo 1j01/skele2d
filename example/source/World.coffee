@@ -1,6 +1,6 @@
-{Terrain, Entity} = require "skele2d"
+import {Terrain, Entity} from "skele2d"
 
-module.exports = class World
+export default class World
 	constructor: ->
 		@entities = []
 	

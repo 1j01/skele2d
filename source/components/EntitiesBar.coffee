@@ -1,10 +1,10 @@
-{Component} = require "react"
-E = require "react-script"
-{distance} = require "../helpers.coffee"
-{entityClasses} = require "../entity-class-registry.coffee"
-EntityPreview = require "./EntityPreview.coffee"
+import {Component} from "react"
+import E from "react-script"
+import {distance} from "../helpers.coffee"
+import {entityClasses} from "../entity-class-registry.coffee"
+import EntityPreview from "./EntityPreview.coffee"
 
-module.exports = class EntitiesBar extends Component
+export default class EntitiesBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}

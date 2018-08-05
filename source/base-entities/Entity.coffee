@@ -1,16 +1,12 @@
 
-fs = require? "fs"
-path = require? "path"
-# XXX: hack for webpack
-# TODO: use ifdef conditionals or something
-fs = null if not fs.readFileSync
-path = null if not path.join
+fs = window.require? "fs"
+path = window.require? "path"
 
-Pose = require "../structure/Pose.coffee"
-BoneStructure = require "../structure/BoneStructure.coffee"
-{entityClasses} = require "../entity-class-registry.coffee"
+import Pose from "../structure/Pose.coffee"
+import BoneStructure from "../structure/BoneStructure.coffee"
+import {entityClasses} from "../entity-class-registry.coffee"
 
-module.exports = class Entity
+export default class Entity
 	constructor: ->
 		@structure = new BoneStructure
 		@x = 0

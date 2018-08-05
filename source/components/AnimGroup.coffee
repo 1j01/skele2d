@@ -1,11 +1,11 @@
-{Component} = require "react"
-ReactDOM = require "react-dom"
-E = require "react-script"
-Anim = require "./Anim.coffee"
-Pose = require "../structure/Pose.coffee"
-Entity = require "../base-entities/Entity.coffee"
+import {Component} from "react"
+import ReactDOM from "react-dom"
+import E from "react-script"
+import Anim from "./Anim.coffee"
+import Pose from "../structure/Pose.coffee"
+import Entity from "../base-entities/Entity.coffee"
 
-module.exports = class AnimGroup extends Component
+export default class AnimGroup extends Component
 	render: ->
 		{entity, EntityClass, array_to_push_anims_to, update, type_of_anims, editor} = @props
 		E ".anim-group",

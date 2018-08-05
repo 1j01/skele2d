@@ -1,9 +1,9 @@
-{Component} = require "react"
-E = require "react-script"
-{entityClasses} = require "../entity-class-registry.coffee"
-AnimGroup = require "./AnimGroup.coffee"
+import {Component} from "react"
+import E from "react-script"
+import {entityClasses} from "../entity-class-registry.coffee"
+import AnimGroup from "./AnimGroup.coffee"
 
-module.exports = class AnimBar extends Component
+export default class AnimBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}
