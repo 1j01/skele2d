@@ -1,4 +1,5 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = {
   context: path.join(__dirname, 'source'),
@@ -20,15 +21,16 @@ const config = {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
       },
-    ]
+    ],
   },
-
-  // avoiding name-mangling for entity classes
-  // TODO: re-enable minification, without name mangling
-  // or avoid the specific name mangling somehow,
-  // or stop using function.name
   optimization: {
-    minimize: false,
-  },
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          keep_classnames: true,
+        }
+      })
+    ],
+  }
 };
 module.exports = config;

@@ -22,15 +22,7 @@ const config = {
         test: /\.css$/,
         use: [ 'style-loader', 'css-loader' ]
       },
-    ]
-  },
-
-  // avoiding name-mangling for entity classes
-  // TODO: re-enable minification, without name mangling
-  // or avoid the specific name mangling somehow,
-  // or stop using function.name
-  optimization: {
-    minimize: false,
+    ],
   },
 };
 module.exports = config;
