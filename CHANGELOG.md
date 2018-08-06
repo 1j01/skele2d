@@ -20,6 +20,8 @@ Check out this fancy Unreleased section, based off of React's changelog:
 ## v0.0.7
 
 - Minification is enabled
+- Internally, switched to ES module syntax
+- Changes to webpack configuration may fix `Uncaught TypeError: Class extends value undefined is not a constructor or null`
 
 ## v0.0.6
 
