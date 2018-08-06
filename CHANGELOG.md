@@ -17,6 +17,10 @@ Check out this fancy Unreleased section, based off of React's changelog:
 
 </details>
 
+## v0.0.7
+
+- Minification is enabled
+
 ## v0.0.6
 
 - CoffeeScript source files are no longer published
