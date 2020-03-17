@@ -9,28 +9,24 @@ This project is pre-alpha. **Consider it unreleased**.
 
 ## Features
 
-* Animation & pose system lets you manipulate and compose poses and animations any way you want,
+* In-game editor
+  * Easily drag and drop to place entities in the world
+  * Select entities, drag them around, and pose them (with double click)
+  * Cut, copy and paste, undo and redo
+  * Keyboard shortcuts and context menus
+  * Zoom towards the mouse with mousewheel, and pan with middle mouse button
+  * Animation editor
+    * Shows previews of poses and animations, using the arbitrary drawing code of the entity
+    * Create, rename, edit, and delete poses and animations
+    * No undo/redo currently, but you can use Git for versioning
+* Animations and poses can be blended together and composed any way you want (in code),
 with tweening/interpolation helpers for cyclical and linear animations
-* In-game editor where you can easily place and manipulate entities
-* Pretty looking and professional UI
-* Entity previews and previews of animations and animation frames, shown with *your* arbitrary drawing code
-* You can select entities, drag them around, pose them, cut, copy and paste, undo and redo
-* Both keyboard shortcuts *and* context menus!
-* Arbitrary data can be associated with / tacked onto points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it! (*literally*, of course)
+* Arbitrary data can be associated with points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it!
 
 
 ## Demo
 
-There's a really **lame/lacking demo** here currently: https://skele2d-demo.netlify.com
-
-(There's no entities to animate! Or even anything non-polygonal!)
-
-See [Tiamblia][] for a much better demo:
-
-* Install [Node.js](https://nodejs.org/) if you don't have it.
-* [Clone the repository](https://help.github.com/articles/cloning-a-repository/) for [Tiamblia][]
-* In a command prompt / terminal in the project directory, run `npm install`
-* Then `npm start`
+Check out [Tiamblia](https://1j01.github.io/tiamblia-game/)
 
 
 ## Setup / API
@@ -44,7 +40,7 @@ Right now you have to include Material UI and whatnot in addition to the [module
 
 ## Roadmap
 
-* Finish separating this out into a reusable library / framework (from [Tiamblia][])
+* Finish separating this out into a reusable library / framework (from [Tiamblia](https://github.com/1j01/tiamblia-game))
 	* Find a good boundary between the engine and game, and think about how to minimize assumptions
 		* When something is part of an application/game, there aren't necessarily any barriers between it and the application/game code, which can make it easy to introduce coupling, which is bad, but importantly, there are no barriers to editing any part of it, which is really nice: you can adapt it to your needs as your needs progress. When you go to separate it out into a library, suddenly you're confronted with either having to remove all the coupling (which takes significant effort and thought), or just sort of "include everything" and make it a grab-bag framework with all the functionality you need for each applications you intend to use it with - which is of course, bad. Or somewhere in between, or whatever.
 			* OOP introduces problems with reusability, with its methods on classes/objects. Also if you have any private variables.
@@ -63,9 +59,8 @@ Right now you have to include Material UI and whatnot in addition to the [module
 			* When animations/poses don't exist, default to `@structure.getPose()`
 			* Name points and segments like how you'd name properties, so you can access them as such when drawing/stepping (e.g. `let {leftArm, rightArm} = @structure.points`)
 			* A default pose is decided by the (overridable) method `initLayout`, and if you use "left"/"right" in the names of points it moves them to the left or right, and it uses poses named "Default"/"Stand"/"Standing"/"Idle" in that order (most to least preferred), if one is available.
-		* Demos or it didn't happen!
-			* Deploy to the web; it's actually already set up to use `localStorage` (in place of `fs`) and such, and XHR to load the existing world data and animation data
-			* Improve the one demo (maybe make a logo as part of it)
+		* Demos:
+			* Improve the simple example, maybe make a logo as part of it
 			* Could make a better version of [pbp2d](https://github.com/1j01/pbp2d), a point based physics sandbox; or a full blown physics engine playground; rigid bodies use polygons and polygons use points too, and generating shapes and bodies from other types of structures would be very much possible too
 			* Could do a demo with a totally different renderer, overriding `Editor.draw` and maybe `View`. Three.js could be fun :)
 
@@ -96,7 +91,3 @@ The software is essentially unreleased, but I thought I might as well get in a h
 
 See [CHANGELOG.md](CHANGELOG.md)
 
-Hey look it's not actually that hard. You already have commit history, so it's just a matter of presenting that information to users (theoretical users in this case... heh, maybe that helps), highlighting API changes.
-
-
-[Tiamblia]: https://github.com/1j01/tiamblia-game
