@@ -15,6 +15,9 @@ Check out this fancy Unreleased section, based off of React's changelog:
 		Click to see more.
 	</summary>
 
+- Redos are now restored when you try to delete a point that an entity needs to render.
+  As far as the editing paradigm is concerned, you haven't made a change because it wasn't allowed.
+
 </details>
 
 ## v0.0.7

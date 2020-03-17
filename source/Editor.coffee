@@ -314,6 +314,7 @@ export default class Editor
 	delete: ->
 		if @selected_points.length
 			plural = @selected_points.length > 1
+			original_redos = [@redos...]
 			@undoable =>
 				for segment_name, segment of @editing_entity.structure.segments
 					if (segment.a in @selected_points) or (segment.b in @selected_points)
@@ -327,20 +328,21 @@ export default class Editor
 				@editing_entity.draw(document.createElement("canvas").getContext("2d"), new View)
 			catch e
 				@undo()
-				# TODO: delete redo entry?
+				@redos = original_redos
+				console?.warn?("Entity failed to draw after deletion, with", e)
 				if plural
 					alert("Entity needs one or more of those points to render")
 				else
 					alert("Entity needs that point to render")
 				return
 			try
-				ent_def = JSON.parse(JSON.stringify(@editing_entity))
+				original_ent_def = JSON.parse(JSON.stringify(@editing_entity))
 				@editing_entity.step(@world)
-				@editing_entity.fromJSON(ent_def)
+				@editing_entity.fromJSON(original_ent_def)
 			catch e
 				@undo()
-				# TODO: delete redo entry?
-				console.warn "Entity failed to step after deletion, with", e
+				@redos = original_redos
+				console?.warn?("Entity failed to step after deletion, with", e)
 				if plural
 					alert("Entity needs one or more of those points to step")
 				else
