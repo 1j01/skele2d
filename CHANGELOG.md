@@ -15,8 +15,9 @@ Check out this fancy Unreleased section, based off of React's changelog:
 		Click to see more.
 	</summary>
 
-- Redos are now restored when you try to delete a point that an entity needs to render.
-  As far as the editing paradigm is concerned, you haven't made a change because it wasn't allowed.
+- It's now easier to undo simulation. Every time you hit play, an undo state is created. If you undo during play mode, it will now simply restore the state prior to entering play mode, and return to edit mode.
+  - Note: redos are destroyed now anytime you enter play mode, like with any other operation. (Non-linear history would be nice...)
+- Improved handling for deleting points. Previously, if you tried to delete a point that an entity needs to render, it would be detected and reverted and a message shown, but you could actually *redo* the deletion, and it would cause errors and the editor would become useless. Now the stack of redos is restored, so as far as the editing paradigm goes, you haven't made a change because it wasn't allowed.
 
 </details>
 

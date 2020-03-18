@@ -294,10 +294,16 @@ export default class Editor
 			@save()
 	
 	undo: ->
-		@undo_or_redo(@undos, @redos)
+		if @editing
+			@undo_or_redo(@undos, @redos)
+		else
+			@toggleEditing()
+			@undo()
+			# TODO: undo view too
 	
 	redo: ->
-		@undo_or_redo(@redos, @undos)
+		if @editing
+			@undo_or_redo(@redos, @undos)
 	
 	undo_or_redo: (undos, redos)->
 		return if undos.length is 0
@@ -413,6 +419,7 @@ export default class Editor
 					entity.y += mouse_in_world.y - center.y
 	
 	toggleEditing: ->
+		@undoable() if @editing
 		@editing = not @editing
 		@renderDOM()
 	
