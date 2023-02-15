@@ -55,7 +55,7 @@ Right now you have to include Material UI and whatnot in addition to the [module
 		* API
 		* For now, it is very much a framework, so document how to stay within the bounds of it, and conventions that make it a smoother experience
 			* References to other entities must be at the top level for now
-			* Adding data to other entities currently works, but the entity data might be versioned later and not accept extra data (or it might be that you can easily allow exceptions,) but/so it might be better to store extra data within an entity relating to other entities, like a key value store with the keys as entity IDs (but that's not fun) (using entity references as keys could be a *little* bit fun, but overal the paradigm wouldn't be)
+			* Adding data to other entities currently works, but the entity data might be versioned later and not accept extra data (or it might be that you can easily allow exceptions,) but/so it might be better to store extra data within an entity relating to other entities, like a key value store with the keys as entity IDs (but that's not fun) (using entity references as keys could be a *little* bit fun, but overall the paradigm wouldn't be)
 			* When animations/poses don't exist, default to `@structure.getPose()`
 			* Name points and segments like how you'd name properties, so you can access them as such when drawing/stepping (e.g. `let {leftArm, rightArm} = @structure.points`)
 			* A default pose is decided by the (overridable) method `initLayout`, and if you use "left"/"right" in the names of points it moves them to the left or right, and it uses poses named "Default"/"Stand"/"Standing"/"Idle" in that order (most to least preferred), if one is available.
