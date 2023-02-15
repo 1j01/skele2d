@@ -11,6 +11,7 @@ const config = {
     library: 'skele2d',
     libraryTarget: 'commonjs2',
     libraryExport: 'default',
+    hashFunction: 'sha256',
   },
   module: {
     rules: [

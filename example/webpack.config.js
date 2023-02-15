@@ -10,6 +10,7 @@ const config = {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js',
     publicPath: '/build/',
+    hashFunction: 'sha256',
   },
   module: {
     rules: [
