@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file.
 	</summary>
 
 ### Library
-- Upgraded to Webpack 5, and React 18. This took a lot of work.
+- Upgraded to Webpack 5, and React 17. This took a lot of work.
 - The library is now published as UMD, so it can be used as a script tag, exporting `skele2d`. When used with Webpack, it should continue to operate as before, since UMD is compatible with CommonJS.
   - There is a new "vanilla" example, which uses the UMD bundle as a script.
 - Minification now uses Terser instead of UglifyJS.
