@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 - Upgraded to Webpack 5, and React 18. This took a lot of work.
 - The library is now published as UMD, so it can be used as a script tag, exporting `skele2d`. When used with Webpack, it should continue to operate as before, since UMD is compatible with CommonJS.
   - There is a new "vanilla" example, which uses the UMD bundle as a script.
-- Minification is disabled... for now
+- Minification now uses Terser instead of UglifyJS, which I hope doesn't cause any problems. I had to include a parameter for UglifyJS so it wouldn't mangle class names, used for serialization. Do I need to do that for Terser too? Yes, I do.
 
 ### Editor
 - It's now easier to undo simulation. Every time you hit play, an undo state is created. If you undo during play mode, it will now simply restore the state prior to entering play mode, and return to edit mode.

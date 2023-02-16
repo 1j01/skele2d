@@ -1,4 +1,5 @@
 const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin");
 
 const config = {
   context: path.join(__dirname, 'source'),
@@ -29,8 +30,7 @@ const config = {
     ],
   },
   optimization: {
-    minimizer: [
-    ],
+    minimizer: [new TerserPlugin()],
   },
 };
 module.exports = config;
