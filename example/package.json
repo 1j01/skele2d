@@ -14,7 +14,7 @@
   "scripts": {
     "build": "webpack --mode=production",
     "watch": "webpack --watch --mode=development",
-    "start": "webpack-dev-server --hot --inline --watch --mode=development",
+    "start": "webpack-dev-server --hot --mode=development",
     "start-nw": "nw"
   },
   "main": "index.html",
@@ -28,7 +28,7 @@
     "nw-dev": "^3.0.1",
     "webpack": "^4.16.3",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
     "nw": "^0.29.1-sdk"
