@@ -8,7 +8,6 @@
 		".gitignore",
 		"node_modules",
 		"package-lock.json",
-		"jsMenus/",
 		"lib/"
 	],
 	"enabledLanguageIds": [
@@ -57,6 +56,7 @@
 		"anims",
 		"bbox",
 		"callout",
+		"checkmark",
 		"contextmenu",
 		"dblclick",
 		"ducktype",
@@ -65,6 +65,7 @@
 		"grabbable",
 		"haha",
 		"importmap",
+		"initialisation",
 		"instanceof",
 		"isnt",
 		"keydown",
@@ -75,6 +76,7 @@
 		"mousemove",
 		"mouseup",
 		"mousewheel",
+		"nwjs",
 		"offcenteredness",
 		"onchange",
 		"onmousemove",
@@ -82,6 +84,8 @@
 		"overridable",
 		"pagedown",
 		"pageup",
+		"pmenu",
+		"popdown",
 		"rgba",
 		"Roadmap",
 		"scminput",
@@ -95,6 +99,8 @@
 		"uglifyjs",
 		"uncompiled",
 		"undoable",
-		"undos"
+		"undos",
+		"unhighlight",
+		"Wray"
 	]
 }
