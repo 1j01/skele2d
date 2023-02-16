@@ -11,7 +11,7 @@ const config = {
     library: 'skele2d',
     libraryTarget: 'umd',
     libraryExport: 'default',
-    hashFunction: 'sha256',
+    hashFunction: 'xxhash64',
   },
   module: {
     rules: [
