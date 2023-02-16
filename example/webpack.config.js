@@ -11,6 +11,11 @@ const config = {
     publicPath: '/build/',
     hashFunction: 'sha256',
   },
+  devServer: {
+    static: {
+      directory: path.resolve(__dirname, ""),
+    },
+  },
   module: {
     rules: [
       {
