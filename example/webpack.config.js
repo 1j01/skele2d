@@ -30,7 +30,11 @@ const config = {
     ],
   },
   optimization: {
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        keep_classnames: true, // needed for serialization, and display in the entities bar UI
+      },
+    })],
   },
 };
 module.exports = config;
