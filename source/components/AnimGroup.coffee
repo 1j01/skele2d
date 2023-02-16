@@ -106,7 +106,7 @@ export default class AnimGroup extends Component
 										array_to_push_anims_to.push(anim) if anim?
 								}
 						else
-							E "article.placeholder", key: "placeholder", "Error: Trying to display the frames of a non-existant animation"
+							E "article.placeholder", key: "placeholder", "Error: Trying to display the frames of a non-existent animation"
 					else
 						E "article.placeholder", key: "placeholder", "Error: Entity class is not initialized for animation, trying to display the frames of an animation?"
 				else

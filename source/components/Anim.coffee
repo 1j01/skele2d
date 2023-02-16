@@ -32,7 +32,7 @@ export default class Anim extends Component
 							value: name
 							onChange: (e)=>
 								new_name = e.target.value
-								# TODO: use error classes and messages instead of instrusive alerts
+								# TODO: use error classes and messages instead of intrusive alerts
 								if type_of_anims is "animations"
 									if EntityClass.animations[new_name]
 										alert("There's already an animation with the name #{new_name}")
