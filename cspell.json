@@ -1,5 +1,17 @@
 {
-	"cSpell.enabledLanguageIds": [
+	"files": [
+		"**",
+		".*/**"
+	],
+	"ignorePaths": [
+		".git",
+		".gitignore",
+		"node_modules",
+		"package-lock.json",
+		"jsMenus/",
+		"lib/"
+	],
+	"enabledLanguageIds": [
 		"asciidoc",
 		"c",
 		"cpp",
@@ -41,7 +53,7 @@
 		"yml",
 		"coffeescript"
 	],
-	"cSpell.words": [
+	"words": [
 		"bbox",
 		"haha",
 		"importmap",
