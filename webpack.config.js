@@ -8,7 +8,7 @@ const config = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'skele2d.js',
-    library: 'skele2d',
+    // library: 'skele2d',
     libraryTarget: 'commonjs2',
     libraryExport: 'default',
     hashFunction: 'sha256',
