@@ -21,7 +21,7 @@ prev_keys = {}
 addEventListener "keydown", (e)-> keys[e.keyCode] = true
 addEventListener "keyup", (e)-> delete keys[e.keyCode]
 
-keyboard =
+@keyboard =
 	wasJustPressed: (keyName)->
 		keys[keyCodeFor(keyName)]? and not prev_keys[keyCodeFor(keyName)]?
 	isHeld: (keyName)->
@@ -29,5 +29,3 @@ keyboard =
 	resetForNextStep: ->
 		prev_keys = {}
 		prev_keys[k] = v for k, v of keys
-
-export default keyboard

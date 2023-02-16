@@ -23,25 +23,14 @@
 	<script src="lib/seedrandom.min.js"></script>
 	<script src="lib/simplex-noise.min.js"></script>
 	<script src="lib/coffeescript.js"></script>
-	<!-- <script src="../dist/skele2d.js"></script> -->
-	<!-- <script src="source/main.coffee" type="text/coffeescript"></script> -->
-	<script type="importmap">
-		{
-			"imports": {
-				"skele2d": "../dist/skele2d.js",
-				"/example-vanilla/": "/example-vanilla/source/"
-			}
-		}
-	</script>
+	<script src="../dist/skele2d.js"></script>
 	<script>
-		(async ()=> {
-			const coffee = await (await fetch("source/main.coffee")).text();
-			const js = CoffeeScript.compile(coffee);
-			const script = document.createElement("script");
-			script.type = "module";
-			script.innerHTML = js;
-			document.body.appendChild(script);
-		})();
+		({View, Mouse, Editor, Terrain, Entity, addEntityClass } = skele2d);
 	</script>
+	<script src="source/entities/terrain/Rock.coffee" type="text/coffeescript"></script>
+	<script src="source/entities/terrain/Snow.coffee" type="text/coffeescript"></script>
+	<script src="source/keyboard.coffee" type="text/coffeescript"></script>
+	<script src="source/World.coffee" type="text/coffeescript"></script>
+	<script src="source/main.coffee" type="text/coffeescript"></script>
 </body>
 </html>

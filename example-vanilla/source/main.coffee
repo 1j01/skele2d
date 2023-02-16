@@ -1,10 +1,4 @@
 
-import {View, Mouse, Editor} from "skele2d"
-import World from "./World.coffee"
-import Rock from "./entities/terrain/Rock.coffee"
-import Snow from "./entities/terrain/Snow.coffee"
-# import keyboard from "./keyboard.coffee"
-
 Math.seedrandom("A world")
 
 world = new World

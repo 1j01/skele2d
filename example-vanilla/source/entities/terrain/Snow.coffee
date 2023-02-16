@@ -1,6 +1,4 @@
-import {Terrain, addEntityClass} from "skele2d"
-
-export default class Snow extends Terrain
+class @Snow extends Terrain
 	addEntityClass(@)
 	constructor: ->
 		super()

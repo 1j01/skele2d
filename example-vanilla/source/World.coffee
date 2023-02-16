@@ -1,6 +1,4 @@
-import {Terrain, Entity} from "skele2d"
-
-export default class World
+class @World
 	constructor: ->
 		@entities = []
 	
