@@ -4,7 +4,7 @@ Skele2D is a game engine based around points, with a fancy in-game editor.
 
 This project is pre-alpha. **Consider it unreleased**.
 
-<!-- TODO: add GIFs; also a logo would be good -->
+<!-- TODO: add GIFs; also a logo would be good; maybe make a better demo that IS a logo -->
 
 
 ## Features
@@ -36,6 +36,23 @@ So far, if you wanted to use this, you'd have to look at the source code, and co
 I wouldn't recommend using this yet!
 
 Right now you have to include Material UI and whatnot in addition to the [module](https://www.npmjs.com/package/skele2d), as seen in [`example/index.html`](example/index.html), and you might need Webpack as seen in [`example/webpack.config.js`](example/webpack.config.js)
+
+## Dev Setup
+
+Synopsis:
+```bash
+npm install
+npm run build
+npm run install-example
+npm run example
+```
+
+Any time you run into an error like `Module not found: Error: Can't resolve 'skele2d'`,
+just run the following in the `example` directory:
+```bash
+npm link skele2d
+```
+Or alternatively run `npm run install-example` again.
 
 
 ## Roadmap
