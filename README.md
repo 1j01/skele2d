@@ -2,6 +2,14 @@
 
 Skele2D is a game engine based around points, with a fancy in-game editor.
 
+There are lots of 2D game engines based around tiles; *this is the opposite of that.*
+It's for games where the world is made of polygons, and the entities are made of points, connected by bones, in arbitrary configurations.
+
+If there's a theme song for Skele2D, it's the one that goes:
+
+> The hip bone's connected to the back bone  
+> The back bone's connected to the neck bone…
+
 This project is pre-alpha. **Consider it unreleased**.
 
 <!-- TODO: add GIFs; also a logo would be good; maybe make a better demo that IS a logo -->
@@ -20,7 +28,7 @@ This project is pre-alpha. **Consider it unreleased**.
     * Create, rename, edit, and delete poses and animations
     * No undo/redo currently, but you can use Git for versioning
 * Animations and poses can be blended together and composed any way you want (in code),
-with tweening/interpolation helpers for cyclical and linear animations
+with tweening/interpolation helpers for both linear and cyclical animations
 * Arbitrary data can be associated with points, for use with rendering, physics or whatever, for instance "color", "size", "velocity" - you name it!
 
 
@@ -40,11 +48,11 @@ Right now you have to include Material UI in addition to the [module](https://ww
 
 ## Examples
 
-* [`example/`](example/) - Webpack + CoffeeScript example. This uses Webpack to bundle module imports, and coffee-loader to compile CoffeeScript.
-* [`example-vanilla/`](example-vanilla/) - script tag usage example, still using CoffeeScript (some would probably take issue with calling this "vanilla" but it's just the name of the folder, for now.)
+* [`example/`](example/) - Webpack usage example, with CoffeeScript. This uses Webpack to bundle module imports, and coffee-loader to compile CoffeeScript.
+* [`example-vanilla/`](example-vanilla/) - Script tag usage example, with CoffeeScript. This uses the in-browser Coffeescript compiler. (I plan to rename this example, since "vanilla" implies JavaScript.)
 * [Tiamblia](https://github.com/1j01/tiamblia-game) - A game built with Skele2D (or a fuller example, at least.)
 
-Both of the examples in this repo are super bare-bones, and don't actually show off all the entity types supported by the editor, only terrain — no posable/animated entities. It was kind of an oversight when I was copying from Tiamblia and trimming it down.
+Both of the examples in this repo are super bare-bones, and don't actually show off all the entity types supported by the editor, only terrain — no posable or animated entities. (It was kind of an oversight when I was copying from Tiamblia and trimming it down.)
 
 <!-- Planned structure:
 * [`examples/webpack-coffee/`](examples/webpack-coffee/) - Webpack + CoffeeScript example. This uses Webpack to bundle module imports (including Skele2D), and coffee-loader to compile CoffeeScript.
@@ -75,33 +83,50 @@ npm run install-example
 npm run example
 ```
 
-This should run the webpack development server for the example, with hot module reloading.
+This should run the webpack dev server for the example, with hot module reloading.
 You can open the example in your browser at http://localhost:8080/ or whatever port it gives you if that's taken.
 
+### Webpack in Production
+
+The webpack example can be built for production with:
+```bash
+cd example
+npm run build
+```
+Then the `example` directory can be served with any web server, for instance:
+```bash
+python -m http.server
+```
+Then open http://localhost:8000 in your browser.
+
+It could be deployed to a static site host, and some files could be excluded like the `node_modules` directory, `source` directory, `package.json`, `package-lock.json`, and `webpack.config.js`.
+
+The examples in this repo are not yet deployed, but [Tiamblia](https://github.com/1j01/tiamblia-game) is [deployed to GitHub Pages here](https://1j01.github.io/tiamblia-game/), using a dumb Node.js script to copy only the files that are needed, and then the [gh-pages](https://www.npmjs.com/package/gh-pages) package to deploy.
+
+### NW.js
 The webpack example can also be run in NW.js, with:
 ```bash
 npm run example-nw
 ```
 When running in NW.js it automatically saves the `world.json` as you edit.
 > Note: This workflow could be replaced by the FS Access API, which didn't exist when I made this originally.
-I don't think I'm terribly interested in NW.js for distributing games.
-It'll still be an _option_, of course, but it shouldn't be required for a nice workflow.
+> I don't think I'm terribly interested in NW.js for distributing games.
+> It'll still be an _option_, of course, but it shouldn't be required for a nice workflow.
 
-The "Vanilla" (Script Tag) example doesn't need pre-compiling in principle, but for development purposes, it references `../dist/skele2d.js`.
+### Script Tag Example
+
+The Script Tag example doesn't need pre-compiling in principle, but because it lives in this repo, it does reference `../dist/skele2d.js`, which is built by the `npm run build` command.
+
 Once the library is built, you can run the example with any web server, for instance:
 ```bash
-npx live-server --open=example-vanilla/
+cd example-vanilla/
+npx live-server
 ```
-This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself — well it might detect it and refresh, but it needs to be rebuilt, to update meaningfully).
+This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself, which would need to be rebuilt).
 
-You can also run the webpack example with a plain HTTP server, once it's built, for production testing:
-```bash
-npm run build
-python -m http.server --directory example/
-```
-Then open http://localhost:8000` in your browser.
+> Side note: this is different from `npx live-server --open=example-vanilla/` which would reload the page when you make changes to the library source code, uselessly.
 
-## Troubleshooting
+### Troubleshooting
 
 Any time you run into an error like `Module not found: Error: Can't resolve 'skele2d'`,
 just run the following in the `example` directory:
@@ -160,8 +185,6 @@ This can happen when updating dependencies, or (perhaps) when switching branches
 
 
 ## Changelog
-
-The software is essentially unreleased, but I thought I might as well get in a habit of doing a changelog.
 
 See [CHANGELOG.md](CHANGELOG.md)
 
