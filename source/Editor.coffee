@@ -237,14 +237,18 @@ export default class Editor
 		else
 			json = localStorage["Skele2D World"]
 		if json
+			try
+				@world.fromJSON(JSON.parse(json))
+				return
+			catch e
+				@warn "Error loading saved world: #{e}", 10000
+		# fall back to loading the default world
+		req = new XMLHttpRequest()
+		req.addEventListener "load", (e)=>
+			json = req.responseText
 			@world.fromJSON(JSON.parse(json)) if json
-		else
-			req = new XMLHttpRequest()
-			req.addEventListener "load", (e)=>
-				json = req.responseText
-				@world.fromJSON(JSON.parse(json)) if json
-			req.open("GET", "world.json")
-			req.send()
+		req.open("GET", "world.json")
+		req.send()
 	
 	discardSave: ->
 		if fs?
