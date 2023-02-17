@@ -5,6 +5,7 @@ import EntitiesBar from "./components/EntitiesBar.coffee"
 import AnimBar from "./components/AnimBar.coffee"
 import TerrainBar from "./components/TerrainBar.coffee"
 
+import View from "./View.coffee"
 import Terrain from "./base-entities/Terrain.coffee"
 import Entity from "./base-entities/Entity.coffee"
 import Pose from "./structure/Pose.coffee"
