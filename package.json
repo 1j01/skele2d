@@ -35,10 +35,13 @@
   ],
   "license": "UNLICENSED",
   "main": "dist/skele2d.js",
+  "directories": {
+    "example": "examples"
+  },
   "scripts": {
-    "install-example": "npm link && cd example && npm install && npm link skele2d",
-    "example": "cd example && npm start",
-    "example-nw": "cd example && npm run start-nw",
+    "install-example": "npm link && cd examples/webpack-coffee && npm install && npm link skele2d",
+    "example": "cd examples/webpack-coffee && npm start",
+    "example-nw": "cd examples/webpack-coffee && npm run start-nw",
     "build": "webpack --mode=production",
     "watch": "webpack --watch --mode=development"
   },

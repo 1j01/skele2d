@@ -13,7 +13,8 @@ All notable changes to this project will be documented in this file.
 ### Library
 - Upgraded to Webpack 5, and React 17. This took a lot of work.
 - The library is now published as UMD, so it can be used as a script tag, exporting `skele2d`. When used with Webpack, it should continue to operate as before, since UMD is compatible with CommonJS.
-  - There is a new "vanilla" example, which uses the UMD bundle as a script.
+  - There is a new Script Tag example, which loads the UMD bundle as a script.
+  - The examples are now in `examples/` and the old example is named `examples/webpack-coffee/`.
 - Minification now uses Terser instead of UglifyJS.
 
 ### Editor

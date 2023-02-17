@@ -48,29 +48,25 @@ Right now you have to include Material UI in addition to the [module](https://ww
 
 ## Examples
 
-* [`example/`](example/) - Webpack usage example, with CoffeeScript. This uses Webpack to bundle module imports, and coffee-loader to compile CoffeeScript.
-* [`example-vanilla/`](example-vanilla/) - Script tag usage example, with CoffeeScript. This uses the in-browser Coffeescript compiler. (I plan to rename this example, since "vanilla" implies JavaScript.)
+* [`examples/webpack-coffee/`](examples/webpack-coffee/) - Webpack usage example, with CoffeeScript. This uses Webpack to bundle module imports (including Skele2D and other parts of the example), and coffee-loader to compile CoffeeScript.
+* [`examples/script-tag-coffee/`](examples/script-tag-coffee/) - Script tag usage example, with CoffeeScript. This uses the in-browser CoffeeScript compiler, and uses globals instead of imports/exports.
+<!-- * [`examples/esm/`](examples/esm/) - ES Modules example. This uses a separate ESM build of Skele2D, and imports it from inside a `<script type="module">`. -->
 * [Tiamblia](https://github.com/1j01/tiamblia-game) - A game built with Skele2D (or a fuller example, at least.)
 
 Both of the examples in this repo are super bare-bones, and don't actually show off all the entity types supported by the editor, only terrain — no posable or animated entities. (It was kind of an oversight when I was copying from Tiamblia and trimming it down.)
 
-<!-- Planned structure:
-* [`examples/webpack-coffee/`](examples/webpack-coffee/) - Webpack + CoffeeScript example. This uses Webpack to bundle module imports (including Skele2D), and coffee-loader to compile CoffeeScript.
-* [`examples/script-tag-coffee/`](examples/script-tag-coffee/) - Script tag usage example, still using CoffeeScript. This uses the in-browser CoffeeScript compiler, and globals instead of imports/exports.
-* [`examples/esm/`](examples/esm/) - ES Modules example. This uses a special ESM build of Skele2D, and imports it from inside a `<script type="module">`.
-
+<!--
 I'd also like to show off different things you can do with Skele2D, like:
 * Using Skele2D with a physics engine, like Matter.js
 * Using Skele2D with a rendering engine, like Pixi.js, or something that does textured polygons nicely. I'd want it to have a very different look, to show the breadth of what you can achieve.
 
-I'm not sure how to name the examples, if I have functionality-specific examples in addition to different module setups.
-I guess I should pick a module setup, probably ESM (which I haven't done yet), for most of the examples to use,
-and then keep the other module setups super basic, just to show that it works with them.
-In particular, I want to keep them to as few files as possible, to make it easier to maintain them, and understand them.
-I don't want to have a bunch of files that are named the same but in different directories that can get confused,
-and can get out of sync with each other.
+Since I want to show off functionality distinct from module setups, I think I should pick a module setup, probably ESM (which I haven't done yet), for most of the examples to use, and then keep the other module setups super basic, just to show that it works with them.
+In particular, I want to keep them to as few files as possible, to make it easier to maintain and understand them.
+(I don't want to have a bunch of files that are named the same but in different directories that can get confused,
+and can get out of sync with each other.)
 I think I can bring most things into one or two files. ESM and script tag examples could be done in one HTML file,
-but webpack might need a separate JS file unless there's a plugin that works with JS inlined in HTML.
+but webpack might need a separate JS file (unless there's a plugin or option to make it operate on JS inlined in HTML,)
+plus package.json and webpack.config.js
 -->
 
 ## Dev Setup
@@ -83,17 +79,17 @@ npm run install-example
 npm run example
 ```
 
-This should run the webpack dev server for the example, with hot module reloading.
+This should run the webpack dev server for the webpack example, with hot module reloading.
 You can open the example in your browser at http://localhost:8080/ or whatever port it gives you if that's taken.
 
 ### Webpack in Production
 
 The webpack example can be built for production with:
 ```bash
-cd example
+cd examples/webpack-coffee
 npm run build
 ```
-Then the `example` directory can be served with any web server, for instance:
+Then the `examples/webpack-coffee` directory can be served with any web server, for instance:
 ```bash
 python -m http.server
 ```
@@ -115,21 +111,21 @@ When running in NW.js it automatically saves the `world.json` as you edit.
 
 ### Script Tag Example
 
-The Script Tag example doesn't need pre-compiling in principle, but because it lives in this repo, it does reference `../dist/skele2d.js`, which is built by the `npm run build` command.
+The Script Tag example doesn't need pre-compiling in principle, but because it lives in this repo, it does reference `../../dist/skele2d.js`, which is built by the `npm run build` command.
 
 Once the library is built, you can run the example with any web server, for instance:
 ```bash
-cd example-vanilla/
+cd examples/script-tag-coffee/
 npx live-server
 ```
 This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself, which would need to be rebuilt).
 
-> Side note: this is different from `npx live-server --open=example-vanilla/` which would reload the page when you make changes to the library source code, uselessly.
+> Side note: this is different from `npx live-server --open=examples/script-tag-coffee/` which would reload the page when you make changes to the library source code, uselessly.
 
 ### Troubleshooting
 
 Any time you run into an error like `Module not found: Error: Can't resolve 'skele2d'`,
-just run the following in the `example` directory:
+just run the following in the `examples/webpack-coffee` directory:
 ```bash
 npm link skele2d
 ```
