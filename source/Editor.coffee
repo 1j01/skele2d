@@ -347,8 +347,10 @@ export default class Editor
 						delete @editing_entity.structure.points[point_name]
 				@selected_points = []
 				@dragging_points = []
+			dummy_ctx = document.createElement("canvas").getContext("2d")
+			dummy_view = new View
 			try
-				@editing_entity.draw(document.createElement("canvas").getContext("2d"), new View)
+				@editing_entity.draw(dummy_ctx, dummy_view)
 			catch e
 				@undo()
 				@redos = original_redos
