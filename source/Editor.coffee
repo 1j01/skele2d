@@ -338,15 +338,19 @@ export default class Editor
 		if @selected_points.length
 			plural = @selected_points.length > 1
 			original_redos = [@redos...]
-			@undoable =>
-				for segment_name, segment of @editing_entity.structure.segments
-					if (segment.a in @selected_points) or (segment.b in @selected_points)
-						delete @editing_entity.structure.segments[segment_name]
-				for point_name, point of @editing_entity.structure.points
-					if point in @selected_points
-						delete @editing_entity.structure.points[point_name]
-				@selected_points = []
-				@dragging_points = []
+			# Not using callback version so that it doesn't
+			# save until it's verified that the entity can be drawn & stepped
+			@undoable()
+
+			for segment_name, segment of @editing_entity.structure.segments
+				if (segment.a in @selected_points) or (segment.b in @selected_points)
+					delete @editing_entity.structure.segments[segment_name]
+			for point_name, point of @editing_entity.structure.points
+				if point in @selected_points
+					delete @editing_entity.structure.points[point_name]
+			@selected_points = []
+			@dragging_points = []
+
 			dummy_ctx = document.createElement("canvas").getContext("2d")
 			dummy_view = new View
 			try
@@ -361,6 +365,8 @@ export default class Editor
 					alert("Entity needs that point to render")
 				return
 			try
+				# Note: assuming step() doesn't modify other entities
+				# This is probably a bad assumption
 				original_ent_def = JSON.parse(JSON.stringify(@editing_entity))
 				@editing_entity.step(@world)
 				@editing_entity.fromJSON(original_ent_def)
@@ -373,6 +379,8 @@ export default class Editor
 				else
 					alert("Entity needs that point to step")
 				return
+			
+			@save()
 		else
 			@undoable =>
 				for entity in @selected_entities

@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - It's now easier to undo changes that occur during simulation. Every time you hit play, an undo state is created. You can now easily restore the state prior to entering play mode.
   - Note: If there are any redos when you enter play mode, they are now discarded, as they are if you edit anything. (Non-linear history would be nice...)
 - Improved handling for deleting points. I already had this feature where if you try to delete a point that an entity needs to render, it will be detected and reverted with a warning message. The problem was, if you hit *redo*, it would try to *redo the deletion*, and it would cause errors and the editor would become useless. Now the stack of redos is restored, so as far as the editing paradigm goes, you haven't made a change because it wasn't allowed. It should be seamless.
+  - It will no longer save with the points deleted until it's verified that no errors occur. It was already normally saving *over* this unwanted invalid save when rolling back the state after catching an error, but if you paused in the debugger on the error and then refreshed the page without first resuming execution, it could lead to a persistently corrupted world, since it wouldn't get to do this second save. (It shouldn't have been saving twice for one operation anyways, it was sort of hidden/implicit in the code.)
 
 </details>
 
