@@ -244,9 +244,21 @@ export default class Editor
 				@warn "Error loading saved world: #{e}", 10000
 		# fall back to loading the default world
 		req = new XMLHttpRequest()
+		req.addEventListener "error", (e)=>
+			@warn "Error loading default world: the network request failed.", 10000
 		req.addEventListener "load", (e)=>
+			if req.status isnt 200
+				@warn "Error loading default world: #{req.status} #{req.statusText}", 10000
+				return
 			json = req.responseText
-			@world.fromJSON(JSON.parse(json)) if json
+			if json
+				try
+					@world.fromJSON(JSON.parse(json))
+					return
+				catch error
+					@warn "Error loading default world: #{error}", 10000
+			else
+				@warn "No default world loaded", 10000
 		req.open("GET", "world.json")
 		req.send()
 	

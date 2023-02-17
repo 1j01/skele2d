@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### Editor
 - If deserializing the autosave fails, it will now try to load the default world, and show a warning.
+- If loading the default world fails, it will now show a warning.
 - If you try to paste when the clipboard is empty, it will now show a warning.
 - It's now easier to undo changes that occur during simulation. Every time you hit play, an undo state is created. You can now easily restore the state prior to entering play mode.
   - Note: If there are any redos when you enter play mode, they are now discarded, as they are if you edit anything. (Non-linear history would be nice...)
