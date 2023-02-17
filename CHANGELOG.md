@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Library
 - Upgraded to Webpack 5, and React 17. This took a lot of work.
-- The library is now published as UMD, so it can be used as a script tag, exporting `skele2d`. When used with Webpack, it should continue to operate as before, since UMD is compatible with CommonJS.
+- The library is now published as UMD, so it can be used as a script tag, in which case it creates a global `skele2d`. When used with Webpack, it should continue to operate as before, since UMD is compatible with CommonJS.
   - There is a new Script Tag example, which loads the UMD bundle as a script.
   - The examples are now in `examples/` and the old example is named `examples/webpack-coffee/`.
 - Minification now uses Terser instead of UglifyJS.
@@ -20,9 +20,9 @@ All notable changes to this project will be documented in this file.
 ### Editor
 - If deserializing the autosave fails, it will now try to load the default world, and show a warning.
 - If you try to paste when the clipboard is empty, it will now show a warning.
-- It's now easier to undo simulation. Every time you hit play, an undo state is created. If you undo during play mode, it will now simply restore the state prior to entering play mode, and return to edit mode.
-  - Note: redos are destroyed now anytime you enter play mode, like with any other operation. (Non-linear history would be nice...)
-- Improved handling for deleting points. Previously, if you tried to delete a point that an entity needs to render, it would be detected and reverted and a message shown, but you could actually *redo* the deletion, and it would cause errors and the editor would become useless. Now the stack of redos is restored, so as far as the editing paradigm goes, you haven't made a change because it wasn't allowed.
+- It's now easier to undo changes that occur during simulation. Every time you hit play, an undo state is created. You can now easily restore the state prior to entering play mode.
+  - Note: If there are any redos when you enter play mode, they are now discarded, as they are if you edit anything. (Non-linear history would be nice...)
+- Improved handling for deleting points. I already had this feature where if you try to delete a point that an entity needs to render, it will be detected and reverted with a warning message. The problem was, if you hit *redo*, it would try to *redo the deletion*, and it would cause errors and the editor would become useless. Now the stack of redos is restored, so as far as the editing paradigm goes, you haven't made a change because it wasn't allowed. It should be seamless.
 
 </details>
 
