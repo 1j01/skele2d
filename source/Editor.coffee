@@ -365,8 +365,18 @@ export default class Editor
 					alert("Entity needs that point to render")
 				return
 			try
-				# Note: assuming step() doesn't modify other entities
-				# This is probably a bad assumption
+				# Note: assuming step() doesn't modify other entities.
+				# This is probably a bad assumption.
+				# TODO: I should make this as transactional as possible,
+				# i.e. restore the whole world state, not just the entity.
+				# I already do this in case it errors, with undo(),
+				# but I'm only restoring the entity state in the case that it succeeds.
+				# I could also add a flag, either as a parameter to step() or globally,
+				# that says whether or not it's safe to perform major side effects
+				# such as saving the game when reaching a checkpoint,
+				# playing a sound,
+				# starting a cinematic that runs using setTimeout() rather than properties on entities (problematic for playing well with pausing anyways),
+				# or causing a screen shake effect — things that are outside the world state.
 				original_ent_def = JSON.parse(JSON.stringify(@editing_entity))
 				@editing_entity.step(@world)
 				@editing_entity.fromJSON(original_ent_def)
