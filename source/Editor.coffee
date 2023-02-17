@@ -386,6 +386,10 @@ export default class Editor
 			alert("Pasting points is not supported")
 		else
 			@undoable =>
+				if not @clipboard.entities?.length
+					@warn "Nothing on clipboard"
+					return
+				
 				@selected_entities = []
 				new_entities =
 					for {json} in @clipboard.entities

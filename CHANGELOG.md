@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### Editor
 - If deserializing the autosave fails, it will now try to load the default world, and show a warning.
+- If you try to paste when the clipboard is empty, it will now show a warning.
 - It's now easier to undo simulation. Every time you hit play, an undo state is created. If you undo during play mode, it will now simply restore the state prior to entering play mode, and return to edit mode.
   - Note: redos are destroyed now anytime you enter play mode, like with any other operation. (Non-linear history would be nice...)
 - Improved handling for deleting points. Previously, if you tried to delete a point that an entity needs to render, it would be detected and reverted and a message shown, but you could actually *redo* the deletion, and it would cause errors and the editor would become useless. Now the stack of redos is restored, so as far as the editing paradigm goes, you haven't made a change because it wasn't allowed.
