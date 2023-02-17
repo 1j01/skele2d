@@ -56,6 +56,13 @@ I'd also like to show off different things you can do with Skele2D, like:
 * Using Skele2D with a rendering engine, like Pixi.js, or something that does textured polygons nicely. I'd want it to have a very different look, to show the breadth of what you can achieve.
 
 I'm not sure how to name the examples, if I have functionality-specific examples in addition to different module setups.
+I guess I should pick a module setup, probably ESM (which I haven't done yet), for most of the examples to use,
+and then keep the other module setups super basic, just to show that it works with them.
+In particular, I want to keep them to as few files as possible, to make it easier to maintain them, and understand them.
+I don't want to have a bunch of files that are named the same but in different directories that can get confused,
+and can get out of sync with each other.
+I think I can bring most things into one or two files. ESM and script tag examples could be done in one HTML file,
+but webpack might need a separate JS file unless there's a plugin that works with JS inlined in HTML.
 -->
 
 ## Dev Setup
@@ -67,6 +74,9 @@ npm run build
 npm run install-example
 npm run example
 ```
+
+This should run the webpack development server for the example, with hot module reloading.
+You can open the example in your browser at http://localhost:8080/ or whatever port it gives you if that's taken.
 
 Any time you run into an error like `Module not found: Error: Can't resolve 'skele2d'`,
 just run the following in the `example` directory:
@@ -89,7 +99,14 @@ Once the library is built, you can run the example with any web server, for inst
 ```bash
 npx live-server --open=example-vanilla/
 ```
-This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself).
+This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself — well it might detect it and refresh, but it needs to be rebuilt, to update meaningfully).
+
+You can also run the webpack example with a plain HTTP server, once it's built, for production testing:
+```bash
+npm run build
+python -m http.server --directory example/
+```
+Then open http://localhost:8000` in your browser.
 
 ## Roadmap
 
