@@ -78,13 +78,6 @@ npm run example
 This should run the webpack development server for the example, with hot module reloading.
 You can open the example in your browser at http://localhost:8080/ or whatever port it gives you if that's taken.
 
-Any time you run into an error like `Module not found: Error: Can't resolve 'skele2d'`,
-just run the following in the `example` directory:
-```bash
-npm link skele2d
-```
-Or alternatively run `npm run install-example` again.
-
 The webpack example can also be run in NW.js, with:
 ```bash
 npm run example-nw
@@ -107,6 +100,17 @@ npm run build
 python -m http.server --directory example/
 ```
 Then open http://localhost:8000` in your browser.
+
+## Troubleshooting
+
+Any time you run into an error like `Module not found: Error: Can't resolve 'skele2d'`,
+just run the following in the `example` directory:
+```bash
+npm link skele2d
+```
+Or alternatively run `npm run install-example` again.
+
+This can happen when updating dependencies, or (perhaps) when switching branches, or when you've just cloned the repo and haven't run the [installation procedure](#dev-setup) yet.
 
 ## Roadmap
 
