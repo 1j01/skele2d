@@ -33,9 +33,30 @@ Check out [Tiamblia](https://1j01.github.io/tiamblia-game/)
 
 So far, if you wanted to use this, you'd have to look at the source code, and copy from the examples.
 
-I wouldn't recommend using this yet!
+I do maintain a [changelog](CHANGELOG.md), so you wouldn't be too crazy to try and build a game with this,
+but nothing's set in stone yet, and you probably want docs.
 
-Right now you have to include Material UI and whatnot in addition to the [module](https://www.npmjs.com/package/skele2d), as seen in [`example/index.html`](example/index.html), and you might need Webpack as seen in [`example/webpack.config.js`](example/webpack.config.js)
+Right now you have to include Material UI in addition to the [module](https://www.npmjs.com/package/skele2d), as seen in the examples.
+
+## Examples
+
+* [`example/`](example/) - Webpack + CoffeeScript example. This uses Webpack to bundle module imports, and coffee-loader to compile CoffeeScript.
+* [`example-vanilla/`](example-vanilla/) - script tag usage example, still using CoffeeScript (some would probably take issue with calling this "vanilla" but it's just the name of the folder, for now.)
+* [Tiamblia](https://github.com/1j01/tiamblia-game) - A game built with Skele2D (or a fuller example, at least.)
+
+Both of the examples in this repo are super bare-bones, and don't actually show off all the entity types supported by the editor, only terrain — no posable/animated entities. It was kind of an oversight when I was copying from Tiamblia and trimming it down.
+
+<!-- Planned structure:
+* [`examples/webpack-coffee/`](examples/webpack-coffee/) - Webpack + CoffeeScript example. This uses Webpack to bundle module imports (including Skele2D), and coffee-loader to compile CoffeeScript.
+* [`examples/script-tag-coffee/`](examples/script-tag-coffee/) - Script tag usage example, still using CoffeeScript. This uses the in-browser CoffeeScript compiler, and globals instead of imports/exports.
+* [`examples/esm/`](examples/esm/) - ES Modules example. This uses a special ESM build of Skele2D, and imports it from inside a `<script type="module">`.
+
+I'd also like to show off different things you can do with Skele2D, like:
+* Using Skele2D with a physics engine, like Matter.js
+* Using Skele2D with a rendering engine, like Pixi.js, or something that does textured polygons nicely. I'd want it to have a very different look, to show the breadth of what you can achieve.
+
+I'm not sure how to name the examples, if I have functionality-specific examples in addition to different module setups.
+-->
 
 ## Dev Setup
 
@@ -54,6 +75,21 @@ npm link skele2d
 ```
 Or alternatively run `npm run install-example` again.
 
+The webpack example can also be run in NW.js, with:
+```bash
+npm run example-nw
+```
+When running in NW.js it automatically saves the `world.json` as you edit.
+> Note: This workflow could be replaced by the FS Access API, which didn't exist when I made this originally.
+I don't think I'm terribly interested in NW.js for distributing games.
+It'll still be an _option_, of course, but it shouldn't be required for a nice workflow.
+
+The "Vanilla" (Script Tag) example doesn't need pre-compiling in principle, but for development purposes, it references `../dist/skele2d.js`.
+Once the library is built, you can run the example with any web server, for instance:
+```bash
+npx live-server --open=example-vanilla/
+```
+This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself).
 
 ## Roadmap
 
