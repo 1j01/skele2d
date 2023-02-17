@@ -115,12 +115,15 @@ The Script Tag example doesn't need pre-compiling in principle, but because it l
 
 Once the library is built, you can run the example with any web server, for instance:
 ```bash
-cd examples/script-tag-coffee/
-npx live-server
+npx live-server --open=examples/script-tag-coffee/
 ```
-This will open the example in your browser, and automatically reload the page when you make changes to the source code (other than the library itself, which would need to be rebuilt).
+This will open the example in your browser, and automatically reload the page when you make changes to the source code.
 
-> Side note: this is different from `npx live-server --open=examples/script-tag-coffee/` which would reload the page when you make changes to the library source code, uselessly.
+Note: it will also reload when editing the library itself, but it won't reflect those changes until you run `npm run build` again. I could add an `--ignore`/`--ignorePattern` flag but I don't think it's worth it for this example, for now.
+
+Also note: if you run a server at `examples/script-tag-coffee/`, it will try to request `skele2d.js` from outside the server root, which will fail.
+
+(Would it be better to create a symlink, or copy the file to the example directory? That way it would be easer to copy the example as a base for a new project, as it would match more closely how you would include the library.)
 
 ### Troubleshooting
 
