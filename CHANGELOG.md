@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
   - There is a new Script Tag example, which loads the UMD bundle as a script.
   - The examples are now in `examples/` and the old example is named `examples/webpack-coffee/`.
 - Minification now uses Terser instead of UglifyJS.
+- No longer publishing unnecessary files to npm. `.npmignore` is a bug. `files` is the only way to get it right.
 - `PolygonStructure`'s `onchange` is now called only once during deserialization, rather than once for each point.
 
 ### Editor

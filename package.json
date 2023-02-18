@@ -42,6 +42,9 @@
   ],
   "license": "MIT",
   "main": "dist/skele2d.js",
+  "files": [
+    "dist"
+  ],
   "directories": {
     "example": "examples"
   },
