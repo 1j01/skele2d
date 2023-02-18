@@ -1,29 +1,39 @@
 const path = require('path');
 
-const config = {
-  context: path.join(__dirname, 'source'),
-  entry: [
-    './index.coffee',
-  ],
-  output: {
-    path: path.join(__dirname, 'dist'),
-    filename: 'skele2d.js',
-    library: 'skele2d',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    hashFunction: 'xxhash64',
-  },
-  module: {
-    rules: [
-      {
-        test: /\.coffee$/,
-        use: [ 'coffee-loader' ],
-      },
-      {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      },
+const makeConfig = ({ minimize }) => {
+  return {
+    context: path.join(__dirname, 'source'),
+    entry: [
+      './index.coffee',
     ],
-  },
+    output: {
+      path: path.join(__dirname, 'dist'),
+      filename: `skele2d${minimize ? '.min' : ''}.js`,
+      library: 'skele2d',
+      libraryTarget: 'umd',
+      libraryExport: 'default',
+      hashFunction: 'xxhash64',
+    },
+    module: {
+      rules: [
+        {
+          test: /\.coffee$/,
+          use: ['coffee-loader'],
+        },
+        {
+          test: /\.css$/,
+          use: ['style-loader', 'css-loader']
+        },
+      ],
+    },
+    optimization: {
+      minimize,
+    },
+  };
 };
-module.exports = config;
+
+const configs = [];
+for (const minimize of [false, true]) {
+  configs.push(makeConfig({ minimize }));
+}
+module.exports = configs;

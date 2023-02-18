@@ -10,7 +10,8 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
-Nothing yet.
+- The library is now published with minified and unminified builds.
+- `skele2d.js`, the `main` package export, is now the unminified build.
 
 </details>
 
