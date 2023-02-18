@@ -9,7 +9,14 @@
   "bugs": {
     "url": "https://github.com/1j01/skele2d/issues"
   },
+  "homepage": "https://github.com/1j01/skele2d#readme",
+  "author": {
+    "name": "Isaiah Odhner",
+    "email": "isaiahodhner@gmail.com",
+    "url": "https://isaiahodhner.io"
+  },
   "keywords": [
+    "skele2d",
     "game-engine",
     "engine",
     "point-based",
