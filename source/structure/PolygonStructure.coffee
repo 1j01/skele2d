@@ -22,9 +22,10 @@ export default class PolygonStructure extends Structure
 		@first_point_name = null
 		@last_point_name = null
 		for {x, y} in def.points
-			@addVertex(x, y)
+			@addVertex(x, y, false)
+		@onchange?()
 	
-	addVertex: (x, y)->
+	addVertex: (x, y, changeEvent=true)->
 		from = @last_point_name
 		name = ++@id_counter
 		@first_point_name ?= name
@@ -35,7 +36,7 @@ export default class PolygonStructure extends Structure
 		if @points[from]
 			@segments[name] = {a: @points[from], b: @points[name]}
 			@segments["closing"] = {a: @points[@last_point_name], b: @points[@first_point_name]}
-		@onchange?()
+		@onchange?() if changeEvent
 	
 	pointInPolygon: ({x, y})->
 		inside = no

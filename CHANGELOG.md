@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
   - There is a new Script Tag example, which loads the UMD bundle as a script.
   - The examples are now in `examples/` and the old example is named `examples/webpack-coffee/`.
 - Minification now uses Terser instead of UglifyJS.
+- `PolygonStructure`'s `onchange` is now called only once during deserialization, rather than once for each point.
 
 ### Editor
 - If deserializing the autosave fails, it will now try to load the default world, and show a warning.
