@@ -42,6 +42,7 @@
   ],
   "license": "MIT",
   "main": "dist/skele2d.js",
+  "module": "dist/skele2d.esm.js",
   "files": [
     "dist"
   ],

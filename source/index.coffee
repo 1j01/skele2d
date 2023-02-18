@@ -14,10 +14,7 @@ import {entityClasses, addEntityClass} from "./entity-class-registry.coffee"
 
 import * as helpers from "./helpers.coffee"
 
-# TODO: ES module export version of the library?
-# i.e. export { ... }
-
-export default ({
+export {
 	Entity
 	Terrain
 	Structure
@@ -34,4 +31,4 @@ export default ({
 	addEntityClass
 
 	helpers
-})
+}

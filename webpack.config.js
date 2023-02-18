@@ -1,17 +1,22 @@
 const path = require('path');
 
-const makeConfig = ({ minimize }) => {
+const makeConfig = ({ minimize, esm }) => {
   return {
     context: path.join(__dirname, 'source'),
     entry: [
       './index.coffee',
     ],
+    experiments: {
+      outputModule: esm,
+    },
     output: {
       path: path.join(__dirname, 'dist'),
-      filename: `skele2d${minimize ? '.min' : ''}.js`,
-      library: 'skele2d',
-      libraryTarget: 'umd',
-      libraryExport: 'default',
+      filename: `skele2d${esm ? '.esm' : ''}${minimize ? '.min' : ''}.js`,
+      library: esm ? {
+        type: 'module',
+      } : "skele2d",
+      libraryTarget: esm ? undefined : 'umd',
+      libraryExport: esm ? undefined : 'default',
       hashFunction: 'xxhash64',
     },
     module: {
@@ -34,6 +39,8 @@ const makeConfig = ({ minimize }) => {
 
 const configs = [];
 for (const minimize of [false, true]) {
-  configs.push(makeConfig({ minimize }));
+  for (const esm of [false, true]) {
+    configs.push(makeConfig({ minimize, esm }));
+  }
 }
 module.exports = configs;

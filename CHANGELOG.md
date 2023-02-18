@@ -10,8 +10,10 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+- The library is now published with an ES Modules build in addition to UMD.
 - The library is now published with minified and unminified builds.
 - `skele2d.js`, the `main` package export, is now the unminified build.
+- `skele2d.esm.js` is added as the `module` package export.
 
 </details>
 
