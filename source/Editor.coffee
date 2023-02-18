@@ -367,6 +367,8 @@ export default class Editor
 			try
 				# Entity::step() is allowed to modify other entities,
 				# so we need to save/restore the whole world state.
+				# However, we also need to either preserve or update the reference to the entity being edited,
+				# so that the visible entity's version of the structure doesn't desynchronize from the editor's.
 
 				# TODO: I could also add a flag, either as a parameter to step() or globally,
 				# that says whether or not it's safe to perform major side effects
@@ -374,9 +376,21 @@ export default class Editor
 				# playing a sound,
 				# starting a cinematic that runs using setTimeout() rather than properties on entities (problematic for playing well with pausing anyways),
 				# or causing a screen shake effect — things that are outside the world state.
-				original_world_state = JSON.parse(JSON.stringify(@world.toJSON()))
+				original_ent_def = JSON.parse(JSON.stringify(@editing_entity))
+				original_world_state = JSON.parse(JSON.stringify(@world))
 				@editing_entity.step(@world)
 				@world.fromJSON(original_world_state)
+				# world.fromJSON doesn't preserve the same instance of the Entity
+				# Find the old new instance and replace it with the original with the same ID
+				# Alternatively, something like this might work: @editing_entity = @world.getEntityByID(original_ent_def.id)
+				# But I'd also need to update @selected_entities and @selected_points, maybe @hovered_entities and @hovered_points too...
+				# This is ugly but hopefully robust
+				for entity in @world.entities
+					if entity.id is @editing_entity.id
+						@world.entities.splice(@world.entities.indexOf(entity), 1, @editing_entity)
+						break
+				# and restore the entity's state
+				@editing_entity.fromJSON(original_ent_def)
 			catch e
 				@undo()
 				@redos = original_redos
