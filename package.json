@@ -33,7 +33,7 @@
     "world-editor",
     "game-world"
   ],
-  "license": "UNLICENSED",
+  "license": "MIT",
   "main": "dist/skele2d.js",
   "directories": {
     "example": "examples"

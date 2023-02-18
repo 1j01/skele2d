@@ -187,3 +187,6 @@ This can happen when updating dependencies, or (perhaps) when switching branches
 
 See [CHANGELOG.md](CHANGELOG.md)
 
+## License
+
+Open source under the [MIT License](LICENSE.txt)
