@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+Nothing yet.
+
+</details>
+
+## [0.0.8]
+
 ### Library
 - Added [MIT license](LICENSE.txt).
 - Upgraded to Webpack 5, and React 17. This took a lot of work.
@@ -29,8 +35,6 @@ All notable changes to this project will be documented in this file.
 - Improved handling for deleting points. I already had this feature where if you try to delete a point that an entity needs to render, it will be detected and reverted with a warning message. The problem was, if you hit *redo*, it would try to *redo the deletion*, and it would cause errors and the editor would become useless. Now the stack of redos is restored, so as far as the editing paradigm goes, you haven't made a change because it wasn't allowed. It should be seamless.
   - It will no longer save with the points deleted until it's verified that no errors occur. It was already normally saving *over* this unwanted invalid save when rolling back the state after catching an error, but if you paused in the debugger on the error and then refreshed the page without first resuming execution, it could lead to a persistently corrupted world, since it wouldn't get to do this second save. (It shouldn't have been saving twice for one operation anyways, it was sort of hidden/implicit in the code.)
 - Also for deleting points, in the case that there's *no error*, previously it assumed entities won't mutate other entities during `step`, but now it restores the whole world state after `step`. (It already restored the world state in the case of an error.)
-
-</details>
 
 ## [0.0.7]
 
@@ -101,7 +105,8 @@ published so I can start referencing this package in Tiamblia.
 - Published as uncompiled CoffeeScript. So are any further versions until I mention otherwise.
 
 [Tiamblia]: https://github.com/1j01/tiamblia-game
-[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.7...HEAD
+[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/1j01/skele2d/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/1j01/skele2d/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/1j01/skele2d/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/1j01/skele2d/compare/v0.0.4...v0.0.5
