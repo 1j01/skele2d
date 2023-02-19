@@ -1,8 +1,8 @@
 import { View, Mouse, Editor } from "skele2d";
-import World from "./World.coffee";
-import Rock from "./entities/terrain/Rock.coffee";
-import Snow from "./entities/terrain/Snow.coffee";
-// import keyboard from "./keyboard.coffee";
+import World from "./World.js";
+import Rock from "./entities/terrain/Rock.js";
+import Snow from "./entities/terrain/Snow.js";
+// import keyboard from "./keyboard.js";
 
 Math.seedrandom("A world");
 
