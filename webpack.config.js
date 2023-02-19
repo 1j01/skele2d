@@ -16,7 +16,6 @@ const makeConfig = ({ minimize, esm }) => {
         type: 'module',
       } : "skele2d",
       libraryTarget: esm ? undefined : 'umd',
-      libraryExport: esm ? undefined : 'default',
       hashFunction: 'xxhash64',
     },
     module: {
