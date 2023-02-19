@@ -1,7 +1,7 @@
 {
   "name": "skele2d",
   "description": "A point-based game engine and editor",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/1j01/skele2d.git"
