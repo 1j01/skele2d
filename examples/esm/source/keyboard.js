@@ -1,12 +1,3 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-
 const specialKeys = {
 	backspace: 8, tab: 9, clear: 12,
 	enter: 13, return: 13,
@@ -22,9 +13,8 @@ const specialKeys = {
 	'[': 219, ']': 221, '\\': 220
 };
 
-const keyCodeFor = function(keyName){
-	let left;
-	return (left = specialKeys[keyName.toLowerCase()]) != null ? left : keyName.toUpperCase().charCodeAt(0);
+const keyCodeFor = function (keyName) {
+	return specialKeys[keyName.toLowerCase()] ?? keyName.toUpperCase().charCodeAt(0);
 };
 
 const keys = {};
@@ -33,22 +23,18 @@ addEventListener("keydown", e => keys[e.keyCode] = true);
 addEventListener("keyup", e => delete keys[e.keyCode]);
 
 const keyboard = {
-	wasJustPressed(keyName){
-		return (keys[keyCodeFor(keyName)] != null) && (prev_keys[keyCodeFor(keyName)] == null);
+	wasJustPressed(keyName) {
+		return keys[keyCodeFor(keyName)] && !prev_keys[keyCodeFor(keyName)];
 	},
-	isHeld(keyName){
-		return (keys[keyCodeFor(keyName)] != null);
+	isHeld(keyName) {
+		return keys[keyCodeFor(keyName)];
 	},
 	resetForNextStep() {
 		prev_keys = {};
-		return (() => {
-			const result = [];
-			for (var k in keys) {
-				var v = keys[k];
-				result.push(prev_keys[k] = v);
-			}
-			return result;
-		})();
+		for (var k in keys) {
+			var v = keys[k];
+			prev_keys[k] = v;
+		}
 	}
 };
 
