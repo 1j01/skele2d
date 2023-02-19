@@ -10,12 +10,16 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+Nothing here yet.
+
+</details>
+
+## [0.0.9]
+
 - The library is now published as ESM and UMD, both minified and unminified.
 - `skele2d.js`, the `main` package export, is no longer minified.
 - `skele2d.esm.js` is added as the `module` package export.
 - There is a new ESM example, using vanilla JS.
-
-</details>
 
 ## [0.0.8]
 
@@ -108,7 +112,8 @@ published so I can start referencing this package in Tiamblia.
 - Published as uncompiled CoffeeScript. So are any further versions until I mention otherwise.
 
 [Tiamblia]: https://github.com/1j01/tiamblia-game
-[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.9...HEAD
+[0.0.9]: https://github.com/1j01/skele2d/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/1j01/skele2d/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/1j01/skele2d/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/1j01/skele2d/compare/v0.0.5...v0.0.6
