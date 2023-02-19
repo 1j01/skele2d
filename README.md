@@ -44,13 +44,17 @@ So far, if you wanted to use this, you'd have to look at the source code, and co
 I do maintain a [changelog](CHANGELOG.md), so you wouldn't be too crazy to try and build a game with this,
 but nothing's set in stone yet, and you probably want docs.
 
-Right now you have to include Material UI in addition to the [module](https://www.npmjs.com/package/skele2d), as seen in the examples.
+The library is published on npm as [`skele2d`](https://www.npmjs.com/package/skele2d),
+and available as UMD and ESM, with minified versions of both.
+
+Right now you have to include Material UI in addition to the module, as seen in the examples.
+(However, React is bundled with the module, as well as the CSS specific to Skele2D.)
 
 ## Examples
 
 * [`examples/webpack-coffee/`](examples/webpack-coffee/) - Webpack usage example, with CoffeeScript. This uses Webpack to bundle module imports (including Skele2D and other parts of the example), and coffee-loader to compile CoffeeScript.
 * [`examples/script-tag-coffee/`](examples/script-tag-coffee/) - Script tag usage example, with CoffeeScript. This uses the in-browser CoffeeScript compiler, and uses globals instead of imports/exports.
-<!-- * [`examples/esm/`](examples/esm/) - ES Modules example. This uses a separate ESM build of Skele2D, and imports it from inside a `<script type="module">`. -->
+* [`examples/esm/`](examples/esm/) - ES Modules example. This uses a separate ESM build of Skele2D, and imports it from inside a `<script type="module">`.
 * [Tiamblia](https://github.com/1j01/tiamblia-game) - A game built with Skele2D (or a fuller example, at least.)
 
 Both of the examples in this repo are super bare-bones, and don't actually show off all the entity types supported by the editor, only terrain — no posable or animated entities. (It was kind of an oversight when I was copying from Tiamblia and trimming it down.)
@@ -60,7 +64,8 @@ I'd also like to show off different things you can do with Skele2D, like:
 * Using Skele2D with a physics engine, like Matter.js
 * Using Skele2D with a rendering engine, like Pixi.js, or something that does textured polygons nicely. I'd want it to have a very different look, to show the breadth of what you can achieve.
 
-Since I want to show off functionality distinct from module setups, I think I should pick a module setup, probably ESM (which I haven't done yet), for most of the examples to use, and then keep the other module setups super basic, just to show that it works with them.
+Since I want to show off functionality distinct from module setups, I think I should pick a module setup, probably ESM,
+for most of the examples to use, and then keep the other module setups super basic, just to show that it works with them.
 In particular, I want to keep them to as few files as possible, to make it easier to maintain and understand them.
 (I don't want to have a bunch of files that are named the same but in different directories that can get confused,
 and can get out of sync with each other.)
@@ -109,21 +114,22 @@ When running in NW.js it automatically saves the `world.json` as you edit.
 > I don't think I'm terribly interested in NW.js for distributing games.
 > It'll still be an _option_, of course, but it shouldn't be required for a nice workflow.
 
-### Script Tag Example
+### Running the Script Tag and ESM examples
 
-The Script Tag example doesn't need pre-compiling in principle, but because it lives in this repo, it does reference `../../dist/skele2d.js`, which is built by the `npm run build` command.
+These examples don't need pre-compiling in principle, but because they live in this repo, for practical purposes they reference the Skele2D build files from the `dist` directory.
 
-Once the library is built, you can run the example with any web server, for instance:
+Once the library is built (with `npm run build`), you can run the examples with any web server, for instance:
 ```bash
 npx live-server --open=examples/script-tag-coffee/
+npx live-server --open=examples/esm/
 ```
-This will open the example in your browser, and automatically reload the page when you make changes to the source code.
+This will open the page in your browser, and automatically reload when you make changes to the source code.
 
-Note: it will also reload when editing the library itself, but it won't reflect those changes until you run `npm run build` again. I could add an `--ignore`/`--ignorePattern` flag but I don't think it's worth it for this example, for now.
+Note: it will also reload when editing the library itself, but it won't reflect those changes until you run `npm run build` again. I could add an `--ignore`/`--ignorePattern` flag but I don't think it's worth it for now.
 
-Also note: if you run a server at `examples/script-tag-coffee/`, it will try to request `skele2d.js` from outside the server root, which will fail.
+Also note: if you run a server within the directory of the example, it will end up trying to request `skele2d.js` from outside the server root, which will fail.
 
-(Would it be better to create a symlink, or copy the file to the example directory? That way it would be easer to copy the example as a base for a new project, as it would match more closely how you would include the library.)
+(Would it be better to create a symlink, or copy the file to the example directory? That way it would be easer to copy the example as a base for a new project, as it would match more closely how you would include the library. Symlinks might not work for security reasons, though, and copying the file to all the examples seems expensive, especially as I add more examples.)
 
 ### Troubleshooting
 
