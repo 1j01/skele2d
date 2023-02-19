@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Skele2D Example — Webpack Usage</title>
+	<title>Skele2D Example — ES Module Usage</title>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
@@ -19,12 +19,17 @@
 			background: black;
 		}
 	</style>
-	<!-- TODO: only include if in NW.js -->
-	<script src="node_modules/nw-dev/lib/dev.js" data-ignore="world.json|animations/*.json|*.md"></script>
-	<!-- TODO: load these as modules as well (keep everything versioned with npm) -->
+
 	<script src="lib/uuid.js"></script>
 	<script src="lib/seedrandom.min.js"></script>
 	<script src="lib/simplex-noise.min.js"></script>
-	<script src="build/bundle.js"></script>
+	<script type="importmap">
+		{
+			"imports": {
+				"skele2d": "../../dist/skele2d.esm.js"
+			}
+		}
+	</script>
+	<script type="module" src="source/main.js"></script>
 </body>
 </html>
