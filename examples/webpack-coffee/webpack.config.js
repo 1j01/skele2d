@@ -17,6 +17,16 @@ const config = {
       directory: path.resolve(__dirname, ""),
     },
   },
+  resolve: {
+    // Temporary workaround for https://github.com/webpack/webpack/issues/16744
+    // a webpack bug where importing a library built with webpack as ESM fails.
+    // I provide both "module" and "main" fields in package.json in skele2d now;
+    // webpack prefers "module", which broke the build.
+    mainFields: ['main', 'module'],
+    // This example doesn't import any other packages, but if you do, you may
+    // need to use a "fallback" field to tell webpack to use the CommonJS
+    // specifically for skele2d.
+  },
   module: {
     rules: [
       {
