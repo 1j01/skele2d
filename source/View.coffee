@@ -8,7 +8,7 @@ export default class View
 		@height = 1
 
 	easeTowards: (to_view, smoothness, delta_time=1/60) ->
-		factor = delta_time / 16.0 # assuming 60 FPS as a base
+		factor = delta_time * 60 # assuming 60 FPS as a base
 		@center_x += (to_view.center_x - @center_x) / (1 + smoothness / to_view.scale * @scale) * factor
 		@center_y += (to_view.center_y - @center_y) / (1 + smoothness / to_view.scale * @scale) * factor
 		@scale += (to_view.scale - @scale) / (1 + smoothness) * factor
