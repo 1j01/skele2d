@@ -40,17 +40,14 @@ export default class PolygonStructure extends Structure
 	
 	pointInPolygon: ({x, y})->
 		inside = no
-		# for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-		# 	xi = vs[i][0], yi = vs[i][1]
-		# 	xj = vs[j][0], yj = vs[j][1]
 		for segment_name, segment of @segments
-			xi = segment.a.x
-			yi = segment.a.y
-			xj = segment.b.x
-			yj = segment.b.y
+			a_x = segment.a.x
+			a_y = segment.a.y
+			b_x = segment.b.x
+			b_y = segment.b.y
 			intersect =
-				((yi > y) isnt (yj > y)) and
-				(x < (xj - xi) * (y - yi) / (yj - yi) + xi)
+				((a_y > y) isnt (b_y > y)) and
+				(x < (b_x - a_x) * (y - a_y) / (b_y - a_y) + a_x)
 			inside = not inside if intersect
 		
 		inside
