@@ -10,6 +10,13 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+### Library
+- Breaking change: The library is now framerate-aware.
+  - `View::easeTowards` now takes a `delta_time` argument, the time since the last frame, in seconds.
+    - You will need to update the `smoothness` argument to compensate for the new time scale.
+  - The `Editor::step` method now takes an optional `delta_time` argument, which is the time since the last step, in seconds.
+
+### Editor
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 
 </details>
