@@ -63,7 +63,7 @@ do animate = ->
 	view.width = canvas.width
 	view.height = canvas.height
 	
-	view.easeTowards(view_to, view_smoothness)
+	view.easeTowards(view_to, view_smoothness, delta_time)
 	editor.step() if editor.editing
 	mouse.resetForNextStep()
 	
