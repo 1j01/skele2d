@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
-Nothing here yet.
+- Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 
 </details>
 

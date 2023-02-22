@@ -125,6 +125,11 @@ export default class Editor
 				click: => @selectAll()
 				enabled: @world.entities.length
 			))
+			menu.append(new MenuItem(
+				label: 'Select Same Type'
+				click: => @selectAllSameType()
+				enabled: @world.entities.length and @selected_entities.length
+			))
 			menu.append(new MenuItem(type: 'separator'))
 			
 			if @editing_entity
@@ -333,6 +338,16 @@ export default class Editor
 			@selected_points = (point for point_name, point of @editing_entity.structure.points)
 		else
 			@selected_entities = (entity for entity in @world.entities)
+	
+	selectAllSameType: ->
+		types =
+			if @editing_entity
+				[@editing_entity._class_]
+			else
+				(entity._class_ for entity in @selected_entities)
+		
+		@finishEditingEntity()
+		@selected_entities = (entity for entity in @world.entities when entity._class_ in types)
 	
 	delete: ->
 		if @selected_points.length
