@@ -7,10 +7,10 @@ export default class View
 		@width = 1
 		@height = 1
 	
-	easeTowards: (to_view, smoothness)->
-		@center_x += (to_view.center_x - @center_x) / (1 + smoothness / to_view.scale * @scale)
-		@center_y += (to_view.center_y - @center_y) / (1 + smoothness / to_view.scale * @scale)
-		@scale += (to_view.scale - @scale) / (1 + smoothness)
+	easeTowards: (to_view, smoothness, delta_time=1)->
+		@center_x += (to_view.center_x - @center_x) / (1 + smoothness / to_view.scale * @scale) * delta_time
+		@center_y += (to_view.center_y - @center_y) / (1 + smoothness / to_view.scale * @scale) * delta_time
+		@scale += (to_view.scale - @scale) / (1 + smoothness) * delta_time
 	
 	testRect: (x, y, width, height, padding=0)->
 		@center_x - @width / 2 / @scale - padding <= x <= @center_x + @width / 2 / @scale + padding and

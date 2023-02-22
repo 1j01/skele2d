@@ -490,7 +490,7 @@ export default class Editor
 		@editing = not @editing
 		@renderDOM()
 	
-	step: ->
+	step: (delta_time=1/60)->
 		
 		mouse_in_world = @view.toWorld(@mouse)
 		
@@ -555,12 +555,12 @@ export default class Editor
 					return false
 			return true
 		
-		@view.center_x -= @view_drag_momentum.x
-		@view.center_y -= @view_drag_momentum.y
-		@view_to.center_x -= @view_drag_momentum.x
-		@view_to.center_y -= @view_drag_momentum.y
-		@view_drag_momentum.x *= 0.8
-		@view_drag_momentum.y *= 0.8
+		@view.center_x -= @view_drag_momentum.x * delta_time
+		@view.center_y -= @view_drag_momentum.y * delta_time
+		@view_to.center_x -= @view_drag_momentum.x * delta_time
+		@view_to.center_y -= @view_drag_momentum.y * delta_time
+		@view_drag_momentum.x *= 0.8 ** delta_time
+		@view_drag_momentum.y *= 0.8 ** delta_time
 		
 		@dragging_points =
 			for point in @dragging_points
@@ -712,6 +712,7 @@ export default class Editor
 		if @editing_entity
 			if @editing_entity.structure instanceof BoneStructure
 			# TODO: and if there isn't an animation frame loaded
+				# TODO: use delta_time?
 				@editing_entity.structure.stepLayout() for [0..250]
 				# TODO: save afterwards at some point
 
