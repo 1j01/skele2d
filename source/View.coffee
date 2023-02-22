@@ -6,12 +6,13 @@ export default class View
 		@scale = 1
 		@width = 1
 		@height = 1
-	
-	easeTowards: (to_view, smoothness, delta_time=1)->
-		@center_x += (to_view.center_x - @center_x) / (1 + smoothness / to_view.scale * @scale) * delta_time
-		@center_y += (to_view.center_y - @center_y) / (1 + smoothness / to_view.scale * @scale) * delta_time
-		@scale += (to_view.scale - @scale) / (1 + smoothness) * delta_time
-	
+
+	easeTowards: (to_view, smoothness, delta_time=1/60) ->
+		factor = delta_time / 16.0 # assuming 60 FPS as a base
+		@center_x += (to_view.center_x - @center_x) / (1 + smoothness / to_view.scale * @scale) * factor
+		@center_y += (to_view.center_y - @center_y) / (1 + smoothness / to_view.scale * @scale) * factor
+		@scale += (to_view.scale - @scale) / (1 + smoothness) * factor
+
 	testRect: (x, y, width, height, padding=0)->
 		@center_x - @width / 2 / @scale - padding <= x <= @center_x + @width / 2 / @scale + padding and
 		@center_y - @height / 2 / @scale - padding <= y <= @center_y + @height / 2 / @scale + padding
