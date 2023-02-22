@@ -559,8 +559,8 @@ export default class Editor
 		@view.center_y -= @view_drag_momentum.y * delta_time
 		@view_to.center_x -= @view_drag_momentum.x * delta_time
 		@view_to.center_y -= @view_drag_momentum.y * delta_time
-		@view_drag_momentum.x *= 0.8 ** delta_time
-		@view_drag_momentum.y *= 0.8 ** delta_time
+		@view_drag_momentum.x *= (0.8 ** 60) ** delta_time
+		@view_drag_momentum.y *= (0.8 ** 60) ** delta_time
 		
 		@dragging_points =
 			for point in @dragging_points
