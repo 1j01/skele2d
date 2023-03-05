@@ -10,6 +10,15 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+### Library
+
+- `PolygonStructure` now has `bbox_min` and `bbox_max` properties, which are the minimum and maximum coordinates of the bounding box of the polygon.
+  - `pointInPolygon` is now optimized to use these properties to return `false` early.
+  - These properties are updated before `onchange` is called, so they can be used in `onchange`.
+- There is a new `signalChange` method on `PolygonStructure`, which should be used instead of calling `onchange` (if `onchange` is set), since it also updates the bounding box properties, and may in the future support multiple listeners.
+
+### Editor
+
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 
 </details>

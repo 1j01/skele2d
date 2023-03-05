@@ -605,7 +605,7 @@ export default class Editor
 			for point, i in @dragging_points
 				point.x = local_mouse_position.x + @drag_offsets[i].x
 				point.y = local_mouse_position.y + @drag_offsets[i].y
-			@editing_entity.structure.onchange?()
+			@editing_entity.structure.signalChange?()
 		else if @dragging_segments.length
 			# TODO
 		else if @selection_box
@@ -650,7 +650,7 @@ export default class Editor
 						# point.y += mouse_world_velocity_y / 2
 						point.x += mouse_world_velocity_x / Math.max(1200, dist_squared) * 500
 						point.y += mouse_world_velocity_y / Math.max(1200, dist_squared) * 500
-				@editing_entity.structure.onchange?()
+				@editing_entity.structure.signalChange?()
 			else
 				@sculpting = no
 		else
