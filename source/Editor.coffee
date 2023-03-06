@@ -417,7 +417,7 @@ export default class Editor
 				return
 			
 			@save()
-		else
+		else if @selected_entities.length
 			@undoable =>
 				for entity in @selected_entities
 					# entity.destroy()

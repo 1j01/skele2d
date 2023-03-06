@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Editor
 
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
+- It will no longer create useless undo states if you hit <kbd>Delete</kbd> when nothing is selected.
 
 </details>
 
