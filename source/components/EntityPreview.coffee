@@ -33,11 +33,13 @@ export default class EntityPreview extends Component
 		# An error during construction can easily lead to bogus errors during rendering.
 		preview_error = @props.preview_error or @state.preview_error
 		# Chrome includes the error message in the stack trace, but Firefox doesn't.
-		if preview_error
+		if preview_error?.stack
 			if preview_error.stack.includes(preview_error.toString())
 				error_details = preview_error.stack
 			else
 				error_details = "#{preview_error.toString()}\n#{preview_error.stack}"
+		else if preview_error
+			error_details = preview_error
 
 		E "div.entity-preview",
 			E "canvas", ref: (@canvas)=>
