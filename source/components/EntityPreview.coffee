@@ -19,7 +19,6 @@ export default class EntityPreview extends Component
 			scale = height / entity_bbox.height
 		catch error
 			@state.preview_error = error
-			console.log props
 		@view = new View
 		@view.width = max_width
 		@view.height = if isFinite(height) then height else max_height
