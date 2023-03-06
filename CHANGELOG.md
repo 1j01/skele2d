@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 - It will no longer create useless undo states if you hit <kbd>Delete</kbd> when nothing is selected.
+- Errors in entity construction, serialization, or rendering are now handled gracefully in the entities palette. The error message is shown in the palette, with hover text for the full error message. The errors are localized to the specific entity preview, instead of cascading to the whole palette.
 
 </details>
 
