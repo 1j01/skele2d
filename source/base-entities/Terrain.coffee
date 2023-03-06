@@ -7,7 +7,7 @@ export default class Terrain extends Entity
 	constructor: ->
 		super()
 		@structure = new PolygonStructure
-		@simplex = new SimplexNoise
+		@simplex = new window.SimplexNoise?()
 		@seed = Math.random()
 	
 	initLayout: ->
@@ -37,10 +37,15 @@ export default class Terrain extends Entity
 		@structure.addVertex(@right, @bottom)
 		@structure.addVertex(@left, @bottom)
 		for x in [@left..@right] by res
-			noise =
-				@simplex.noise2D(x / 2400, 0) +
-				@simplex.noise2D(x / 500, 10) / 5 +
-				@simplex.noise2D(x / 50, 30) / 100
+			if @simplex
+				noise =
+					@simplex.noise2D(x / 2400, 0) +
+					@simplex.noise2D(x / 500, 10) / 5 +
+					@simplex.noise2D(x / 50, 30) / 100
+			else
+				# noise = Math.random() * 2 - 1
+				# noise = Math.sin(x / 100) * 0.5 + 0.5
+				noise = 0
 			@structure.addVertex(x, @bottom - (noise + 1) / 2 * @max_height)
 	
 	draw: (ctx, view)->

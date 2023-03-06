@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
   - `pointInPolygon` is now optimized to use these properties to return `false` early.
   - These properties are updated before `onchange` is called, so they can be used in `onchange`.
 - There is a new `signalChange` method on `PolygonStructure`, which should be used instead of calling `onchange` (if `onchange` is set), since it also updates the bounding box properties, and may in the future support multiple listeners.
+- `Terrain` no longer requires a global `SimplexNoise`; it will generate flat terrain if it's not available.
 
 ### Editor
 
