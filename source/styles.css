@@ -44,8 +44,15 @@
 	display: flex;
 	flex-direction: column;
 }
-.terrain-tools label {
-	margin-bottom: 1em;
+.terrain-tools button[aria-pressed="true"] {
+	background: rgba(0, 157, 255, 0.12);
+	box-shadow: 0 0 0 2px rgba(0, 157, 255, 0.5) inset;
+}
+.terrain-tool-options label span {
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+	margin-top: 1rem;
 }
 .bar article:hover {
 	background: rgba(0, 0, 0, 0.08);
