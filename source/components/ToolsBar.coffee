@@ -24,7 +24,7 @@ export default class ToolsBar extends Component
 		{tool, brush_size} = editor
 		
 		E ".bar.sidebar.right-sidebar.tools-bar", class: {visible},
-			E "h1", "Terrain"
+			E "h1", "Tools"
 			E ".tools",
 				@tools.map ({name, icon, buttonRef}, i)=>
 					# E "button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored",
@@ -58,7 +58,6 @@ export default class ToolsBar extends Component
 		{editor} = @props
 		{editing_entity} = editor
 		
-		# TODO: ducktype? or better yet, generalize this to all entities
-		show = show and editing_entity instanceof Terrain
+		show = show and editing_entity
 		
 		@setState visible: show

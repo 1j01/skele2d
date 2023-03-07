@@ -658,8 +658,8 @@ export default class Editor
 			@hovered_points = []
 			if @editing_entity
 				local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
-				if @editing_entity instanceof Terrain and @tool is "sculpt"
-					@sculpt_additive = @editing_entity.structure.pointInPolygon(local_mouse_position)
+				if @tool is "sculpt"
+					@sculpt_additive = @editing_entity.structure.pointInPolygon?(local_mouse_position)
 				else
 					closest_dist = Infinity
 					for point_name, point of @editing_entity.structure.points
@@ -689,7 +689,7 @@ export default class Editor
 				@dragging_points = []
 				@dragging_segments = []
 				
-				if @editing_entity instanceof Terrain and @tool is "sculpt"
+				if @editing_entity and @tool is "sculpt"
 					@undoable()
 					@sculpting = yes
 				else
@@ -822,7 +822,7 @@ export default class Editor
 		if @editing_entity
 			ctx.save()
 			ctx.translate(@editing_entity.x, @editing_entity.y)
-			# unless @editing_entity instanceof Terrain and @tool is "sculpt"
+			# unless @tool is "sculpt"
 			draw_points(@editing_entity, 3, "rgba(255, 0, 0, 1)")
 			draw_segments(@editing_entity, 1, "rgba(255, 170, 0, 1)")
 			ctx.restore()
@@ -842,7 +842,7 @@ export default class Editor
 			ctx.restore()
 		
 		if @editing_entity?
-			if @editing_entity instanceof Terrain and @tool is "sculpt"
+			if @tool is "sculpt"
 				mouse_in_world = @view.toWorld(@mouse)
 				ctx.beginPath()
 				# ctx.arc(mouse_in_world.x, mouse_in_world.y, @brush_size / view.scale, 0, TAU)
