@@ -59,7 +59,7 @@ export default class Editor
 		# @sculpt_adding = no
 		# @sculpt_removing = no
 		@sculpt_additive = yes
-		@sculpting = no
+		@tool_active = no
 		
 		@undos = []
 		@redos = []
@@ -495,9 +495,9 @@ export default class Editor
 		mouse_in_world = @view.toWorld(@mouse)
 		
 		if @mouse.LMB.released
-			if @dragging_points.length or @sculpting
+			if @dragging_points.length or @tool_active
 				@dragging_points = []
-				@sculpting = no
+				@tool_active = no
 				@savePose()
 				@save()
 			
@@ -625,7 +625,7 @@ export default class Editor
 					@grab_start = null
 			else
 				@grab_start = null
-		else if @sculpting
+		else if @tool_active
 			if @mouse.LMB.down
 				# if @sculpt_additive
 					
@@ -640,19 +640,35 @@ export default class Editor
 					dist_squared = dx*dx + dy*dy
 					dist = Math.sqrt(dist_squared)
 					if dist < @brush_size
-						# point.x += dx/10
-						# point.y += dy/10
-						# point.x += dx/100 * mouse_world_velocity_x
-						# point.y += dy/100 * mouse_world_velocity_y
-						# point.x += mouse_world_velocity_x / Math.max(1, dist)
-						# point.y += mouse_world_velocity_y / Math.max(1, dist)
-						# point.x += mouse_world_velocity_x / 2
-						# point.y += mouse_world_velocity_y / 2
-						point.x += mouse_world_velocity_x / Math.max(1200, dist_squared) * 500
-						point.y += mouse_world_velocity_y / Math.max(1200, dist_squared) * 500
+						switch @tool
+							when "sculpt"
+								# point.x += dx/10
+								# point.y += dy/10
+								# point.x += dx/100 * mouse_world_velocity_x
+								# point.y += dy/100 * mouse_world_velocity_y
+								# point.x += mouse_world_velocity_x / Math.max(1, dist)
+								# point.y += mouse_world_velocity_y / Math.max(1, dist)
+								# point.x += mouse_world_velocity_x / 2
+								# point.y += mouse_world_velocity_y / 2
+								point.x += mouse_world_velocity_x / Math.max(1200, dist_squared) * 500
+								point.y += mouse_world_velocity_y / Math.max(1200, dist_squared) * 500
+							when "roughen"
+								point.x += (Math.random() - 0.5) * @brush_size * 0.1
+								point.y += (Math.random() - 0.5) * @brush_size * 0.1
+							when "smooth"
+								for segment_name, segment of @editing_entity.structure.segments
+									if segment.a is point or segment.b is point
+										other_point = if segment.a is point then segment.b else segment.a
+										dx = other_point.x - point.x
+										dy = other_point.y - point.y
+										dist = Math.hypot(dx, dy)
+										if dist > 0
+											point.x += dx/dist * @brush_size * 0.1
+											point.y += dy/dist * @brush_size * 0.1
+						
 				@editing_entity.structure.signalChange?()
 			else
-				@sculpting = no
+				@tool_active = no
 		else
 			@hovered_entities = []
 			@hovered_points = []
@@ -660,7 +676,7 @@ export default class Editor
 				local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
 				if @tool is "sculpt"
 					@sculpt_additive = @editing_entity.structure.pointInPolygon?(local_mouse_position)
-				else
+				else if @tool is "select"
 					closest_dist = Infinity
 					for point_name, point of @editing_entity.structure.points
 						dist = distance(local_mouse_position, point)
@@ -689,9 +705,9 @@ export default class Editor
 				@dragging_points = []
 				@dragging_segments = []
 				
-				if @editing_entity and @tool is "sculpt"
+				if @editing_entity and @tool isnt "select"
 					@undoable()
-					@sculpting = yes
+					@tool_active = yes
 				else
 					if @hovered_points.length
 						if @hovered_points[0] in @selected_points
@@ -728,7 +744,7 @@ export default class Editor
 		@selected_points = []
 		@dragging_entities = []
 		@dragging_points = []
-		@sculpting = no
+		@tool_active = no
 	
 	distanceToEntity: (entity, from_point_in_world)->
 		from_point = entity.fromWorld(from_point_in_world)
@@ -822,7 +838,6 @@ export default class Editor
 		if @editing_entity
 			ctx.save()
 			ctx.translate(@editing_entity.x, @editing_entity.y)
-			# unless @tool is "sculpt"
 			draw_points(@editing_entity, 3, "rgba(255, 0, 0, 1)")
 			draw_segments(@editing_entity, 1, "rgba(255, 170, 0, 1)")
 			ctx.restore()
@@ -842,7 +857,7 @@ export default class Editor
 			ctx.restore()
 		
 		if @editing_entity?
-			if @tool is "sculpt"
+			if @tool in ["sculpt", "roughen", "smooth", "paint"]
 				mouse_in_world = @view.toWorld(@mouse)
 				ctx.beginPath()
 				# ctx.arc(mouse_in_world.x, mouse_in_world.y, @brush_size / view.scale, 0, TAU)

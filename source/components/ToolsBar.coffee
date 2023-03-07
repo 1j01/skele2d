@@ -12,8 +12,8 @@ export default class ToolsBar extends Component
 		@tools = [
 			{name: "select", icon: "arrow_selector_tool", buttonRef: React.createRef()}
 			{name: "sculpt", icon: "touch_app", buttonRef: React.createRef()}
-			# {name: "roughen", icon: "floor", buttonRef: React.createRef()}
-			# {name: "smooth", icon: "waves", buttonRef: React.createRef()}
+			{name: "roughen", icon: "floor", buttonRef: React.createRef()}
+			{name: "smooth", icon: "waves", buttonRef: React.createRef()}
 			# {name: "paint", icon: "brush", buttonRef: React.createRef()}
 		]
 	
