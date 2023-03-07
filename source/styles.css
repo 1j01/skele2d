@@ -31,11 +31,16 @@
 .sidebar {
 	position: absolute;
 	z-index: 1;
-	left: 0;
 	top: 0;
 	height: 100%;
 	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 	flex-direction: column;
+}
+.sidebar:not(.right-sidebar) {
+	left: 0;
+}
+.sidebar.right-sidebar {
+	right: 0;
 }
 .bar article,
 .tools {

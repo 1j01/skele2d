@@ -23,7 +23,7 @@ export default class ToolsBar extends Component
 		
 		{tool, brush_size} = editor
 		
-		E ".bar.sidebar.tools-bar", class: {visible},
+		E ".bar.sidebar.right-sidebar.tools-bar", class: {visible},
 			E "h1", "Terrain"
 			E ".tools",
 				@tools.map ({name, icon, buttonRef}, i)=>
