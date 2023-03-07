@@ -5,7 +5,7 @@ import E from "react-script"
 
 import Terrain from "../base-entities/Terrain.coffee"
 
-export default class TerrainBar extends Component
+export default class ToolsBar extends Component
 	constructor: ->
 		super()
 		@state = {visible: no}
@@ -23,9 +23,9 @@ export default class TerrainBar extends Component
 		
 		{tool, brush_size} = editor
 		
-		E ".bar.sidebar.terrain-bar", class: {visible},
+		E ".bar.sidebar.tools-bar", class: {visible},
 			E "h1", "Terrain"
-			E ".terrain-tools",
+			E ".tools",
 				@tools.map ({name, icon, buttonRef}, i)=>
 					# E "button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored",
 					E "button.mdl-button.mdl-js-button.mdl-button--colored",
@@ -37,7 +37,7 @@ export default class TerrainBar extends Component
 							editor.renderDOM()
 						# E "i.material-icons", E "i.material-symbols-outlined", icon
 						name
-			E ".terrain-tool-options",
+			E ".tool-options",
 				E "label",
 					E "span.mdl-checkbox__label.mdl-slider__label", "Brush Size"
 					E "input.mdl-slider.mdl-js-slider",

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import E from "react-script"
 import EntitiesBar from "./components/EntitiesBar.coffee"
 import AnimBar from "./components/AnimBar.coffee"
-import TerrainBar from "./components/TerrainBar.coffee"
+import ToolsBar from "./components/ToolsBar.coffee"
 
 import View from "./View.coffee"
 import Terrain from "./base-entities/Terrain.coffee"
@@ -901,7 +901,7 @@ export default class Editor
 		react_root = E ".editor",
 			E EntitiesBar, editor: @, ref: (@entities_bar)=>
 			E AnimBar, editor: @, ref: (@anim_bar)=>
-			E TerrainBar, editor: @, ref: (@terrain_bar)=>
+			E ToolsBar, editor: @, ref: (@tools_bar)=>
 			E ".warning",
 				class: ("show" if @show_warning)
 				@warning_message
@@ -915,4 +915,4 @@ export default class Editor
 		show = @editing
 		@entities_bar.update(show)
 		@anim_bar.update(show)
-		@terrain_bar.update(show)
+		@tools_bar.update(show)

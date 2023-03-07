@@ -38,17 +38,17 @@
 	flex-direction: column;
 }
 .bar article,
-.terrain-tools {
+.tools {
 	padding: 1rem;
 	padding-top: 0.5rem;
 	display: flex;
 	flex-direction: column;
 }
-.terrain-tools button[aria-pressed="true"] {
+.tools button[aria-pressed="true"] {
 	background: rgba(0, 157, 255, 0.12);
 	box-shadow: 0 0 0 2px rgba(0, 157, 255, 0.5) inset;
 }
-.terrain-tool-options label span {
+.tool-options label span {
 	text-align: center;
 	width: 100%;
 	display: inline-block;
