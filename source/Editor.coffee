@@ -650,8 +650,8 @@ export default class Editor
 					
 				# else
 				# 	
-				mouse_world_velocity_x = mouse_in_world.x - @previous_mouse_world_x
-				mouse_world_velocity_y = mouse_in_world.y - @previous_mouse_world_y
+				mouse_world_delta_x = mouse_in_world.x - @previous_mouse_world_x
+				mouse_world_delta_y = mouse_in_world.y - @previous_mouse_world_y
 				local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
 				for point_name, point of @editing_entity.structure.points
 					dx = point.x - local_mouse_position.x
@@ -663,14 +663,14 @@ export default class Editor
 							when "sculpt"
 								# point.x += dx/10
 								# point.y += dy/10
-								# point.x += dx/100 * mouse_world_velocity_x
-								# point.y += dy/100 * mouse_world_velocity_y
-								# point.x += mouse_world_velocity_x / Math.max(1, dist)
-								# point.y += mouse_world_velocity_y / Math.max(1, dist)
-								# point.x += mouse_world_velocity_x / 2
-								# point.y += mouse_world_velocity_y / 2
-								point.x += mouse_world_velocity_x / Math.max(1200, dist_squared) * 500
-								point.y += mouse_world_velocity_y / Math.max(1200, dist_squared) * 500
+								# point.x += dx/100 * mouse_world_delta_x
+								# point.y += dy/100 * mouse_world_delta_y
+								# point.x += mouse_world_delta_x / Math.max(1, dist)
+								# point.y += mouse_world_delta_y / Math.max(1, dist)
+								# point.x += mouse_world_delta_x / 2
+								# point.y += mouse_world_delta_y / 2
+								point.x += mouse_world_delta_x / Math.max(1200, dist_squared) * 500
+								point.y += mouse_world_delta_y / Math.max(1200, dist_squared) * 500
 							when "roughen"
 								point.x += (Math.random() - 0.5) * @brush_size * 0.1
 								point.y += (Math.random() - 0.5) * @brush_size * 0.1
