@@ -49,10 +49,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				# If the point is not in a strand, create a new strand with the point
 				strands.push([index])
 		
-		# Replace the strands with arcs around the center of the brush
-		new_points_list = points_list.slice()
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
+
+		# Replace the strands with arcs around the center of the brush
+
+		new_points_list = points_list.slice()
 		for strand in strands
 			start = strand[0]
 			end = strand[strand.length-1]
