@@ -1,4 +1,5 @@
 import PolygonStructure from "./structure/PolygonStructure.coffee"
+import {distanceToLineSegment} from "./helpers.coffee"
 
 export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
@@ -34,6 +35,16 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		if editing_entity.structure not instanceof PolygonStructure
 			throw new Error "Paint tool only works on polygon structures"
 
+		# Find also the segments that are within the brush radius
+		for segment_name, segment of editing_entity.structure.segments
+			if distanceToLineSegment(local_mouse_position, segment.a, segment.b) < brush_size
+				index_a = Object.values(editing_entity.structure.points).indexOf(segment.a)
+				index_b = Object.values(editing_entity.structure.points).indexOf(segment.b)
+				if index_a not in indices_within_radius
+					indices_within_radius.push(index_a)
+				if index_b not in indices_within_radius
+					indices_within_radius.push(index_b)
+
 		# Using serialization to edit the points as a simple list and automatically recompute the segments
 		points_list = editing_entity.structure.toJSON().points
 
@@ -49,6 +60,11 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				# If the point is not in a strand, create a new strand with the point
 				strands.push([index])
 		
+		# Sort the strand's points by increasing index so that they're monotonic in
+		# the case that indices are added via the segments
+		for strand in strands
+			strand.sort((a, b) -> a - b)
+
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
 
@@ -108,7 +124,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				new_points = new_points_short_arc
 			
 			# Splice the new points into the list of points
-			new_points_list.splice(start, strand.length, ...new_points)
+			new_points_list.splice(start+1, strand.length-2, ...new_points)
 
 		# Note: this causes a duplicate signalChange() call; we could avoid it by not calling signalChange() below for this tool
 		editing_entity.structure.fromJSON({points: new_points_list})
