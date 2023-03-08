@@ -1,5 +1,5 @@
 import PolygonStructure from "./structure/PolygonStructure.coffee"
-import {distanceToLineSegment} from "./helpers.coffee"
+import {distanceToLineSegment, closestPointOnLineSegment} from "./helpers.coffee"
 
 export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
@@ -123,6 +123,11 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			else
 				new_points = new_points_short_arc
 			
+			# Add points tangent to the segments at the start and end of the strand
+			new_start_point = closestPointOnLineSegment(new_points[0], a, b)
+			new_end_point = closestPointOnLineSegment(new_points[new_points.length-1], a, b)
+			new_points = [new_start_point, ...new_points, new_end_point]
+
 			# Splice the new points into the list of points
 			new_points_list.splice(start+1, strand.length-2, ...new_points)
 
