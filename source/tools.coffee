@@ -13,6 +13,63 @@ towards = (starting_point, ending_point, max_distance)->
 	else
 		ending_point
 
+line_circle_intersection = (x1, y1, x2, y2, cx, cy, r)->
+	# https://stackoverflow.com/a/1073336/2624876
+	# dx = x2 - x1
+	# dy = y2 - y1
+	# dr = Math.hypot(dx, dy)
+	# D = x1 * y2 - x2 * y1
+	# discriminant = r**2 * dr**2 - D**2
+	# if discriminant < 0
+	# 	[]
+	# else
+	# 	sqrt_discriminant = Math.sqrt(discriminant)
+	# 	x1 = (D * dy + Math.sign(dy) * dx * sqrt_discriminant) / dr**2
+	# 	x2 = (D * dy - Math.sign(dy) * dx * sqrt_discriminant) / dr**2
+	# 	y1 = (-D * dx + Math.abs(dy) * sqrt_discriminant) / dr**2
+	# 	y2 = (-D * dx - Math.abs(dy) * sqrt_discriminant) / dr**2
+	# 	[{x: x1, y: y1}, {x: x2, y: y2}]
+
+	if x1 == x2
+		# Handle vertical line segment case
+		x_intersect1 = x1
+		x_intersect2 = x1
+		y_intersect1 = cy + Math.sqrt(r**2 - (x_intersect1 - cx)**2)
+		y_intersect2 = cy - Math.sqrt(r**2 - (x_intersect2 - cx)**2)
+
+		# Check if the intersection points are on the line segment
+		on_segment1 = (y1 <= y_intersect1 <= y2 or y2 <= y_intersect1 <= y1)
+		on_segment2 = (y1 <= y_intersect2 <= y2 or y2 <= y_intersect2 <= y1)
+	else
+
+		# Calculate the discriminant of the quadratic equation for intersection
+		dx = x2 - x1
+		dy = y2 - y1
+		a = dx**2 + dy**2
+		b = 2 * dx * (x1 - cx) + 2 * dy * (y1 - cy)
+		c = cx**2 + cy**2 + x1**2 + y1**2 - 2 * (cx * x1 + cy * y1) - r**2
+		discriminant = Math.sqrt(b**2 - 4 * a * c)
+
+		# Calculate the x-coordinates of the two intersection points
+		x_intersect1 = (-b + discriminant) / (2 * a)
+		x_intersect2 = (-b - discriminant) / (2 * a)
+
+		# Calculate the y-coordinates of the two intersection points
+		y_intersect1 = y1 + (y2 - y1) * (x_intersect1 - x1) / (x2 - x1)
+		y_intersect2 = y1 + (y2 - y1) * (x_intersect2 - x1) / (x2 - x1)
+
+		# Check if the intersection points are on the line segment
+		on_segment1 = (x1 <= x_intersect1 <= x2 or x2 <= x_intersect1 <= x1) and (y1 <= y_intersect1 <= y2 or y2 <= y_intersect1 <= y1)
+		on_segment2 = (x1 <= x_intersect2 <= x2 or x2 <= x_intersect2 <= x1) and (y1 <= y_intersect2 <= y2 or y2 <= y_intersect2 <= y1)
+
+	# Return the intersection points
+	intersection_points = []
+	intersection_points.push({x: x_intersect1, y: y_intersect1}) if on_segment1
+	intersection_points.push({x: x_intersect2, y: y_intersect2}) if on_segment2
+	return intersection_points
+
+
+
 export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
 
@@ -87,10 +144,21 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			start = strand[0]
 			end = strand[strand.length-1]
 			start_point = points_list[start]
+			second_point = points_list[start+1]
 			end_point = points_list[end]
-			c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
-			a = towards(c, start_point, brush_size)
-			b = towards(c, end_point, brush_size)
+			second_to_last_point = points_list[end-1]
+			# Note: end point and second point, as well as start point and second-to-last point,
+			# may be the same points, if only one segment (and no points) are within the brush radius
+			# If we take the first intersect of the first segment and the last intersect of the last segment,
+			# it should still get two distinct points on the circle in that case.
+			intersects_a = line_circle_intersection(start_point.x, start_point.y, second_point.x, second_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
+			intersects_b = line_circle_intersection(second_to_last_point.x, second_to_last_point.y, end_point.x, end_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
+			a = intersects_a[0] ? start_point
+			b = intersects_b[1] ? intersects_b[0] ? end_point
+
+			# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
+			# a = towards(c, start_point, brush_size)
+			# b = towards(c, end_point, brush_size)
 			# a = closestPointOnLineSegment(a, start_point, end_point)
 			# b = closestPointOnLineSegment(b, start_point, end_point)
 			# Find the shortest and longest angular differences between the strand's endpoints, from the brush center.
