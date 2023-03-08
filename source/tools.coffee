@@ -1,6 +1,9 @@
+import PolygonStructure from "./structure/PolygonStructure.coffee"
+
 export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
 
+	indices_within_radius = []
 	for point_name, point of editing_entity.structure.points
 		dx = point.x - local_mouse_position.x
 		dy = point.y - local_mouse_position.y
@@ -24,5 +27,60 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 							if dist > 0
 								point.x += dx/dist * brush_size * 0.1
 								point.y += dy/dist * brush_size * 0.1
+				when "paint"
+					indices_within_radius.push(Object.keys(editing_entity.structure.points).indexOf(point_name))
 	
+	if tool is "paint"
+		if editing_entity.structure not instanceof PolygonStructure
+			throw new Error "Paint tool only works on polygon structures"
+
+		# Using serialization to edit the points as a simple list and automatically recompute the segments
+		points_list = editing_entity.structure.toJSON().points
+
+		# Find strands of points that are within the brush radius
+		strands = []
+		for index in indices_within_radius
+			# Find an existing strand that this point should be part of
+			strand = strands.find((strand) -> strand.some((point_index) -> point_index in [index - 1, index + 1]))
+			if strand
+				# If the point is already in a strand, add the point to the strand
+				strand.push(index)
+			else
+				# If the point is not in a strand, create a new strand with the point
+				strands.push([index])
+		
+		# Replace the strands with arcs around the center of the brush
+		new_points_list = points_list.slice()
+		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
+		strands.sort((a, b) -> b[0] - a[0])
+		for strand in strands
+			start = strand[0]
+			end = strand[strand.length-1]
+			a = points_list[start]
+			b = points_list[end]
+			# Find the shortest angular difference between the strand's endpoints, from the brush center.
+			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
+			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
+			angle_diff = angle_b - angle_a
+			if angle_diff > Math.PI
+				angle_diff -= Math.PI*2
+			else if angle_diff < -Math.PI
+				angle_diff += Math.PI*2
+			# Add new points and segments around the arc of the brush.
+			points_per_radian = 2
+			n_points = Math.ceil(Math.abs(angle_diff) * points_per_radian)
+			n_points = Math.max(2, n_points)
+			new_points = []
+			for i in [0...n_points]
+				angle = angle_a + angle_diff * i / (n_points-1)
+				point = {x: local_mouse_position.x + Math.cos(angle) * brush_size, y: local_mouse_position.y + Math.sin(angle) * brush_size}
+				new_points.push(point)
+			console.log("New points:", new_points, "Angle diff:", angle_diff, "a:", a, "b:", b)
+			# Splice the new points into the list of points
+			new_points_list.splice(start, strand.length, ...new_points)
+
+		console.log("New points list:", new_points_list)
+		# Note: this causes a duplicate signalChange() call; we could avoid it by not calling signalChange() below for this tool
+		editing_entity.structure.fromJSON({points: new_points_list})
+
 	editing_entity.structure.signalChange?()
