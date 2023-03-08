@@ -9,14 +9,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		if dist < brush_size
 			switch tool
 				when "sculpt"
-					# point.x += dx/10
-					# point.y += dy/10
-					# point.x += dx/100 * mouse_world_delta_x
-					# point.y += dy/100 * mouse_world_delta_y
-					# point.x += mouse_world_delta_x / Math.max(1, dist)
-					# point.y += mouse_world_delta_y / Math.max(1, dist)
-					# point.x += mouse_world_delta_x / 2
-					# point.y += mouse_world_delta_y / 2
 					point.x += mouse_world_delta_x / Math.max(1200, dist_squared) * 500
 					point.y += mouse_world_delta_y / Math.max(1200, dist_squared) * 500
 				when "roughen"

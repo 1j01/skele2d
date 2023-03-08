@@ -647,10 +647,6 @@ export default class Editor
 				@grab_start = null
 		else if @tool_active
 			if @mouse.LMB.down
-				# if @sculpt_additive
-					
-				# else
-				# 	
 				mouse_world_delta_x = mouse_in_world.x - @previous_mouse_world_x
 				mouse_world_delta_y = mouse_in_world.y - @previous_mouse_world_y
 				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size)
