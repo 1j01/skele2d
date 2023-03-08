@@ -1,6 +1,18 @@
 import PolygonStructure from "./structure/PolygonStructure.coffee"
 import {distanceToLineSegment, closestPointOnLineSegment} from "./helpers.coffee"
 
+towards = (starting_point, ending_point, max_distance)->
+	dx = ending_point.x - starting_point.x
+	dy = ending_point.y - starting_point.y
+	dist = Math.hypot(dx, dy)
+	if dist > max_distance
+		{
+			x: starting_point.x + dx/dist * max_distance
+			y: starting_point.y + dy/dist * max_distance
+		}
+	else
+		ending_point
+
 export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
 
@@ -74,8 +86,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		for strand in strands
 			start = strand[0]
 			end = strand[strand.length-1]
-			a = points_list[start]
-			b = points_list[end]
+			start_point = points_list[start]
+			end_point = points_list[end]
+			a = towards(local_mouse_position, start_point, brush_size)
+			b = towards(local_mouse_position, end_point, brush_size)
+			a = closestPointOnLineSegment(a, start_point, end_point)
+			b = closestPointOnLineSegment(b, start_point, end_point)
 			# Find the shortest and longest angular differences between the strand's endpoints, from the brush center.
 			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
 			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
@@ -123,11 +139,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			else
 				new_points = new_points_short_arc
 			
-			# Add points tangent to the segments at the start and end of the strand
-			new_start_point = closestPointOnLineSegment(new_points[0], a, b)
-			new_end_point = closestPointOnLineSegment(new_points[new_points.length-1], a, b)
-			new_points = [new_start_point, ...new_points, new_end_point]
-
 			# Splice the new points into the list of points
 			new_points_list.splice(start+1, strand.length-2, ...new_points)
 
