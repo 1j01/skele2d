@@ -161,26 +161,13 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			# b = towards(c, end_point, brush_size)
 			# a = closestPointOnLineSegment(a, start_point, end_point)
 			# b = closestPointOnLineSegment(b, start_point, end_point)
-			# Find the shortest and longest angular differences between the strand's endpoints, from the brush center.
+			# Find the shortest and longest arcs between the strand's endpoints, from the brush center.
 			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
 			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
-			angle_diff_a = angle_b - angle_a
-			angle_diff_b = angle_a - angle_b
-			if Math.abs(angle_diff_a) < Math.abs(angle_diff_b)
-				angle_diff_short = angle_diff_a
-				angle_diff_long = angle_diff_b
-			else
-				angle_diff_short = angle_diff_b
-				angle_diff_long = angle_diff_a
-			if angle_diff_short > Math.PI
-				angle_diff_short -= Math.PI*2
-			else if angle_diff_short < -Math.PI
-				angle_diff_short += Math.PI*2
-			if angle_diff_long > Math.PI
-				angle_diff_long -= Math.PI*2
-			else if angle_diff_long < -Math.PI
-				angle_diff_long += Math.PI*2
 			
+			angle_diff_short = Math.min((angle_b - angle_a) % (Math.PI * 2), (angle_a - angle_b) % (Math.PI * 2))
+			angle_diff_long = Math.min((angle_a - angle_b) % (Math.PI * 2), (angle_b - angle_a) % (Math.PI * 2))
+
 			# Check if we should use the longer or shorter arc
 			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
 			# Another way to look at it, the new points should not be inside the old polygon.
@@ -191,7 +178,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				n_points = Math.max(2, n_points)
 				new_points = []
 				for i in [0...n_points]
-					angle = angle_a + angle_diff * i / (n_points-1)
+					angle = angle_a - angle_diff * i / (n_points-1)
 					point = {
 						x: local_mouse_position.x + Math.cos(angle) * brush_size
 						y: local_mouse_position.y + Math.sin(angle) * brush_size
