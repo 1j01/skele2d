@@ -10,6 +10,7 @@ import Terrain from "./base-entities/Terrain.coffee"
 import Entity from "./base-entities/Entity.coffee"
 import Pose from "./structure/Pose.coffee"
 import BoneStructure from "./structure/BoneStructure.coffee"
+import PolygonStructure from "./structure/PolygonStructure.coffee"
 import {distanceToLineSegment, distance} from "./helpers.coffee"
 import {entityClasses} from "./entity-class-registry.coffee"
 TAU = Math.PI * 2
@@ -37,6 +38,7 @@ export default class Editor
 		@hovered_entities = []
 		@selected_points = []
 		@hovered_points = []
+		@hovered_segments = []
 		
 		@selection_box = null
 		@editing_entity = null
@@ -298,6 +300,7 @@ export default class Editor
 		@world.fromJSON(state.world)
 		@hovered_entities = []
 		@hovered_points = []
+		@hovered_segments = []
 		@selected_entities = []
 		@selected_points = []
 		for entity_id in state.selected_entity_ids
@@ -590,6 +593,19 @@ export default class Editor
 			if @hovered_entities.length
 				if @hovered_entities[0] in @selected_entities
 					@editEntity(@hovered_entities[0])
+			else if @hovered_segments.length
+				# Add a point in the middle of the hovered segment
+				segment = @hovered_segments[0]
+				if @editing_entity?.structure instanceof PolygonStructure
+					vertices = @editing_entity.structure.toJSON().points
+					index_a = Object.values(@editing_entity.structure.points).indexOf(segment.a)
+					index_b = Object.values(@editing_entity.structure.points).indexOf(segment.b)
+					index = Math.min(index_a, index_b) + 1
+					vertices.splice(index, 0, {
+						x: segment.a.x + (segment.b.x - segment.a.x) / 2
+						y: segment.a.y + (segment.b.y - segment.a.y) / 2
+					})
+					@editing_entity.structure.fromJSON({points: vertices})
 			else
 				# TODO: don't exit editing mode if the entity being edited is hovered
 				# except there needs to be a visual indication of hover for the editing entity
@@ -613,6 +629,9 @@ export default class Editor
 			@selection_box.y2 = mouse_in_world.y
 			if @editing_entity
 				@hovered_points = (point for point_name, point of @editing_entity.structure.points when point_within_selection_box(@editing_entity, point))
+				# This causes adding points with double click not to work
+				# and it's not used for anything at the moment
+				# @hovered_segments = (segment for segment_name, segment of @editing_entity.structure.segments when segment.a in @hovered_points and segment.b in @hovered_points)
 			else
 				@hovered_entities = (entity for entity in @world.entities when entity_within_selection_box(entity))
 		else if @grab_start
@@ -672,6 +691,7 @@ export default class Editor
 		else
 			@hovered_entities = []
 			@hovered_points = []
+			@hovered_segments = []
 			if @editing_entity
 				local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
 				if @tool is "sculpt"
