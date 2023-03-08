@@ -58,28 +58,56 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			end = strand[strand.length-1]
 			a = points_list[start]
 			b = points_list[end]
-			# Find the shortest angular difference between the strand's endpoints, from the brush center.
+			# Find the shortest and longest angular differences between the strand's endpoints, from the brush center.
 			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
 			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
-			angle_diff = angle_b - angle_a
-			if angle_diff > Math.PI
-				angle_diff -= Math.PI*2
-			else if angle_diff < -Math.PI
-				angle_diff += Math.PI*2
-			# Add new points and segments around the arc of the brush.
-			points_per_radian = 2
-			n_points = Math.ceil(Math.abs(angle_diff) * points_per_radian)
-			n_points = Math.max(2, n_points)
-			new_points = []
-			for i in [0...n_points]
-				angle = angle_a + angle_diff * i / (n_points-1)
-				point = {x: local_mouse_position.x + Math.cos(angle) * brush_size, y: local_mouse_position.y + Math.sin(angle) * brush_size}
-				new_points.push(point)
-			console.log("New points:", new_points, "Angle diff:", angle_diff, "a:", a, "b:", b)
+			angle_diff_a = angle_b - angle_a
+			angle_diff_b = angle_a - angle_b
+			if Math.abs(angle_diff_a) < Math.abs(angle_diff_b)
+				angle_diff_short = angle_diff_a
+				angle_diff_long = angle_diff_b
+			else
+				angle_diff_short = angle_diff_b
+				angle_diff_long = angle_diff_a
+			if angle_diff_short > Math.PI
+				angle_diff_short -= Math.PI*2
+			else if angle_diff_short < -Math.PI
+				angle_diff_short += Math.PI*2
+			if angle_diff_long > Math.PI
+				angle_diff_long -= Math.PI*2
+			else if angle_diff_long < -Math.PI
+				angle_diff_long += Math.PI*2
+			
+			# Check if we should use the longer or shorter arc
+			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
+			# Another way to look at it, the new points should not be inside the old polygon.
+			get_new_points = (angle_diff) ->
+				# Add new points and segments around the arc of the brush.
+				points_per_radian = 2
+				n_points = Math.ceil(Math.abs(angle_diff) * points_per_radian)
+				n_points = Math.max(2, n_points)
+				new_points = []
+				for i in [0...n_points]
+					angle = angle_a + angle_diff * i / (n_points-1)
+					point = {
+						x: local_mouse_position.x + Math.cos(angle) * brush_size
+						y: local_mouse_position.y + Math.sin(angle) * brush_size
+					}
+					new_points.push(point)
+				return new_points
+			new_points_short_arc = get_new_points(angle_diff_short)
+			new_points_long_arc = get_new_points(angle_diff_long)
+			n_inside_short = new_points_short_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			n_inside_long = new_points_long_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			# console.log("n_inside_short:", n_inside_short, "n_inside_long:", n_inside_long, n_inside_short > n_inside_long)
+			if n_inside_short > n_inside_long
+				new_points = new_points_long_arc
+			else
+				new_points = new_points_short_arc
+			
 			# Splice the new points into the list of points
 			new_points_list.splice(start, strand.length, ...new_points)
 
-		console.log("New points list:", new_points_list)
 		# Note: this causes a duplicate signalChange() call; we could avoid it by not calling signalChange() below for this tool
 		editing_entity.structure.fromJSON({points: new_points_list})
 
