@@ -88,10 +88,11 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			end = strand[strand.length-1]
 			start_point = points_list[start]
 			end_point = points_list[end]
-			a = towards(local_mouse_position, start_point, brush_size)
-			b = towards(local_mouse_position, end_point, brush_size)
-			a = closestPointOnLineSegment(a, start_point, end_point)
-			b = closestPointOnLineSegment(b, start_point, end_point)
+			c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
+			a = towards(c, start_point, brush_size)
+			b = towards(c, end_point, brush_size)
+			# a = closestPointOnLineSegment(a, start_point, end_point)
+			# b = closestPointOnLineSegment(b, start_point, end_point)
 			# Find the shortest and longest angular differences between the strand's endpoints, from the brush center.
 			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
 			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
