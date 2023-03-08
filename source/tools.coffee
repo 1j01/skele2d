@@ -161,14 +161,15 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			# b = towards(c, end_point, brush_size)
 			# a = closestPointOnLineSegment(a, start_point, end_point)
 			# b = closestPointOnLineSegment(b, start_point, end_point)
-			# Find the shortest and longest arcs between the strand's endpoints, from the brush center.
+			# Find the clockwise and counter-clockwise arcs between the strand's endpoints, from the brush center.
 			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
 			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
-			
-			angle_diff_short = Math.min((angle_b - angle_a) % (Math.PI * 2), (angle_a - angle_b) % (Math.PI * 2))
-			angle_diff_long = Math.min((angle_a - angle_b) % (Math.PI * 2), (angle_b - angle_a) % (Math.PI * 2))
+			angle_diff_cw = (angle_b - angle_a) % (2 * Math.PI)
+			angle_diff_cw += 2 * Math.PI if angle_diff_cw < 0
+			angle_diff_ccw = (angle_a - angle_b) % (2 * Math.PI)
+			angle_diff_ccw += 2 * Math.PI if angle_diff_ccw < 0
 
-			# Check if we should use the longer or shorter arc
+			# Check which arc we should use
 			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
 			# Another way to look at it, the new points should not be inside the old polygon.
 			get_new_points = (angle_diff) ->
@@ -185,15 +186,15 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 					}
 					new_points.push(point)
 				return new_points
-			new_points_short_arc = get_new_points(angle_diff_short)
-			new_points_long_arc = get_new_points(angle_diff_long)
-			n_inside_short = new_points_short_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
-			n_inside_long = new_points_long_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
-			# console.log("n_inside_short:", n_inside_short, "n_inside_long:", n_inside_long, n_inside_short > n_inside_long)
-			if n_inside_short > n_inside_long
-				new_points = new_points_long_arc
+			new_points_cw_arc = get_new_points(angle_diff_cw)
+			new_points_ccw_arc = get_new_points(angle_diff_ccw)
+			n_inside_cw = new_points_cw_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			n_inside_ccw = new_points_ccw_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			# console.log("n_inside_cw:", n_inside_cw, "n_inside_ccw:", n_inside_ccw, n_inside_cw > n_inside_ccw)
+			if n_inside_cw > n_inside_ccw
+				new_points = new_points_ccw_arc
 			else
-				new_points = new_points_short_arc
+				new_points = new_points_cw_arc
 			
 			# Splice the new points into the list of points
 			new_points_list.splice(start+1, strand.length-2, ...new_points)
