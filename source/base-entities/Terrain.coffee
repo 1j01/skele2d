@@ -12,7 +12,8 @@ export default class Terrain extends Entity
 	
 	initLayout: ->
 		radius = 30
-		for theta in [0..TAU] by TAU/15
+		n_points = 15
+		for theta in [TAU/n_points..TAU] by TAU/n_points
 			point_x = Math.sin(theta) * radius
 			point_y = Math.cos(theta) * radius
 			non_squished_point_y_component = Math.max(point_y, -radius*0.5)
