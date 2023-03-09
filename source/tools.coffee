@@ -117,7 +117,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		strands = []
 		for index in indices_within_radius
 			# Find an existing strand that this point should be part of
-			strand = strands.find((strand) -> strand.some((point_index) -> point_index in [index - 1, index + 1]))
+			strand = strands.find((strand) -> strand.some((point_index) -> point_index in [(index - 1) %% points_list.length, (index + 1) %% points_list.length]))
 			if strand
 				# If the point is already in a strand, add the point to the strand
 				strand.push(index)
@@ -133,6 +133,14 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
 
+		# Handle the case where the whole polygon is within the brush radius
+		# by making the strand cyclic, repeating the first index at the end.
+		# If entities ever support multiple polygons, this will need to be
+		# generalized using the segments information.
+		for strand in strands
+			if strand[0] is 0 and strand[strand.length-1] is points_list.length-1
+				strand.push(strand[0])
+
 		# Replace the strands with arcs around the center of the brush
 
 		new_points_list = points_list.slice()
@@ -143,30 +151,39 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			second_point = points_list[start+1]
 			end_point = points_list[end]
 			second_to_last_point = points_list[end-1]
-			# Note: end point and second point, as well as start point and second-to-last point,
-			# may be the same points, if only one segment (and no points) are within the brush radius
-			# If we take the first intersect of the first segment and the last intersect of the last segment,
-			# it should still get two distinct points on the circle in that case.
-			intersects_a = line_circle_intersection(start_point.x, start_point.y, second_point.x, second_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
-			intersects_b = line_circle_intersection(second_to_last_point.x, second_to_last_point.y, end_point.x, end_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
-			a = intersects_a[0] #? start_point
-			b = intersects_b[1] ? intersects_b[0] ? end_point
+
+			if start is end
+				# Handle case where the whole polygon is encompassed by the brush
+				start_point = a = {x: local_mouse_position.x, y: local_mouse_position.y + brush_size}
+				end_point = b = {x: local_mouse_position.x, y: local_mouse_position.y + brush_size}
+				angle_a = 0
+				angle_b = 2 * Math.PI
+				short_arc = long_arc = 2 * Math.PI
+			else
+				# Note: end point and second point, as well as start point and second-to-last point,
+				# may be the same points, if only one segment (and no points) are within the brush radius
+				# If we take the first intersect of the first segment and the last intersect of the last segment,
+				# it should still get two distinct points on the circle in that case.
+				intersects_a = line_circle_intersection(start_point.x, start_point.y, second_point.x, second_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
+				intersects_b = line_circle_intersection(second_to_last_point.x, second_to_last_point.y, end_point.x, end_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
+				a = intersects_a[0] #? start_point
+				b = intersects_b[1] ? intersects_b[0] ? end_point
+
+				# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
+				# a = towards(c, start_point, brush_size)
+				# b = towards(c, end_point, brush_size)
+				# a = closestPointOnLineSegment(a, start_point, end_point)
+				# b = closestPointOnLineSegment(b, start_point, end_point)
+				# Find the short and long arcs between the strand's endpoints, from the brush center.
+				angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
+				angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
+				arc_a = (angle_a - angle_b + Math.PI * 2) % (Math.PI * 2)
+				arc_b = -(Math.PI * 2 - arc_a)
+				short_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_a else arc_b
+				long_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_b else arc_a
 
 			if not (a and b)
 				continue
-
-			# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
-			# a = towards(c, start_point, brush_size)
-			# b = towards(c, end_point, brush_size)
-			# a = closestPointOnLineSegment(a, start_point, end_point)
-			# b = closestPointOnLineSegment(b, start_point, end_point)
-			# Find the short and long arcs between the strand's endpoints, from the brush center.
-			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
-			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
-			arc_a = (angle_a - angle_b + Math.PI * 2) % (Math.PI * 2)
-			arc_b = -(Math.PI * 2 - arc_a)
-			short_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_a else arc_b
-			long_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_b else arc_a
 
 			# Check which arc we should use
 			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
@@ -218,7 +235,14 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				new_points = new_points_short_arc
 			
 			# Splice the new points into the list of points
-			new_points_list.splice(start+1, strand.length-2, ...new_points)
+			if start is end
+				# If whole polygon is encompassed, replace whole strand
+				# new_points_list.splice(start, strand.length, ...new_points)
+				new_points_list = new_points
+			else
+				# Otherwise, make sure to keep the start and end points
+				# which may lie outside the brush radius
+				new_points_list.splice(start+1, strand.length-2, ...new_points)
 
 		# Note: this causes a duplicate signalChange() call; we could avoid it by not calling signalChange() below for this tool
 		editing_entity.structure.fromJSON({points: new_points_list})
