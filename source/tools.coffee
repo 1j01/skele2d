@@ -236,14 +236,19 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				new_points = new_points_short_arc
 			
 			# Splice the new points into the list of points
+			cyclic_splice = (list, start, delete_count, ...items) ->
+				list.splice(start, delete_count, ...items)
+				if start + delete_count > list.length
+					list.splice(0, start + delete_count - list.length, ...list.splice(start, list.length - start))
+				return list
 			if start is end
 				# If whole polygon is encompassed, replace whole strand
-				# new_points_list.splice(start, strand.length, ...new_points)
-				new_points_list = new_points
+				cyclic_splice(new_points_list, start, strand.length, ...new_points)
+				# new_points_list = new_points
 			else
 				# Otherwise, make sure to keep the start and end points
 				# which may lie outside the brush radius
-				new_points_list.splice(start+1, strand.length-2, ...new_points)
+				cyclic_splice(new_points_list, start+1, strand.length-2, ...new_points)
 
 		# Note: this causes a duplicate signalChange() call; we could avoid it by not calling signalChange() below for this tool
 		editing_entity.structure.fromJSON({points: new_points_list})
