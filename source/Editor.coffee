@@ -57,7 +57,7 @@ export default class Editor
 		@view_drag_momentum = {x: 0, y: 0}
 		@last_click_time = null
 		
-		@tool = "select"
+		@tool = "paint"
 		@brush_size = 50
 		# @sculpt_adding = no
 		# @sculpt_removing = no
