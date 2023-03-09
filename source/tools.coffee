@@ -137,11 +137,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 		new_points_list = points_list.slice()
 		for strand in strands
-			if strand.length is 1
-				# Degenerate case. Delete the point.
-				new_points_list.splice(start, 1)
-				continue
-			
 			start = strand[0]
 			end = strand[strand.length-1]
 			start_point = points_list[start]
