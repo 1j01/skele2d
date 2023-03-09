@@ -117,18 +117,19 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		strands = []
 		for index in indices_within_radius
 			# Find an existing strand that this point should be part of
-			strand = strands.find((strand) -> strand.some((point_index) -> point_index in [(index - 1) %% points_list.length, (index + 1) %% points_list.length]))
-			if strand
-				# If the point is already in a strand, add the point to the strand
-				strand.push(index)
-			else
-				# If the point is not in a strand, create a new strand with the point
+			inserted = false
+			for strand in strands
+				for existing_index, existing_index_index in strand
+					if existing_index in [(index - 1) % points_list.length, (index + 1) % points_list.length]
+						# Insert in contiguous order with the adjacent index (indices_within_radius may be unsorted)
+						if existing_index is (index - 1) % points_list.length
+							strand.splice(existing_index_index + 1, 0, index)
+						else
+							strand.splice(existing_index_index, 0, index)
+						inserted = true
+						break
+			if not inserted
 				strands.push([index])
-		
-		# Sort the strand's points by increasing index so that they're monotonic in
-		# the case that indices are added via the segments
-		for strand in strands
-			strand.sort((a, b) -> a - b)
 
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
@@ -148,9 +149,9 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			start = strand[0]
 			end = strand[strand.length-1]
 			start_point = points_list[start]
-			second_point = points_list[start+1]
+			second_point = points_list[(start+1) %% points_list.length]
 			end_point = points_list[end]
-			second_to_last_point = points_list[end-1]
+			second_to_last_point = points_list[(end-1) %% points_list.length]
 
 			if start is end
 				# Handle case where the whole polygon is encompassed by the brush
