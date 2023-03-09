@@ -158,11 +158,11 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 			if start is end
 				# Handle case where the whole polygon is encompassed by the brush
-				start_point = a = {x: local_mouse_position.x, y: local_mouse_position.y + brush_size}
-				end_point = b = {x: local_mouse_position.x, y: local_mouse_position.y + brush_size}
 				angle_a = 0
 				angle_b = 2 * Math.PI
 				short_arc = long_arc = 2 * Math.PI
+				start_point = a = {x: local_mouse_position.x + Math.cos(angle_a) * brush_size, y: local_mouse_position.y + Math.sin(angle_a) * brush_size}
+				end_point = b = {x: local_mouse_position.x + Math.cos(angle_b) * brush_size, y: local_mouse_position.y + Math.sin(angle_b) * brush_size}
 			else
 				# Note: end point and second point, as well as start point and second-to-last point,
 				# may be the same points, if only one segment (and no points) are within the brush radius
