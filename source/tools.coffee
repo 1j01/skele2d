@@ -66,7 +66,7 @@ line_circle_intersection = (x1, y1, x2, y2, cx, cy, r) ->
 
 	return intersections
 
-export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
+export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size, brush_additive)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
 
 	indices_within_radius = []
@@ -171,6 +171,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			# Check which arc we should use
 			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
 			# Another way to look at it, the new points should not be inside the old polygon.
+			# Subtractive brushing is the opposite.
 			get_new_points = (angle_diff) ->
 				# Add new points and segments around the arc of the brush.
 				points_per_radian = 2
@@ -190,7 +191,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			n_inside_short = new_points_short_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
 			n_inside_long = new_points_long_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
 			
-			if n_inside_short > n_inside_long
+			if (n_inside_short > n_inside_long) == brush_additive
 				new_points = new_points_long_arc
 			else
 				new_points = new_points_short_arc

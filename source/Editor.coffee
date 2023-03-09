@@ -61,7 +61,7 @@ export default class Editor
 		@brush_size = 50
 		# @sculpt_adding = no
 		# @sculpt_removing = no
-		@sculpt_additive = yes
+		@brush_additive = yes
 		@tool_active = no
 		
 		@undos = []
@@ -649,7 +649,7 @@ export default class Editor
 			if @mouse.LMB.down
 				mouse_world_delta_x = mouse_in_world.x - @previous_mouse_world_x
 				mouse_world_delta_y = mouse_in_world.y - @previous_mouse_world_y
-				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size)
+				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive)
 			else
 				@tool_active = no
 		else
@@ -658,9 +658,7 @@ export default class Editor
 			@hovered_segments = []
 			if @editing_entity
 				local_mouse_position = @editing_entity.fromWorld(mouse_in_world)
-				if @tool is "sculpt"
-					@sculpt_additive = @editing_entity.structure.pointInPolygon?(local_mouse_position)
-				else if @tool is "select"
+				if @tool is "select"
 					closest_dist = Infinity
 					for point_name, point of @editing_entity.structure.points
 						dist = distance(local_mouse_position, point)
@@ -674,6 +672,8 @@ export default class Editor
 							if dist < (segment.width ? 5) and dist < closest_dist
 								closest_dist = dist
 								@hovered_segments = [segment]
+				else
+					@brush_additive = @editing_entity.structure.pointInPolygon?(local_mouse_position)
 			else
 				closest_dist = Infinity
 				closest_entity = null
