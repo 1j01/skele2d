@@ -100,28 +100,31 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		if editing_entity.structure not instanceof PolygonStructure
 			throw new Error "Paint tool only works on polygon structures"
 
+		target_indices = indices_within_radius.slice()
+
 		# Find also the segments that are within the brush radius
 		for segment_name, segment of editing_entity.structure.segments
 			if distanceToLineSegment(local_mouse_position, segment.a, segment.b) < brush_size
 				index_a = Object.values(editing_entity.structure.points).indexOf(segment.a)
 				index_b = Object.values(editing_entity.structure.points).indexOf(segment.b)
-				if index_a not in indices_within_radius
-					indices_within_radius.push(index_a)
-				if index_b not in indices_within_radius
-					indices_within_radius.push(index_b)
+				if index_a not in target_indices
+					target_indices.push(index_a)
+				if index_b not in target_indices
+					target_indices.push(index_b)
 
 		# Using serialization to edit the points as a simple list and automatically recompute the segments
 		points_list = editing_entity.structure.toJSON().points
 
-		# Find strands of points that are within the brush radius
+		# Find strands of points that are within the brush radius,
+		# or connected to points that are within the brush radius.
 		strands = []
-		for index in indices_within_radius
+		for index in target_indices
 			# Find an existing strand that this point should be part of
 			inserted = false
 			for strand in strands
 				for existing_index, existing_index_index in strand
 					if existing_index in [(index - 1) % points_list.length, (index + 1) % points_list.length]
-						# Insert in contiguous order with the adjacent index (indices_within_radius may be unsorted)
+						# Insert in contiguous order with the adjacent index (target_indices may be unsorted)
 						if existing_index is (index - 1) % points_list.length
 							strand.splice(existing_index_index + 1, 0, index)
 						else
