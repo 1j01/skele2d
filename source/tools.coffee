@@ -241,11 +241,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			
 			# Splice the new points into the list of points
 			cyclic_splice = (list, start, delete_count, ...items) ->
-				list.splice(start + splice_offset, delete_count, ...items)
-				if start + splice_offset + delete_count > list.length # maybe not + splice_offset
-					list.splice(0, start + splice_offset + delete_count - list.length, ...list.splice(start, list.length - start))
-					splice_offset += list.length - start # Or something
-				return list
+				delete_without_wrapping = Math.min(delete_count, list.length - start)
+				delete_with_wrapping = delete_count - delete_without_wrapping
+				list.splice(start + splice_offset, delete_without_wrapping, ...items[0...delete_without_wrapping])
+				if delete_with_wrapping
+					list.splice(0, delete_with_wrapping, ...items[delete_without_wrapping...delete_count])
+					splice_offset += delete_with_wrapping # ???
 			if start is end
 				# If whole polygon is encompassed, replace whole strand
 				cyclic_splice(new_points_list, start, strand.length-1, ...new_points)
