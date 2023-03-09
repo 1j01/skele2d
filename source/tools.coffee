@@ -188,10 +188,31 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				return new_points
 			new_points_short_arc = get_new_points(short_arc)
 			new_points_long_arc = get_new_points(long_arc)
-			n_inside_short = new_points_short_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
-			n_inside_long = new_points_long_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+
+			# Hit-test solution is not totally correct
+			# n_inside_short = new_points_short_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			# n_inside_long = new_points_long_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
 			
-			if (n_inside_short > n_inside_long) == brush_additive
+			# if (n_inside_short > n_inside_long) == brush_additive
+			# 	new_points = new_points_long_arc
+			# else
+			# 	new_points = new_points_short_arc
+
+			# Analytic solution using shoelace formula
+			signed_area = (segments) ->
+				sum = 0
+				for segment in segments
+					sum += (segment.b.x - segment.a.x) * (segment.b.y + segment.a.y)
+				return sum / 2
+			
+			shared_signed_area = signed_area(Object.values(editing_entity.structure.segments).filter((segment) -> segment.a not in strand and segment.b not in strand))
+			
+			total_expected_area = (new_arc_points)->
+				arc_segments = [start_point, ...new_arc_points].map((point, i) -> {a: point, b: new_arc_points[i+1] ? end_point})
+				arc_signed_area = signed_area(arc_segments)
+				return Math.abs(arc_signed_area + shared_signed_area)
+			
+			if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
 				new_points = new_points_long_arc
 			else
 				new_points = new_points_short_arc
