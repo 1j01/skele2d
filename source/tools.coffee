@@ -148,6 +148,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# Replace the strands with arcs around the center of the brush
 
 		new_points_list = points_list.slice()
+		splice_offset = 0
 		for strand in strands
 			start = strand[0]
 			end = strand[strand.length-1]
@@ -240,9 +241,10 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			
 			# Splice the new points into the list of points
 			cyclic_splice = (list, start, delete_count, ...items) ->
-				list.splice(start, delete_count, ...items)
-				if start + delete_count > list.length
-					list.splice(0, start + delete_count - list.length, ...list.splice(start, list.length - start))
+				list.splice(start + splice_offset, delete_count, ...items)
+				if start + splice_offset + delete_count > list.length # maybe not + splice_offset
+					list.splice(0, start + splice_offset + delete_count - list.length, ...list.splice(start, list.length - start))
+					splice_offset += list.length - start # Or something
 				return list
 			if start is end
 				# If whole polygon is encompassed, replace whole strand
