@@ -142,7 +142,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# If entities ever support multiple polygons, this will need to be
 		# generalized using the segments information.
 		for strand in strands
-			if strand[0] is 0 and strand[strand.length-1] is points_list.length-1
+			if points_list.every (point, index) -> index in strand
 				strand.push(strand[0])
 
 		# Replace the strands with arcs around the center of the brush
