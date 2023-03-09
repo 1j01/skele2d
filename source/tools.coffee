@@ -13,62 +13,58 @@ towards = (starting_point, ending_point, max_distance)->
 	else
 		ending_point
 
-line_circle_intersection = (x1, y1, x2, y2, cx, cy, r)->
-	# https://stackoverflow.com/a/1073336/2624876
-	# dx = x2 - x1
-	# dy = y2 - y1
-	# dr = Math.hypot(dx, dy)
-	# D = x1 * y2 - x2 * y1
-	# discriminant = r**2 * dr**2 - D**2
-	# if discriminant < 0
-	# 	[]
-	# else
-	# 	sqrt_discriminant = Math.sqrt(discriminant)
-	# 	x1 = (D * dy + Math.sign(dy) * dx * sqrt_discriminant) / dr**2
-	# 	x2 = (D * dy - Math.sign(dy) * dx * sqrt_discriminant) / dr**2
-	# 	y1 = (-D * dx + Math.abs(dy) * sqrt_discriminant) / dr**2
-	# 	y2 = (-D * dx - Math.abs(dy) * sqrt_discriminant) / dr**2
-	# 	[{x: x1, y: y1}, {x: x2, y: y2}]
+line_circle_intersection = (x1, y1, x2, y2, cx, cy, r) ->
+	intersections = []
 
-	if x1 == x2
-		# Handle vertical line segment case
-		x_intersect1 = x1
-		x_intersect2 = x1
-		y_intersect1 = cy + Math.sqrt(r**2 - (x_intersect1 - cx)**2)
-		y_intersect2 = cy - Math.sqrt(r**2 - (x_intersect2 - cx)**2)
+	# Translate line to new coordinate system with origin at center of circle.
+	x1 -= cx
+	y1 -= cy
+	x2 -= cx
+	y2 -= cy
 
-		# Check if the intersection points are on the line segment
-		on_segment1 = (y1 <= y_intersect1 <= y2 or y2 <= y_intersect1 <= y1)
-		on_segment2 = (y1 <= y_intersect2 <= y2 or y2 <= y_intersect2 <= y1)
+	dx = x2 - x1
+	dy = y2 - y1
+	if dy == 0 and dx == 0
+		# Handle degenerate case where line is a point.
+		if Math.hypot(x1, y1) == r
+			intersections.push {x: x1, y: y1}
 	else
+		horizontal = dy == 0
+		if horizontal
+			# Handle horizontal line segment case by swapping x and y coordinates.
+			[x1, y1, x2, y2, dx, dy] = [y1, x1, y2, x2, dy, dx]
+		dr = Math.hypot(dx, dy)
+		D = x1 * y2 - (x2 * y1)
+		discriminant = r ** 2 * dr ** 2 - D ** 2
+		if discriminant < 0
+			# No intersection
+		else
+			# Assuming two intersection points
+			sqrt_discriminant = Math.sqrt(discriminant)
+			i1_x = (D * dy + Math.sign(dy) * dx * sqrt_discriminant) / dr ** 2
+			i2_x = (D * dy - (Math.sign(dy) * dx * sqrt_discriminant)) / dr ** 2
+			i1_y = (-D * dx + Math.abs(dy) * sqrt_discriminant) / dr ** 2
+			i2_y = (-D * dx - (Math.abs(dy) * sqrt_discriminant)) / dr ** 2
+			# Can't check dy === 0 because it was swapped with dx above.
+			# Can't check dx === 0 because that would falsely trigger for vertical lines.
+			if horizontal
+				# For horizontal line segment case, swap x and y coordinates back.
+				[i1_x, i1_y, i2_x, i2_y, x1, y1, x2, y2, dx, dy] = [i1_y, i1_x, i2_y, i2_x, y1, x1, y2, x2, dy, dx]
+			intersections.push { x: i1_x, y: i1_y }, { x: i2_x, y: i2_y }
 
-		# Calculate the discriminant of the quadratic equation for intersection
-		dx = x2 - x1
-		dy = y2 - y1
-		a = dx**2 + dy**2
-		b = 2 * dx * (x1 - cx) + 2 * dy * (y1 - cy)
-		c = cx**2 + cy**2 + x1**2 + y1**2 - 2 * (cx * x1 + cy * y1) - r**2
-		discriminant = Math.sqrt(b**2 - 4 * a * c)
+	# Translate intersection points back to original coordinate system
+	for point in intersections
+		point.x += cx
+		point.y += cy
 
-		# Calculate the x-coordinates of the two intersection points
-		x_intersect1 = (-b + discriminant) / (2 * a)
-		x_intersect2 = (-b - discriminant) / (2 * a)
+	# Associate intersection points with the closest line endpoints
+	along_line = (x, y) => ((x - x1) * dx + (y - y1) * dy) / (dx * dx + dy * dy)
+	if intersections.length == 2
+		t1 = along_line(intersections[0].x, intersections[0].y)
+		t2 = along_line(intersections[1].x, intersections[1].y)
+		intersections.reverse() if t1 > t2
 
-		# Calculate the y-coordinates of the two intersection points
-		y_intersect1 = y1 + (y2 - y1) * (x_intersect1 - x1) / (x2 - x1)
-		y_intersect2 = y1 + (y2 - y1) * (x_intersect2 - x1) / (x2 - x1)
-
-		# Check if the intersection points are on the line segment
-		on_segment1 = (x1 <= x_intersect1 <= x2 or x2 <= x_intersect1 <= x1) and (y1 <= y_intersect1 <= y2 or y2 <= y_intersect1 <= y1)
-		on_segment2 = (x1 <= x_intersect2 <= x2 or x2 <= x_intersect2 <= x1) and (y1 <= y_intersect2 <= y2 or y2 <= y_intersect2 <= y1)
-
-	# Return the intersection points
-	intersection_points = []
-	intersection_points.push({x: x_intersect1, y: y_intersect1}) if on_segment1
-	intersection_points.push({x: x_intersect2, y: y_intersect2}) if on_segment2
-	return intersection_points
-
-
+	return intersections
 
 export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
@@ -153,21 +149,24 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			# it should still get two distinct points on the circle in that case.
 			intersects_a = line_circle_intersection(start_point.x, start_point.y, second_point.x, second_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
 			intersects_b = line_circle_intersection(second_to_last_point.x, second_to_last_point.y, end_point.x, end_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
-			a = intersects_a[0] ? start_point
+			a = intersects_a[0] #? start_point
 			b = intersects_b[1] ? intersects_b[0] ? end_point
+
+			if not (a and b)
+				continue
 
 			# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
 			# a = towards(c, start_point, brush_size)
 			# b = towards(c, end_point, brush_size)
 			# a = closestPointOnLineSegment(a, start_point, end_point)
 			# b = closestPointOnLineSegment(b, start_point, end_point)
-			# Find the clockwise and counter-clockwise arcs between the strand's endpoints, from the brush center.
+			# Find the short and long arcs between the strand's endpoints, from the brush center.
 			angle_a = Math.atan2(a.y - local_mouse_position.y, a.x - local_mouse_position.x)
 			angle_b = Math.atan2(b.y - local_mouse_position.y, b.x - local_mouse_position.x)
-			angle_diff_cw = (angle_b - angle_a) % (2 * Math.PI)
-			angle_diff_cw += 2 * Math.PI if angle_diff_cw < 0
-			angle_diff_ccw = (angle_a - angle_b) % (2 * Math.PI)
-			angle_diff_ccw += 2 * Math.PI if angle_diff_ccw < 0
+			arc_a = (angle_a - angle_b + Math.PI * 2) % (Math.PI * 2)
+			arc_b = -(Math.PI * 2 - arc_a)
+			short_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_a else arc_b
+			long_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_b else arc_a
 
 			# Check which arc we should use
 			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
@@ -186,15 +185,15 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 					}
 					new_points.push(point)
 				return new_points
-			new_points_cw_arc = get_new_points(angle_diff_cw)
-			new_points_ccw_arc = get_new_points(angle_diff_ccw)
-			n_inside_cw = new_points_cw_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
-			n_inside_ccw = new_points_ccw_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
-			# console.log("n_inside_cw:", n_inside_cw, "n_inside_ccw:", n_inside_ccw, n_inside_cw > n_inside_ccw)
-			if n_inside_cw > n_inside_ccw
-				new_points = new_points_ccw_arc
+			new_points_short_arc = get_new_points(short_arc)
+			new_points_long_arc = get_new_points(long_arc)
+			n_inside_short = new_points_short_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			n_inside_long = new_points_long_arc.filter((point) -> editing_entity.structure.pointInPolygon(point)).length
+			
+			if n_inside_short > n_inside_long
+				new_points = new_points_long_arc
 			else
-				new_points = new_points_cw_arc
+				new_points = new_points_short_arc
 			
 			# Splice the new points into the list of points
 			new_points_list.splice(start+1, strand.length-2, ...new_points)
