@@ -148,7 +148,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# Replace the strands with arcs around the center of the brush
 
 		new_points_list = points_list.slice()
-		splice_offset = 0
 		for strand in strands
 			start = strand[0]
 			end = strand[strand.length-1]
@@ -241,12 +240,19 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			
 			# Splice the new points into the list of points
 			cyclic_splice = (list, start, delete_count, ...items) ->
+				# This function preserves earlier indices even when wrapping
+				# and inserting/deleting different numbers of items,
+				# by splitting up the inserted items according to the number of items deleted.
+				# Specifically, the number of items deleted that are wrapped around to the beginning of the list
+				# is equal to the number of items inserted that are wrapped around to the end of the list.
 				delete_without_wrapping = Math.min(delete_count, list.length - start)
 				delete_with_wrapping = delete_count - delete_without_wrapping
-				list.splice(start + splice_offset, delete_without_wrapping, ...items[0...delete_without_wrapping])
-				if delete_with_wrapping
-					list.splice(0, delete_with_wrapping, ...items[delete_without_wrapping...delete_count])
-					splice_offset += delete_with_wrapping # ???
+				insert_wrapped = delete_with_wrapping
+				insert_without_wrapping = items.length - insert_wrapped
+				list.splice(start, delete_without_wrapping, ...items.slice(0, insert_without_wrapping))
+				if delete_with_wrapping > 0
+					list.splice(0, delete_with_wrapping, ...items.slice(insert_without_wrapping))
+				return
 			if start is end
 				# If whole polygon is encompassed, replace whole strand
 				cyclic_splice(new_points_list, start, strand.length-1, ...new_points)
