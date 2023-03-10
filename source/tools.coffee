@@ -134,6 +134,8 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			if not inserted
 				strands.push([index])
 
+		console.log("strands before joining", strands.join(" --- "))
+
 		# Could start with single-point strands for each point within the brush radius.
 		# However, using the above should be more efficient, with less arrays to join / create.
 		# With the strands that are generated with the above code,
@@ -163,6 +165,8 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 					break if joined
 				break if joined
 			break unless joined
+
+		console.log("strands after joining", strands.join(" --- "))
 
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
