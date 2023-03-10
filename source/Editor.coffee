@@ -799,8 +799,8 @@ export default class Editor
 	
 	draw: (ctx, view)->
 
-		draw_points = (entity, radius, fillStyle, highlight_first_and_last=yes)=>
-			if highlight_first_and_last
+		draw_points = (entity, radius, fillStyle, highlight_first_and_last=yes, show_names=no, show_indices=yes)=>
+			if highlight_first_and_last or show_indices
 				keys = Object.keys(entity.structure.points)
 			for point_name, point of entity.structure.points
 				if highlight_first_and_last
@@ -811,6 +811,13 @@ export default class Editor
 						ctx.arc(point.x, point.y, radius * 2 / view.scale, 0, TAU)
 						ctx.fillStyle = if first then "lime" else "blue"
 						ctx.fill()
+				if show_names
+					ctx.fillStyle = "black"
+					ctx.fillText(point_name, point.x + radius * 2, point.y)
+				if show_indices
+					ctx.fillStyle = "red"
+					index = keys.indexOf(point_name)
+					ctx.fillText(index, point.x + radius * 2, point.y + 10)
 				ctx.beginPath()
 				ctx.arc(point.x, point.y, radius / view.scale, 0, TAU)
 				# ctx.lineWidth = 1 / view.scale
