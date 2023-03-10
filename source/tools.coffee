@@ -123,9 +123,9 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			inserted = false
 			for strand in strands
 				for existing_index, existing_index_index in strand
-					if existing_index in [(index - 1) % points_list.length, (index + 1) % points_list.length]
+					if existing_index in [(index - 1) %% points_list.length, (index + 1) %% points_list.length]
 						# Insert in contiguous order with the adjacent index (target_indices may be unsorted)
-						if existing_index is (index - 1) % points_list.length
+						if existing_index is (index - 1) %% points_list.length
 							strand.splice(existing_index_index + 1, 0, index)
 						else
 							strand.splice(existing_index_index, 0, index)
@@ -150,10 +150,10 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 						continue
 					for point_index in strand
 						for other_point_index in other_strand
-							if other_point_index in [(point_index - 1) % points_list.length, (point_index + 1) % points_list.length]
+							if other_point_index in [(point_index - 1) %% points_list.length, (point_index + 1) %% points_list.length]
 								strands.splice(strands.indexOf(strand), 1)
 								strands.splice(strands.indexOf(other_strand), 1)
-								if other_point_index is (point_index + 1) % points_list.length
+								if other_point_index is (point_index + 1) %% points_list.length
 									strands.push([...strand, ...other_strand])
 								else
 									strands.push([...other_strand, ...strand])
