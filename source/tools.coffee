@@ -260,6 +260,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				return
 			if start is end
 				# If whole polygon is encompassed, replace whole strand
+				# Note: since this strand duplicates first as last, subtract one from the length
 				cyclic_splice(new_points_list, start, strand.length-1, ...new_points)
 				# new_points_list = new_points
 			else
