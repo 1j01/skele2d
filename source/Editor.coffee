@@ -813,11 +813,32 @@ export default class Editor
 						ctx.fill()
 				if show_names
 					ctx.fillStyle = "black"
-					ctx.fillText(point_name, point.x + radius * 2, point.y)
+					ctx.fillText(point_name, point.x + radius, point.y)
 				if show_indices
-					ctx.fillStyle = "red"
 					index = keys.indexOf(point_name)
-					ctx.fillText(index, point.x + radius * 2, point.y + 10)
+					width = ctx.measureText(index).width
+					ctx.font = "10px sans-serif"
+					ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
+					# ctx.fillRect(point.x, point.y, width + radius*2, 12)
+					# ctx.fillStyle = "red"
+					# ctx.fillText(index, point.x + radius, point.y + 10)
+					ctx.save()
+					ctx.translate(point.x, point.y)
+					ctx.scale(3 / view.scale, 3 / view.scale)
+					ctx.rotate(index * TAU/4 / keys.length - TAU/4/2)
+					x_padding = 20
+					# ctx.fillRect(0, 0, width + x_padding*2, 12)
+					ctx.beginPath()
+					ctx.moveTo(0, 0)
+					ctx.lineTo(width + x_padding, 0)
+					ctx.arc(width + x_padding, 6, 6, -TAU/4, TAU/4)
+					ctx.lineTo(x_padding, 12)
+					ctx.lineTo(0, 0)
+					ctx.fill()
+
+					ctx.fillStyle = "red"
+					ctx.fillText(index, x_padding, 10)
+					ctx.restore()
 				ctx.beginPath()
 				ctx.arc(point.x, point.y, radius / view.scale, 0, TAU)
 				# ctx.lineWidth = 1 / view.scale
