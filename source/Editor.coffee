@@ -818,7 +818,8 @@ export default class Editor
 					index = keys.indexOf(point_name)
 					width = ctx.measureText(index).width
 					ctx.font = "10px sans-serif"
-					ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
+					# ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
+					ctx.fillStyle = "hsla(#{index * 360 / keys.length}, 100%, 50%, 0.5)"
 					# ctx.fillRect(point.x, point.y, width + radius*2, 12)
 					# ctx.fillStyle = "red"
 					# ctx.fillText(index, point.x + radius, point.y + 10)
@@ -836,7 +837,7 @@ export default class Editor
 					ctx.lineTo(0, 0)
 					ctx.fill()
 
-					ctx.fillStyle = "red"
+					ctx.fillStyle = "white"
 					ctx.fillText(index, x_padding, 10)
 					ctx.restore()
 				ctx.beginPath()
