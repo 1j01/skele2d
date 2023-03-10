@@ -171,9 +171,8 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# by making the strand cyclic, repeating the first index at the end.
 		# If entities ever support multiple polygons, this will need to be
 		# generalized using the segments information.
-		for strand in strands
-			if points_list.every (point, index) -> index in strand
-				strand.push(strand[0])
+		if points_list.every (point, index) -> index in indices_within_radius
+			strands[0].push(strands[0][0])
 
 		# Replace the strands with arcs around the center of the brush
 
