@@ -102,16 +102,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 		target_indices = indices_within_radius.slice()
 
-		# Find also the segments that are within the brush radius
-		for segment_name, segment of editing_entity.structure.segments
-			if distanceToLineSegment(local_mouse_position, segment.a, segment.b) < brush_size
-				index_a = Object.values(editing_entity.structure.points).indexOf(segment.a)
-				index_b = Object.values(editing_entity.structure.points).indexOf(segment.b)
-				if index_a not in target_indices
-					target_indices.push(index_a)
-				if index_b not in target_indices
-					target_indices.push(index_b)
-
 		# Using serialization to edit the points as a simple list and automatically recompute the segments
 		points_list = editing_entity.structure.toJSON().points
 
@@ -168,6 +158,30 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			break unless joined
 
 		console.log("strands after joining", strands.join(" --- "))
+
+		# Find also segments that straddle the brush radius,
+		# and extend strands to include those directly connected points outside the brush radius.
+		for segment_name, segment of editing_entity.structure.segments
+			index_a = Object.values(editing_entity.structure.points).indexOf(segment.a)
+			index_b = Object.values(editing_entity.structure.points).indexOf(segment.b)
+			if index_a in target_indices
+				for strand in strands
+					if strand.indexOf(index_a) is 0
+						strand.unshift(index_b)
+						break
+					if strand.indexOf(index_a) is strand.length - 1
+						strand.push(index_b)
+						break
+			if index_b in target_indices
+				for strand in strands
+					if strand.indexOf(index_b) is 0
+						strand.unshift(index_a)
+						break
+					if strand.indexOf(index_b) is strand.length - 1
+						strand.push(index_a)
+						break
+
+		console.log("strands after extending", strands.join(" --- "))
 
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
