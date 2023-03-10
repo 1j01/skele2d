@@ -122,7 +122,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			# Find an existing strand that this point should be part of
 			inserted = false
 			for strand in strands
-				for existing_index, existing_index_index in strand when existing_index in indices_within_radius
+				for existing_index, existing_index_index in strand
 					if existing_index in [(index - 1) %% points_list.length, (index + 1) %% points_list.length]
 						# Insert in contiguous order with the adjacent index (target_indices may be unsorted)
 						if existing_index is (index - 1) %% points_list.length
@@ -151,8 +151,8 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				for other_strand in strands
 					if strand is other_strand
 						continue
-					for point_index in strand when point_index in indices_within_radius
-						for other_point_index in other_strand when other_point_index in indices_within_radius
+					for point_index in strand
+						for other_point_index in other_strand
 							if other_point_index in [(point_index - 1) %% points_list.length, (point_index + 1) %% points_list.length]
 								strands.splice(strands.indexOf(strand), 1)
 								strands.splice(strands.indexOf(other_strand), 1)
