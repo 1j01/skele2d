@@ -143,7 +143,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# which are not together as one strand because of the iteration order.
 		# strands = ([index] for index in target_indices)
 
-		# Then join strands that are connected by segments until no more strands can be joined.
+		# Then join strands that are contiguous until no more strands can be joined.
 		loop
 			joined = no
 			for strand in strands
