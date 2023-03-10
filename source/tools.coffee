@@ -186,10 +186,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		for strand in strands
 			start = strand[0]
 			end = strand[strand.length-1]
+			second = (start+1) %% points_list.length
+			second_to_last = (end-1) %% points_list.length
 			start_point = points_list[start]
-			second_point = points_list[(start+1) %% points_list.length]
+			second_point = points_list[second]
 			end_point = points_list[end]
-			second_to_last_point = points_list[(end-1) %% points_list.length]
+			second_to_last_point = points_list[second_to_last]
 
 			if start is end
 				# Handle case where the whole polygon is encompassed by the brush
@@ -208,6 +210,14 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				a = intersects_a[0] #? start_point
 				b = intersects_b[1] ? intersects_b[0] ? end_point
 
+				if not a
+					console.log "Intersection not found between segment #{start} to #{second} and the brush circle"
+					continue
+				if not b
+					# This may be impossible due to fallback to end_point
+					console.log "Intersection not found between segment #{second_to_last} to #{end} and the brush circle"
+					continue
+
 				# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
 				# a = towards(c, start_point, brush_size)
 				# b = towards(c, end_point, brush_size)
@@ -220,9 +230,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				arc_b = -(Math.PI * 2 - arc_a)
 				short_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_a else arc_b
 				long_arc = if Math.abs(arc_a) < Math.abs(arc_b) then arc_b else arc_a
-
-			if not (a and b)
-				continue
 
 			# Check which arc we should use
 			# For additive brushing, we want to do whichever will lead to more area of the resultant polygon.
