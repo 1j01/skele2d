@@ -256,7 +256,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				list.splice(start, delete_without_wrapping, ...items.slice(0, insert_without_wrapping))
 				if delete_with_wrapping > 0
 					list.splice(0, delete_with_wrapping, ...items.slice(insert_without_wrapping))
-					splice_offset += delete_with_wrapping - insert_wrapped
+					splice_offset += insert_wrapped - delete_with_wrapping
 				return
 			if start is end
 				# If whole polygon is encompassed, replace whole strand
