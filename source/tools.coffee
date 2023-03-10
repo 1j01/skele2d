@@ -132,9 +132,9 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 								strands.splice(strands.indexOf(strand), 1)
 								strands.splice(strands.indexOf(other_strand), 1)
 								if other_point_index is (point_index + 1) % points_list.length
-									strands.push(strand.concat(other_strand))
+									strands.push([...strand, ...other_strand])
 								else
-									strands.push(other_strand.concat(strand))
+									strands.push([...other_strand, ...strand])
 								joined = yes
 								break
 						break if joined
