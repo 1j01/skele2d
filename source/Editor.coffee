@@ -834,7 +834,9 @@ export default class Editor
 					ctx.lineTo(width + x_padding, 0)
 					ctx.arc(width + x_padding, 6, 6, -TAU/4, TAU/4)
 					ctx.lineTo(x_padding, 12)
-					ctx.lineTo(0, 0)
+					# ctx.lineTo(0, 0)
+					# ctx.quadraticCurveTo(x_padding/2, 12, 0, 0)
+					ctx.bezierCurveTo(x_padding/2, 12, x_padding/2, 0, 0, 0)
 					ctx.fill()
 
 					ctx.fillStyle = "white"

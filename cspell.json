@@ -59,6 +59,7 @@
 	"words": [
 		"anims",
 		"bbox",
+		"bezier",
 		"callout",
 		"checkmark",
 		"contextmenu",
