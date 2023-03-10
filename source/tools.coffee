@@ -131,6 +131,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 							strand.splice(existing_index_index, 0, index)
 						inserted = true
 						break
+				break if inserted
 			if not inserted
 				strands.push([index])
 
