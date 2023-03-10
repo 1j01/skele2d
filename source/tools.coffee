@@ -117,22 +117,30 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 		# Find strands of points that are within the brush radius,
 		# or connected to points that are within the brush radius.
-		strands = []
-		for index in target_indices
-			# Find an existing strand that this point should be part of
-			inserted = false
+		# Start with single-point strands for each point within the brush radius.
+		strands = ([index] for index in target_indices)
+		# Then join strands that are connected by segments until no more strands can be joined.
+		loop
+			joined = no
 			for strand in strands
-				for existing_index, existing_index_index in strand
-					if existing_index in [(index - 1) % points_list.length, (index + 1) % points_list.length]
-						# Insert in contiguous order with the adjacent index (target_indices may be unsorted)
-						if existing_index is (index - 1) % points_list.length
-							strand.splice(existing_index_index + 1, 0, index)
-						else
-							strand.splice(existing_index_index, 0, index)
-						inserted = true
-						break
-			if not inserted
-				strands.push([index])
+				for other_strand in strands
+					if strand is other_strand
+						continue
+					for point_index in strand
+						for other_point_index in other_strand
+							if other_point_index in [(point_index - 1) % points_list.length, (point_index + 1) % points_list.length]
+								strands.splice(strands.indexOf(strand), 1)
+								strands.splice(strands.indexOf(other_strand), 1)
+								if other_point_index is (point_index + 1) % points_list.length
+									strands.push(strand.concat(other_strand))
+								else
+									strands.push(other_strand.concat(strand))
+								joined = yes
+								break
+						break if joined
+					break if joined
+				break if joined
+			break unless joined
 
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
