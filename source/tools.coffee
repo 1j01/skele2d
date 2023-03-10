@@ -217,6 +217,8 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 					# This may be impossible due to fallback to end_point
 					console.log "Intersection not found between segment #{second_to_last} to #{end} and the brush circle"
 					continue
+				console.log "Segment #{start} to #{second} intersects the brush circle"
+				console.log "Segment #{second_to_last} to #{end} intersects the brush circle"
 
 				# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
 				# a = towards(c, start_point, brush_size)
