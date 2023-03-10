@@ -117,8 +117,30 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 		# Find strands of points that are within the brush radius,
 		# or connected to points that are within the brush radius.
-		# Start with single-point strands for each point within the brush radius.
-		strands = ([index] for index in target_indices)
+		strands = []
+		for index in target_indices
+			# Find an existing strand that this point should be part of
+			inserted = false
+			for strand in strands
+				for existing_index, existing_index_index in strand
+					if existing_index in [(index - 1) % points_list.length, (index + 1) % points_list.length]
+						# Insert in contiguous order with the adjacent index (target_indices may be unsorted)
+						if existing_index is (index - 1) % points_list.length
+							strand.splice(existing_index_index + 1, 0, index)
+						else
+							strand.splice(existing_index_index, 0, index)
+						inserted = true
+						break
+			if not inserted
+				strands.push([index])
+
+		# Could start with single-point strands for each point within the brush radius.
+		# However, using the above should be more efficient, with less arrays to join / create.
+		# With the strands that are generated with the above code,
+		# this only needs to join strands that cross the end of the list of points,
+		# which are not together as one strand because of the iteration order.
+		# strands = ([index] for index in target_indices)
+
 		# Then join strands that are connected by segments until no more strands can be joined.
 		loop
 			joined = no
