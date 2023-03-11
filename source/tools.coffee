@@ -148,15 +148,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 		console.log("strands after joining", strands.join(" --- "))
 
-		# Rotate the strands so that the second index is always inside the brush radius
-		# (Only the first and index may be outside the brush radius.)
-		# You can see this in the case of a triangle; you should be able to brush over any of the three points.
-		for strand in strands when strand.length >= 2
-			if strand[1] not in indices_within_radius #and strand[2] in indices_within_radius
-				strand.push(strand.shift())
-
-		console.log("strands after rotating", strands.join(" --- "))
-
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
 
@@ -182,8 +173,6 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				# Edge case dealing with a single edge.
 				# We could optimize this to only compute intersections once,
 				# but for now I'm duplicating the computation so I don't have to duplicate the code.
-				# I'm not yet sure why I need to reverse the order of the points here.
-				[start, end] = [end, start]
 				second = end
 				second_to_last = start
 			else
