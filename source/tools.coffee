@@ -100,68 +100,47 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		if editing_entity.structure not instanceof PolygonStructure
 			throw new Error "Paint tool only works on polygon structures"
 
-		target_indices = indices_within_radius.slice()
-
-		# Find also the segments that are within the brush radius
-		for segment_name, segment of editing_entity.structure.segments
-			if distanceToLineSegment(local_mouse_position, segment.a, segment.b) < brush_size
-				index_a = Object.values(editing_entity.structure.points).indexOf(segment.a)
-				index_b = Object.values(editing_entity.structure.points).indexOf(segment.b)
-				if index_a not in target_indices
-					target_indices.push(index_a)
-				if index_b not in target_indices
-					target_indices.push(index_b)
-
 		# Using serialization to edit the points as a simple list and automatically recompute the segments
 		points_list = editing_entity.structure.toJSON().points
+		# for referential equality
+		original_points_list = Object.values(editing_entity.structure.points)
 
 		# Find strands of points that are within the brush radius,
 		# or connected to points that are within the brush radius.
+		# First initialize strands from segments that cross or are within the brush radius.
 		strands = []
-		for index in target_indices
-			# Find an existing strand that this point should be part of
-			inserted = false
-			for strand in strands
-				for existing_index, existing_index_index in strand
-					if existing_index in [(index - 1) %% points_list.length, (index + 1) %% points_list.length]
-						# Insert in contiguous order with the adjacent index (target_indices may be unsorted)
-						if existing_index is (index - 1) %% points_list.length
-							strand.splice(existing_index_index + 1, 0, index)
-						else
-							strand.splice(existing_index_index, 0, index)
-						inserted = true
-						break
-				break if inserted
-			if not inserted
-				strands.push([index])
+		for segment_name, segment of editing_entity.structure.segments
+			if (
+				(segment.a in indices_within_radius and segment.b in indices_within_radius) or
+				distanceToLineSegment(local_mouse_position, segment.a, segment.b) < brush_size
+			)
+				strands.push([original_points_list.indexOf(segment.a), original_points_list.indexOf(segment.b)])
 
 		console.log("strands before joining", strands.join(" --- "))
 
-		# Could start with single-point strands for each point within the brush radius.
-		# However, using the above should be more efficient, with less arrays to join / create.
-		# With the strands that are generated with the above code,
-		# this only needs to join strands that cross the end of the list of points,
-		# which are not together as one strand because of the iteration order.
-		# strands = ([index] for index in target_indices)
-
-		# Then join strands that are contiguous until no more strands can be joined.
+		# Then join strands that share points within the brush radius,
+		# until no more strands can be joined.
 		loop
 			joined = no
 			for strand in strands
 				for other_strand in strands
 					if strand is other_strand
 						continue
-					for point_index in strand
-						for other_point_index in other_strand
-							if other_point_index in [(point_index - 1) %% points_list.length, (point_index + 1) %% points_list.length]
-								strands.splice(strands.indexOf(strand), 1)
-								strands.splice(strands.indexOf(other_strand), 1)
-								if other_point_index is (point_index + 1) %% points_list.length
-									strands.push([...strand, ...other_strand])
-								else
-									strands.push([...other_strand, ...strand])
-								joined = yes
-								break
+					for point_index in strand when point_index in indices_within_radius
+						index_of_shared_point_index_in_other_strand = other_strand.indexOf(point_index)
+						if index_of_shared_point_index_in_other_strand isnt -1
+							strands.splice(strands.indexOf(strand), 1)
+							strands.splice(strands.indexOf(other_strand), 1)
+							# Exclude the duplicate point index from the joined strand
+							index_of_shared_point_index_in_strand = strand.indexOf(point_index)
+							strand.splice(index_of_shared_point_index_in_strand, 1)
+							if index_of_shared_point_index_in_other_strand is 0
+								joined_strand = [...strand, ...other_strand]
+							else
+								joined_strand = [...other_strand, ...strand]
+							strands.push(joined_strand)
+							joined = yes
+							break
 						break if joined
 					break if joined
 				break if joined
@@ -231,13 +210,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				intersects_a = line_circle_intersection(start_point.x, start_point.y, second_point.x, second_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
 				intersects_b = line_circle_intersection(second_to_last_point.x, second_to_last_point.y, end_point.x, end_point.y, local_mouse_position.x, local_mouse_position.y, brush_size)
 				a = intersects_a[0] #? start_point
-				b = intersects_b[1] ? intersects_b[0] ? end_point
+				b = intersects_b[1] #? intersects_b[0] ? end_point
 
 				if not a
 					console.log "Intersection not found between segment #{start} to #{second} and the brush circle"
 					continue
 				if not b
-					# This may be impossible due to fallback to end_point
 					console.log "Intersection not found between segment #{second_to_last} to #{end} and the brush circle"
 					continue
 				console.log "Segment #{start} to #{second} intersects the brush circle"
