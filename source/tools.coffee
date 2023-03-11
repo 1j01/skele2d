@@ -202,8 +202,18 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 			start = strand[0]
 			end = strand[strand.length-1]
-			second = (start+1) %% points_list.length
-			second_to_last = (end-1) %% points_list.length
+			if strand.length is 2
+				# Edge case dealing with a single edge.
+				# We could optimize this to only compute intersections once,
+				# but for now I'm duplicating the computation so I don't have to duplicate the code.
+				# I'm not yet sure why I need to reverse the order of the points here.
+				[start, end] = [end, start]
+				second = end
+				second_to_last = start
+			else
+				second = (start+1) %% points_list.length
+				second_to_last = (end-1) %% points_list.length
+
 			start_point = points_list[start]
 			second_point = points_list[second]
 			end_point = points_list[end]
