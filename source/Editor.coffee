@@ -598,15 +598,16 @@ export default class Editor
 				# Add a point in the middle of the hovered segment
 				segment = @hovered_segments[0]
 				if @editing_entity?.structure instanceof PolygonStructure
-					vertices = @editing_entity.structure.toJSON().points
-					index_a = Object.values(@editing_entity.structure.points).indexOf(segment.a)
-					index_b = Object.values(@editing_entity.structure.points).indexOf(segment.b)
-					index = Math.min(index_a, index_b) + 1
-					vertices.splice(index, 0, {
-						x: segment.a.x + (segment.b.x - segment.a.x) / 2
-						y: segment.a.y + (segment.b.y - segment.a.y) / 2
-					})
-					@editing_entity.structure.fromJSON({points: vertices})
+					@undoable =>
+						vertices = @editing_entity.structure.toJSON().points
+						index_a = Object.values(@editing_entity.structure.points).indexOf(segment.a)
+						index_b = Object.values(@editing_entity.structure.points).indexOf(segment.b)
+						index = Math.min(index_a, index_b) + 1
+						vertices.splice(index, 0, {
+							x: segment.a.x + (segment.b.x - segment.a.x) / 2
+							y: segment.a.y + (segment.b.y - segment.a.y) / 2
+						})
+						@editing_entity.structure.fromJSON({points: vertices})
 			else
 				# TODO: don't exit editing mode if the entity being edited is hovered
 				# except there needs to be a visual indication of hover for the editing entity
