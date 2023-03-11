@@ -799,7 +799,7 @@ export default class Editor
 	
 	draw: (ctx, view)->
 
-		draw_points = (entity, radius, fillStyle, highlight_first_and_last=yes, show_names=no, show_indices=yes)=>
+		draw_points = (entity, radius, fillStyle, highlight_first_and_last=no, show_names=no, show_indices=no)=>
 			if highlight_first_and_last or show_indices
 				keys = Object.keys(entity.structure.points)
 			for point_name, point of entity.structure.points
