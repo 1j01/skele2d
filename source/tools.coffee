@@ -122,7 +122,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			)
 				strands.push([original_points_list.indexOf(segment.a), original_points_list.indexOf(segment.b)])
 
-		console.log("strands before joining", strands.join(" --- "))
+		# console.log("strands before joining", strands.join(" --- "))
 
 		# Then join strands that share points within the brush radius,
 		# until no more strands can be joined.
@@ -152,7 +152,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				break if joined
 			break unless joined
 
-		console.log("strands after joining", strands.join(" --- "))
+		# console.log("strands after joining", strands.join(" --- "))
 
 		# Sort the strands by decreasing index so that splicing doesn't mess up the indices of later splice operations
 		strands.sort((a, b) -> b[0] - a[0])
@@ -213,8 +213,8 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				if not b
 					console.log "Intersection not found between segment #{second_to_last} to #{end} and the brush circle"
 					continue
-				console.log "Segment #{start} to #{second} intersects the brush circle"
-				console.log "Segment #{second_to_last} to #{end} intersects the brush circle"
+				# console.log "Segment #{start} to #{second} intersects the brush circle"
+				# console.log "Segment #{second_to_last} to #{end} intersects the brush circle"
 
 				# c = closestPointOnLineSegment(local_mouse_position, start_point, end_point)
 				# a = towards(c, start_point, brush_size)
