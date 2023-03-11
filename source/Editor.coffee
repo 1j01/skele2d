@@ -650,7 +650,7 @@ export default class Editor
 			if @mouse.LMB.down
 				mouse_world_delta_x = mouse_in_world.x - @previous_mouse_world_x
 				mouse_world_delta_y = mouse_in_world.y - @previous_mouse_world_y
-				# run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive)
+				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive)
 			else
 				@tool_active = no
 		else
@@ -693,7 +693,6 @@ export default class Editor
 				if @editing_entity and @tool isnt "select"
 					@undoable()
 					@tool_active = yes
-					run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive)
 				else
 					if @hovered_points.length
 						if @hovered_points[0] in @selected_points
