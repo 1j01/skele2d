@@ -95,6 +95,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 								point.y += dy/dist * brush_size * 0.1
 				when "paint"
 					indices_within_radius.push(Object.keys(editing_entity.structure.points).indexOf(point_name))
+					# Move points very near the brush circumference towards the center of the brush
+					# to avoid artifacts in the polygon brushing algorithm.
+					region = brush_size * 0.001
+					if dist > brush_size * (1 - region)
+						point.x -= dx/dist * brush_size * region
+						point.y -= dy/dist * brush_size * region
 	
 	if tool is "paint"
 		if editing_entity.structure not instanceof PolygonStructure
@@ -300,6 +306,54 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				# Otherwise, make sure to keep the start and end points
 				# which may lie outside the brush radius
 				cyclic_splice(new_points_list, start+1, strand.length-2, ...new_points)
+
+		# Finally, merge points that are too close together
+		# (In continuous brushing, many points may be added in the same place if you're not moving the mouse.)
+		# Only affect points near the brush. Otherwise it would cause big git diffs in the world data,
+		# and probably general confusion, because you'd be changing points that you didn't even see,
+		# in subtle, or if buggy, unpredictable ways.
+		min_distance = 0.01
+		cluster_start_index = 0
+		cluster_start_pos = null # for distance threshold for the current cluster
+		cluster_sum_pos = null # for finding the average position
+		radius = brush_size * 1.01
+		# TODO: handle wrapping around the end of the list
+		# Should just need to extend iteration by one, and modulo the index,
+		# since the points at the start will already be de-clustered.
+		# It wouldn't be a perfectly symmetric solution, but it should be good enough.
+		i = 0
+		while i < new_points_list.length
+			point = new_points_list[i]
+			cluster_start_pos ?= point
+			cluster_sum_pos ?= {x: 0, y: 0}
+			dist_from_cluster_start = Math.hypot(point.x - cluster_start_pos.x, point.y - cluster_start_pos.y)
+			if dist_from_cluster_start > min_distance or Math.hypot(point.x - local_mouse_position.x, point.y - local_mouse_position.y) > radius
+				# If this point is far enough from the start of the cluster, then we're done with the cluster
+				# and can average the positions
+				if i - cluster_start_index > 1
+					# If there were at least two points in the cluster, then average them
+					average_pos = {
+						x: cluster_sum_pos.x / (i - cluster_start_index)
+						y: cluster_sum_pos.y / (i - cluster_start_index)
+					}
+					new_points_list.splice(cluster_start_index, i - cluster_start_index, average_pos)
+					i = cluster_start_index + 1
+				# Start a new cluster
+				cluster_start_index = i
+				cluster_start_pos = point
+				cluster_sum_pos = {x: point.x, y: point.y}
+			else
+				# If this point is close enough to the start of the cluster, then add it to the cluster
+				cluster_sum_pos.x += point.x
+				cluster_sum_pos.y += point.y
+			i++
+		# If there's a cluster at the end, average it
+		if i - cluster_start_index > 1
+			average_pos = {
+				x: cluster_sum_pos.x / (i - cluster_start_index)
+				y: cluster_sum_pos.y / (i - cluster_start_index)
+			}
+			new_points_list.splice(cluster_start_index, i - cluster_start_index, average_pos)
 
 		# Note: this causes a duplicate signalChange() call; we could avoid it by not calling signalChange() below for this tool
 		editing_entity.structure.fromJSON({points: new_points_list})
