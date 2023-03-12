@@ -78,6 +78,7 @@
 		"keydown",
 		"keyup",
 		"lerp",
+		"mergely",
 		"metrohash",
 		"mousedown",
 		"mousemove",

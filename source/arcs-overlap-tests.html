@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>arcsOverlap tests</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		canvas {
+			margin: 2px;
+			display: inline-block;
+			cursor: pointer;
+			cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAKlBMVEUBAQEAAAAAAAD29vYXERpmZmZSUlJAQEEqKCt4GyieLDzhQUHshIT6rq79lAQLAAAADnRSTlP/AP///////////////1Usv+MAAADDSURBVHic1dCxDcIwEAVQLBaIpZsgE0TKBJE+giTUsAEjQEaAnip1mjhtqlzo6DwCDIPt2CJkA66x9PRPd+eVkL+1ipewdhHKvpDYB7NEaiMbzMBEcDgCCJAK2p5PN9UiQEJ0qWpWbebBRKprx1D3AInc1aXG0HiIY5F3/UOz7TF72LkFP/nNyoGwqxXjCyMcxNIBNHgCISPTY4DLqUU6oG7U/eDB9lDd7xlu7AQyb8pBwUNk5lJhbsk8uKJw7eIH/xk+fAJRbQNRlhIAAAAASUVORK5CYII=") 0 0, pointer;
+		}
+
+		canvas.fail {
+			border: 3px solid red;
+		}
+
+		canvas.pass {
+			border: 3px solid rgba(150, 255, 100, 0.5);
+		}
+
+		.summary {
+			margin-bottom: 1em;
+		}
+	</style>
+</head>
+
+<body>
+	<script type="module">
+		import { arcsOverlap } from "./arcs-overlap.js";
+
+		function test(startAngle1, angleDiff1, startAngle2, angleDiff2) {
+			const result = arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2, chordMode);
+			const canvas = document.createElement("canvas");
+			document.body.append(canvas);
+			canvas.width = canvas.height = 100;
+			const ctx = canvas.getContext("2d");
+			ctx.save();
+			ctx.translate(canvas.width / 2, canvas.height / 2);
+			const r = canvas.width / 2 * 0.9;
+			ctx.beginPath();
+			ctx.arc(0, 0, r, 0, Math.PI * 2);
+			ctx.stroke();
+
+			function drawArc(startAngle, angleDiff, radius, thickness, color) {
+				ctx.lineWidth = thickness;
+				ctx.strokeStyle = color;
+				ctx.beginPath();
+				ctx.arc(0, 0, radius, startAngle, startAngle + angleDiff, angleDiff < 0);
+				ctx.stroke();
+			}
+			drawArc(startAngle1, angleDiff1, r / 2, r / 2, "rgba(255, 0, 0, 0.7)");
+			drawArc(startAngle2, angleDiff2, r / 2 + 4, r / 2, "rgba(0, 0, 255, 0.5)");
+
+			const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+			let expected = false;
+			let purpleX, purpleY;
+			for (let i = 0; i < data.length; i += 4) {
+				if (data[i + 0] > 10 && data[i + 2] > 10 && data[i + 3] > 200) {
+					// found purple overlap
+					expected = true;
+					purpleX = (i / 4) % canvas.width;
+					purpleY = Math.floor((i / 4) / canvas.width);
+					break;
+				}
+			}
+
+			ctx.fillStyle = result ? "purple" : "transparent";
+			ctx.beginPath();
+			ctx.arc(0, 0, r / 6, 0, Math.PI * 2);
+			ctx.fill();
+
+			if (chordMode) {
+				// Calculate the end angles of each arc
+				const endAngle1 = startAngle1 + angleDiff1;
+				const endAngle2 = startAngle2 + angleDiff2;
+
+				// Calculate the start and end points of each chord
+				const startPoint1 = { x: Math.cos(startAngle1), y: Math.sin(startAngle1) };
+				const endPoint1 = { x: Math.cos(endAngle1), y: Math.sin(endAngle1) };
+				const startPoint2 = { x: Math.cos(startAngle2), y: Math.sin(startAngle2) };
+				const endPoint2 = { x: Math.cos(endAngle2), y: Math.sin(endAngle2) };
+
+				// Draw the chords
+				ctx.lineWidth = 1;
+				ctx.strokeStyle = "black";
+				ctx.setLineDash([2, 2]);
+				ctx.beginPath();
+				ctx.moveTo(startPoint1.x * r, startPoint1.y * r);
+				ctx.lineTo(endPoint1.x * r, endPoint1.y * r);
+				ctx.stroke();
+				ctx.beginPath();
+				ctx.moveTo(startPoint2.x * r, startPoint2.y * r);
+				ctx.lineTo(endPoint2.x * r, endPoint2.y * r);
+				ctx.stroke();
+			}
+
+			ctx.restore();
+
+			/*
+			// This is just to see that the purple detection is working right.
+			if (expected) {
+			  ctx.beginPath();
+			  ctx.arc(purpleX, purpleY, 3, 0, Math.PI * 2);
+			  ctx.lineWidth = 3.5;
+			  ctx.strokeStyle = "#000";
+			  ctx.stroke();
+			  ctx.lineWidth = 1.5;
+			  ctx.strokeStyle = "#fff";
+			  ctx.stroke();
+			}
+			*/
+
+			canvas.classList.add("test-result");
+			canvas.classList.add(result === expected ? "pass" : "fail");
+			canvas.setAttribute("title", `
+startAngle1: ${stringifyAngle(startAngle1)}
+angleDiff1: ${stringifyAngle(angleDiff1)}
+startAngle2: ${stringifyAngle(startAngle2)}
+angleDiff2: ${stringifyAngle(angleDiff2)}
+
+expected: ${expected}
+result: ${result}`);
+			canvas.addEventListener("click", () => {
+				debugger;
+				arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2, chordMode);
+			});
+
+			return { expected, result };
+		}
+
+		function stringifyAngle(radians) {
+			const turns = radians / Math.PI / 2;
+			const degrees = Math.round(turns * 360);
+			// turn turns into a fraction
+			const gcd = (a, b) => b ? gcd(b, a % b) : a;
+			const divisor = gcd(Math.round(turns * 1000000), 1000000);
+			const numerator = Math.round(turns * 1000000 / divisor);
+			const denominator = 1000000 / divisor;
+			if (numerator === 1) {
+				return `${degrees}° (1/${denominator} turn)`;
+			}
+			if (numerator === denominator) {
+				return `${degrees}° (1 turn)`;
+			}
+			if (denominator === 1) {
+				return `${degrees}° (${numerator} turns)`;
+			}
+			return `${degrees}° (${numerator}/${denominator} turns)`;
+		}
+
+		function runTests() {
+			document.documentElement.classList.add("wait");
+			setTimeout(() => {
+
+				for (const oldElement of document.querySelectorAll(".test-result, .summary")) {
+					oldElement.remove();
+				}
+
+				let passed = 0;
+				let failed = 0;
+				let falsePositives = 0;
+				let falseNegatives = 0;
+				let total = 0;
+				function countResult({ expected, result }) {
+					total++;
+					if (result === expected) {
+						passed++;
+					} else {
+						failed++;
+						if (result) {
+							falsePositives++;
+						} else {
+							falseNegatives++;
+						}
+					}
+				}
+				if (randomMode) {
+					for (let i = 0; i < 3000; i++) {
+						const startAngle1 = (Math.random() - 1 / 2) * Math.PI * 5;
+						const angleDiff1 = (Math.random() - 1 / 2) * Math.PI * 5;
+						const startAngle2 = (Math.random() - 1 / 2) * Math.PI * 5;
+						const angleDiff2 = (Math.random() - 1 / 2) * Math.PI * 5;
+						countResult(test(startAngle1, angleDiff1, startAngle2, angleDiff2));
+					}
+				} else {
+					// Not varying startAngle2 because it's made to not matter except relative to startAngle1
+					for (let startAngle1 = -Math.PI * 2; startAngle1 < Math.PI * 2; startAngle1 += Math.PI / 4) {
+						for (let angleDiff1 = -Math.PI * 3; angleDiff1 < Math.PI * 3; angleDiff1 += Math.PI / 4) {
+							for (let angleDiff2 = -Math.PI * 2; angleDiff2 < Math.PI * 2; angleDiff2 += Math.PI / 2) {
+								countResult(test(startAngle1, angleDiff1, Math.PI / 4, angleDiff2));
+							}
+						}
+					}
+				}
+
+				if (total === 0) {
+					alert("CodePen's loop protection kicked in. Try re-running.");
+					// https://codepen.io/1j01/pen/yLxpdrM
+					// https://jsfiddle.net/1j01/fokjLg8a/
+					// I'm going back and forth between JSFiddle, which somehow breaks both Chrome and Firefox's debugger,
+					// and CodePen, which has a loop protection that kicks in based on how long the code takes to run,
+					// preventing tests from running.
+					// And I'm copying and pasting code between these fiddles and my local editor, VS Code,
+					// because it's vastly more ergonomic, with multi-cursor editing and GitHub Copilot.
+					// The only way I've maintained my sanity is by leaving all the code selected
+					// in the editors that I'm not actively editing in, so I know it's safe to paste over,
+					// but I still messed up once or twice and had to use mergely to merge the changes.
+					// Preposterous! I should just use a local project.
+					return;
+				}
+
+				if (sortFailuresToTop) {
+					const failures = document.querySelectorAll(".fail");
+					const firstCanvas = document.querySelector("canvas");
+					for (const failure of failures) {
+						firstCanvas.parentNode.insertBefore(failure, firstCanvas);
+					}
+				}
+
+				const summary = document.createElement("div");
+				summary.innerHTML = `${total} total tests
+	${passed} passed (${Math.floor(passed / total * 100)}% success rate)
+	${failed} failed (${Math.ceil(failed / total * 100)}% failure rate)
+		${falsePositives} false positives (${Math.ceil(falsePositives / total * 100)}% failure rate${failed ? `, ${Math.floor(falsePositives / failed * 100)}% of failures` : ""})
+		${falseNegatives} false negatives (${Math.ceil(falseNegatives / total * 100)}% failure rate${failed ? `, ${Math.floor(falseNegatives / failed * 100)}% of failures` : ""})`;
+				document.body.prepend(summary);
+				summary.classList.add("summary");
+				summary.style.whiteSpace = "pre";
+
+				document.documentElement.classList.remove("wait");
+			}, 100);
+		}
+
+		let chordMode = false;
+		let randomMode = false;
+		let sortFailuresToTop = true;
+		const chordModeCheckbox = document.createElement("input");
+		chordModeCheckbox.type = "checkbox";
+		chordModeCheckbox.checked = chordMode;
+		chordModeCheckbox.addEventListener("change", () => {
+			chordMode = chordModeCheckbox.checked;
+			runTests();
+		});
+		const chordModeCheckboxLabel = document.createElement("label");
+		chordModeCheckboxLabel.append(chordModeCheckbox);
+		chordModeCheckboxLabel.append("Chord mode (fundamentally flawed)");
+		document.body.append(chordModeCheckboxLabel);
+		chordModeCheckboxLabel.style.display = "block";
+
+		const randomModeCheckbox = document.createElement("input");
+		randomModeCheckbox.type = "checkbox";
+		randomModeCheckbox.checked = randomMode;
+		randomModeCheckbox.addEventListener("change", () => {
+			randomMode = randomModeCheckbox.checked;
+			runTests();
+		});
+		const randomModeCheckboxLabel = document.createElement("label");
+		randomModeCheckboxLabel.append(randomModeCheckbox);
+		randomModeCheckboxLabel.append("Randomize tests");
+		document.body.append(randomModeCheckboxLabel);
+		randomModeCheckboxLabel.style.display = "block";
+
+		const sortFailuresToTopCheckbox = document.createElement("input");
+		sortFailuresToTopCheckbox.type = "checkbox";
+		sortFailuresToTopCheckbox.checked = sortFailuresToTop;
+		sortFailuresToTopCheckbox.addEventListener("change", () => {
+			sortFailuresToTop = sortFailuresToTopCheckbox.checked;
+			runTests(); // ideally would only sort the failures, but that's a lot of work
+		});
+		const sortFailuresToTopCheckboxLabel = document.createElement("label");
+		sortFailuresToTopCheckboxLabel.append(sortFailuresToTopCheckbox);
+		sortFailuresToTopCheckboxLabel.append("Sort failures to top");
+		document.body.append(sortFailuresToTopCheckboxLabel);
+		sortFailuresToTopCheckboxLabel.style.display = "block";
+
+		runTests();
+	</script>
+</body>
+
+</html>
