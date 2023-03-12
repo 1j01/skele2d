@@ -3,7 +3,7 @@ const TAU = Math.PI * 2;
 export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2) {
 
 	// Handle full circles
-	if (Math.abs(angleDiff1) >= TAU || Math.abs(angleDiff2) >= TAU) {
+	if (Math.abs(angleDiff1) + Math.abs(angleDiff2) >= TAU) {
 		return true;
 	}
 
