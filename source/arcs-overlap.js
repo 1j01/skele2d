@@ -1,7 +1,7 @@
 const TAU = Math.PI * 2;
 const EPSILON = 0.0001;
 
-export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2, chordMode = false) {
+export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2) {
 
 	// Handle zero-length arcs
 	// This is before full circle handling in order to match
@@ -92,33 +92,6 @@ export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2, ch
 				return true;
 			}
 		}
-	}
-
-	if (chordMode) {
-		const endAngle1 = startAngle1 + angleDiff1;
-		const endAngle2 = startAngle2 + angleDiff2;
-
-		// Calculate the start and end points of each chord
-		const startPoint1 = { x: Math.cos(startAngle1), y: Math.sin(startAngle1) };
-		const endPoint1 = { x: Math.cos(endAngle1), y: Math.sin(endAngle1) };
-		const startPoint2 = { x: Math.cos(startAngle2), y: Math.sin(startAngle2) };
-		const endPoint2 = { x: Math.cos(endAngle2), y: Math.sin(endAngle2) };
-
-		const lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4) => {
-			const a_dx = x2 - x1;
-			const a_dy = y2 - y1;
-			const b_dx = x4 - x3;
-			const b_dy = y4 - y3;
-			const s = (-a_dy * (x1 - x3) + a_dx * (y1 - y3)) / (-b_dx * a_dy + a_dx * b_dy);
-			const t = (+b_dx * (y1 - y3) - b_dy * (x1 - x3)) / (-b_dx * a_dy + a_dx * b_dy);
-			return s >= 0 && s <= 1 && t >= 0 && t <= 1;
-		};
-
-		// Check if the chords intersect
-		return lineSegmentsIntersect(
-			startPoint1.x, startPoint1.y, endPoint1.x, endPoint1.y,
-			startPoint2.x, startPoint2.y, endPoint2.x, endPoint2.y
-		);
 	}
 
 	return false;

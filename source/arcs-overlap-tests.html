@@ -32,7 +32,7 @@
 		import { arcsOverlap } from "./arcs-overlap.js";
 
 		function test(startAngle1, angleDiff1, startAngle2, angleDiff2) {
-			const result = arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2, chordMode);
+			const result = arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2);
 			const canvas = document.createElement("canvas");
 			document.body.append(canvas);
 			canvas.width = canvas.height = 100;
@@ -72,31 +72,6 @@
 			ctx.arc(0, 0, r / 6, 0, Math.PI * 2);
 			ctx.fill();
 
-			if (chordMode) {
-				// Calculate the end angles of each arc
-				const endAngle1 = startAngle1 + angleDiff1;
-				const endAngle2 = startAngle2 + angleDiff2;
-
-				// Calculate the start and end points of each chord
-				const startPoint1 = { x: Math.cos(startAngle1), y: Math.sin(startAngle1) };
-				const endPoint1 = { x: Math.cos(endAngle1), y: Math.sin(endAngle1) };
-				const startPoint2 = { x: Math.cos(startAngle2), y: Math.sin(startAngle2) };
-				const endPoint2 = { x: Math.cos(endAngle2), y: Math.sin(endAngle2) };
-
-				// Draw the chords
-				ctx.lineWidth = 1;
-				ctx.strokeStyle = "black";
-				ctx.setLineDash([2, 2]);
-				ctx.beginPath();
-				ctx.moveTo(startPoint1.x * r, startPoint1.y * r);
-				ctx.lineTo(endPoint1.x * r, endPoint1.y * r);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.moveTo(startPoint2.x * r, startPoint2.y * r);
-				ctx.lineTo(endPoint2.x * r, endPoint2.y * r);
-				ctx.stroke();
-			}
-
 			ctx.restore();
 
 			/*
@@ -125,7 +100,7 @@ expected: ${expected}
 result: ${result}`);
 			canvas.addEventListener("click", () => {
 				debugger;
-				arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2, chordMode);
+				arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2);
 			});
 
 			return { expected, result };
@@ -234,21 +209,8 @@ result: ${result}`);
 			}, 100);
 		}
 
-		let chordMode = false;
 		let randomMode = false;
 		let sortFailuresToTop = true;
-		const chordModeCheckbox = document.createElement("input");
-		chordModeCheckbox.type = "checkbox";
-		chordModeCheckbox.checked = chordMode;
-		chordModeCheckbox.addEventListener("change", () => {
-			chordMode = chordModeCheckbox.checked;
-			runTests();
-		});
-		const chordModeCheckboxLabel = document.createElement("label");
-		chordModeCheckboxLabel.append(chordModeCheckbox);
-		chordModeCheckboxLabel.append("Chord mode (fundamentally flawed)");
-		document.body.append(chordModeCheckboxLabel);
-		chordModeCheckboxLabel.style.display = "block";
 
 		const randomModeCheckbox = document.createElement("input");
 		randomModeCheckbox.type = "checkbox";
