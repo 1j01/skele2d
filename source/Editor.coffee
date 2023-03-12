@@ -651,6 +651,9 @@ export default class Editor
 				mouse_world_delta_x = mouse_in_world.x - @previous_mouse_world_x
 				mouse_world_delta_y = mouse_in_world.y - @previous_mouse_world_y
 				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive)
+
+				if (try localStorage["Skele2D disable tool continuity"]) is "true"
+					@tool_active = no
 			else
 				@tool_active = no
 		else
