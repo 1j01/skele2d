@@ -802,7 +802,14 @@ export default class Editor
 	
 	draw: (ctx, view)->
 
-		draw_points = (entity, radius, fillStyle, highlight_first_and_last=no, show_names=no, show_indices=no)=>
+		show_indices_enabled = (try localStorage["Skele2D show indices"]) is "true"
+		show_names_enabled = (try localStorage["Skele2D show names"]) is "true"
+
+		draw_points = (entity, radius, fillStyle)=>
+			show_names = show_names_enabled and entity is @editing_entity
+			show_indices = show_indices_enabled and entity is @editing_entity
+			highlight_first_and_last = show_indices
+
 			if highlight_first_and_last or show_indices
 				keys = Object.keys(entity.structure.points)
 			for point_name, point of entity.structure.points
