@@ -275,21 +275,25 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				arc_signed_area = signed_area(arc_segments)
 				return Math.abs(arc_signed_area + shared_signed_area)
 			
-			act_additive = brush_additive
+			collided_arc = null
 			for arc in generated_arcs
 				# If the new arc overlaps an arc we've already generated, we need to act subtractively.
-				visualizeAngles(arc.angle_a, arc.angle_diff, angle_a, short_arc)
 				if arcsOverlap(arc.angle_a, arc.angle_diff, angle_a, short_arc)
-					act_additive = false
+					visualizeAngles(arc.angle_a, arc.angle_diff, angle_a, short_arc)
+					collided_arc = arc
 					break
 			
-			console.log("brush_additive", brush_additive, "act_additive", act_additive)
-			if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == act_additive
-				new_points = new_points_long_arc
-				generated_arcs.push({ angle_a, angle_diff: long_arc })
+			if collided_arc
+				new_points = collided_arc.points.slice()
+				new_points.reverse()
+				new_points = [start_point, ...new_points, end_point]
 			else
-				new_points = new_points_short_arc
-				generated_arcs.push({ angle_a, angle_diff: short_arc })
+				if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
+					new_points = new_points_long_arc
+					generated_arcs.push({ angle_a, angle_diff: long_arc, points: new_points })
+				else
+					new_points = new_points_short_arc
+					generated_arcs.push({ angle_a, angle_diff: short_arc, points: new_points })
 
 			# Splice the new points into the list of points
 			cyclic_splice = (list, start, delete_count, ...items) ->
