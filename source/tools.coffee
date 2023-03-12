@@ -1,5 +1,6 @@
 import PolygonStructure from "./structure/PolygonStructure.coffee"
 import {distanceToLineSegment, closestPointOnLineSegment} from "./helpers.coffee"
+import {arcsOverlap} from "./arcs-overlap.js"
 
 towards = (starting_point, ending_point, max_distance)->
 	dx = ending_point.x - starting_point.x
@@ -166,6 +167,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 		# Replace the strands with arcs around the center of the brush
 
+		generated_arcs = []
 		new_points_list = points_list.slice()
 		splice_offset = 0
 		for strand in strands
@@ -273,11 +275,21 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				arc_signed_area = signed_area(arc_segments)
 				return Math.abs(arc_signed_area + shared_signed_area)
 			
-			if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
+			act_additive = brush_additive
+			for arc in generated_arcs
+				# If the new arc overlaps an arc we've already generated, we need to act subtractively.
+				if arcsOverlap(arc.angle_a, arc.angle_diff, angle_a, short_arc)
+					act_additive = false
+					break
+			
+			console.log("brush_additive", brush_additive, "act_additive", act_additive)
+			if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == act_additive
 				new_points = new_points_long_arc
+				generated_arcs.push({ angle_a, angle_diff: long_arc })
 			else
 				new_points = new_points_short_arc
-			
+				generated_arcs.push({ angle_a, angle_diff: short_arc })
+
 			# Splice the new points into the list of points
 			cyclic_splice = (list, start, delete_count, ...items) ->
 				# This function preserves earlier indices even when wrapping
