@@ -1,11 +1,29 @@
 const TAU = Math.PI * 2;
+const EPSILON = 0.0001;
 
 export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2) {
 
+	// Handle zero-length arcs
+	// This is before full circle handling in order to match
+	// the test harness's notion of overlap which is based
+	// on image comparison. If any of the arcs are zero-length,
+	// no visual overlap is possible.
+	// if (angleDiff1 === 0 || angleDiff2 === 0) {
+	if (Math.abs(angleDiff1) < EPSILON || Math.abs(angleDiff2) < EPSILON) {
+		// return startAngle1 === startAngle2;
+		// return Math.abs(startAngle1 - startAngle2) < EPSILON;
+		return false;
+	}
+
 	// Handle full circles
+	// (This should be before floating point angle difference shrinking)
 	if (Math.abs(angleDiff1) + Math.abs(angleDiff2) >= TAU) {
 		return true;
 	}
+
+	// For floating point imprecision, shrink arc lengths slightly
+	angleDiff1 -= Math.sign(angleDiff1) * EPSILON;
+	angleDiff2 -= Math.sign(angleDiff2) * EPSILON;
 
 	// Simplify: only the difference in start angles matters,
 	// not their absolute angles
@@ -32,16 +50,16 @@ export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2) {
 		const endAngle2 = startAngle2 + angleDiff2;
 
 		for (let i = 0; i < 2; i++) {
-			if (startAngle1 <= startAngle2 + TAU * i && startAngle2 + TAU * i <= endAngle1) {
+			if (startAngle1 < startAngle2 + TAU * i && startAngle2 + TAU * i < endAngle1) {
 				return true;
 			}
-			if (startAngle2 <= startAngle1 + TAU * i && startAngle1 + TAU * i <= endAngle2) {
+			if (startAngle2 < startAngle1 + TAU * i && startAngle1 + TAU * i < endAngle2) {
 				return true;
 			}
-			if (startAngle1 <= endAngle2 + TAU * i && endAngle2 + TAU * i <= endAngle1) {
+			if (startAngle1 < endAngle2 + TAU * i && endAngle2 + TAU * i < endAngle1) {
 				return true;
 			}
-			if (startAngle2 <= endAngle1 + TAU * i && endAngle1 + TAU * i <= endAngle2) {
+			if (startAngle2 < endAngle1 + TAU * i && endAngle1 + TAU * i < endAngle2) {
 				return true;
 			}
 		}
@@ -61,16 +79,16 @@ export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2) {
 		const endAngle2 = startAngle2 + angleDiff2;
 
 		for (let i = 0; i < 2; i++) {
-			if (startAngle1 <= startAngle2 + TAU * i && startAngle2 + TAU * i <= endAngle1) {
+			if (startAngle1 < startAngle2 + TAU * i && startAngle2 + TAU * i < endAngle1) {
 				return true;
 			}
-			if (startAngle2 <= startAngle1 + TAU * i && startAngle1 + TAU * i <= endAngle2) {
+			if (startAngle2 < startAngle1 + TAU * i && startAngle1 + TAU * i < endAngle2) {
 				return true;
 			}
-			if (startAngle1 <= endAngle2 + TAU * i && endAngle2 + TAU * i <= endAngle1) {
+			if (startAngle1 < endAngle2 + TAU * i && endAngle2 + TAU * i < endAngle1) {
 				return true;
 			}
-			if (startAngle2 <= endAngle1 + TAU * i && endAngle1 + TAU * i <= endAngle2) {
+			if (startAngle2 < endAngle1 + TAU * i && endAngle1 + TAU * i < endAngle2) {
 				return true;
 			}
 		}
