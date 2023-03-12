@@ -63,6 +63,7 @@ export default class Editor
 		# @sculpt_removing = no
 		@brush_additive = yes
 		@tool_active = no
+		@_debug_arcs = []
 		
 		@undos = []
 		@redos = []
@@ -311,6 +312,7 @@ export default class Editor
 		if @editing_entity?
 			for point_name in state.selected_point_names
 				@selected_points.push(@editing_entity.structure.points[point_name])
+		@_debug_arcs = []
 	
 	undoable: (fn)->
 		@undos.push(JSON.stringify(@))
@@ -650,7 +652,7 @@ export default class Editor
 			if @mouse.LMB.down
 				mouse_world_delta_x = mouse_in_world.x - @previous_mouse_world_x
 				mouse_world_delta_y = mouse_in_world.y - @previous_mouse_world_y
-				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive)
+				run_tool(@tool, @editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, @brush_size, @brush_additive, @)
 
 				if (try localStorage["Skele2D disable tool continuity"]) is "true"
 					@tool_active = no
@@ -937,6 +939,13 @@ export default class Editor
 			ctx.fill()
 			ctx.stroke()
 			ctx.restore()
+		
+		for arc in @_debug_arcs
+			ctx.beginPath()
+			ctx.arc(arc.center.x, arc.center.y, arc.radius + (arc.outset ? 0) / view.scale, arc.start_angle ? 0, arc.end_angle ? (Math.PI * 2), arc.anticlockwise ? false)
+			ctx.lineWidth = (arc.thickness ? 5) / view.scale
+			ctx.strokeStyle = arc.color ? "#f0f"
+			ctx.stroke()
 	
 	warn: (message, timeout=2000)->
 		@warning_message = message

@@ -67,7 +67,7 @@ line_circle_intersection = (x1, y1, x2, y2, cx, cy, r) ->
 
 	return intersections
 
-export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size, brush_additive)->
+export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mouse_world_delta_y, brush_size, brush_additive, editor)->
 	local_mouse_position = editing_entity.fromWorld(mouse_in_world)
 
 	indices_within_radius = []
@@ -287,13 +287,70 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				new_points = collided_arc.points.slice()
 				new_points.reverse()
 				new_points = [start_point, ...new_points, end_point]
+				editor._debug_arcs.push({
+					center: mouse_in_world
+					radius: brush_size
+					outset: -2
+					start_angle: angle_a
+					end_angle: angle_a - short_arc
+					anticlockwise: long_arc < 0
+					color: "rgba(255, 0, 0, 1)"
+				})
 			else
 				if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
 					new_points = new_points_long_arc
 					generated_arcs.push({ angle_a, angle_diff: long_arc, points: new_points })
+					editor._debug_arcs.push({
+						center: editing_entity.toWorld(new_points[0])
+						radius: 0 # world space
+						outset: 10 # screen space
+						color: "rgba(0, 0, 255, 1)"
+					})
+					editor._debug_arcs.push({
+						center: mouse_in_world
+						radius: brush_size
+						outset: 2 + 5 * generated_arcs.length
+						start_angle: angle_a
+						end_angle: angle_a - long_arc
+						anticlockwise: long_arc > 0
+						color: "rgba(0, 0, 255, 1)"
+					})
+					editor._debug_arcs.push({
+						center: mouse_in_world
+						radius: brush_size
+						outset: 2 + 5 * generated_arcs.length
+						start_angle: angle_a
+						end_angle: angle_a - short_arc
+						anticlockwise: short_arc > 0
+						color: "rgba(0, 255, 0, 0.1)"
+					})
 				else
 					new_points = new_points_short_arc
 					generated_arcs.push({ angle_a, angle_diff: short_arc, points: new_points })
+					editor._debug_arcs.push({
+						center: editing_entity.toWorld(new_points[0])
+						radius: 0 # world space
+						outset: 10 # screen space
+						color: "rgba(0, 255, 0, 1)"
+					})
+					editor._debug_arcs.push({
+						center: mouse_in_world
+						radius: brush_size
+						outset: 2 + 5 * generated_arcs.length
+						start_angle: angle_a
+						end_angle: angle_a - short_arc
+						anticlockwise: short_arc > 0
+						color: "rgba(0, 255, 0, 1)"
+					})
+					editor._debug_arcs.push({
+						center: mouse_in_world
+						radius: brush_size
+						outset: 2 + 5 * generated_arcs.length
+						start_angle: angle_a
+						end_angle: angle_a - long_arc
+						anticlockwise: long_arc > 0
+						color: "rgba(0, 0, 255, 0.1)"
+					})
 
 			# Splice the new points into the list of points
 			cyclic_splice = (list, start, delete_count, ...items) ->
