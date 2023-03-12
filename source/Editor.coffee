@@ -872,7 +872,14 @@ export default class Editor
 				ctx.lineCap = "round"
 				ctx.strokeStyle = strokeStyle
 				ctx.stroke()
-		
+
+		for arc in @_debug_arcs
+			ctx.beginPath()
+			ctx.arc(arc.center.x, arc.center.y, arc.radius + (arc.outset ? 0) / view.scale, arc.start_angle ? 0, arc.end_angle ? (Math.PI * 2), arc.anticlockwise ? false)
+			ctx.lineWidth = (arc.thickness ? 5) / view.scale
+			ctx.strokeStyle = arc.color ? "#f0f"
+			ctx.stroke()
+
 		if @editing_entity
 			ctx.save()
 			ctx.translate(@editing_entity.x, @editing_entity.y)
@@ -939,14 +946,7 @@ export default class Editor
 			ctx.fill()
 			ctx.stroke()
 			ctx.restore()
-		
-		for arc in @_debug_arcs
-			ctx.beginPath()
-			ctx.arc(arc.center.x, arc.center.y, arc.radius + (arc.outset ? 0) / view.scale, arc.start_angle ? 0, arc.end_angle ? (Math.PI * 2), arc.anticlockwise ? false)
-			ctx.lineWidth = (arc.thickness ? 5) / view.scale
-			ctx.strokeStyle = arc.color ? "#f0f"
-			ctx.stroke()
-	
+
 	warn: (message, timeout=2000)->
 		@warning_message = message
 		@show_warning = yes
