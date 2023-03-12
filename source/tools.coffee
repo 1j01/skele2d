@@ -282,7 +282,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			for arc in generated_arcs
 				# If the new arc overlaps an arc we've already generated, we need to act subtractively.
 				if arcsOverlap(arc.angle_a, -arc.angle_diff, angle_a, -use_arc)
-					visualizeAngles(arc.angle_a, -arc.angle_diff, angle_a, -use_arc)
+					# visualizeAngles(arc.angle_a, -arc.angle_diff, angle_a, -use_arc)
 					collided_arc = arc
 					break
 			
