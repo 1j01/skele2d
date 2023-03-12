@@ -96,3 +96,44 @@ export function arcsOverlap(startAngle1, angleDiff1, startAngle2, angleDiff2) {
 
 	return false;
 }
+
+export function visualizeAngles(startAngle1, angleDiff1, startAngle2, angleDiff2) {
+	const canvas = document.createElement("canvas");
+	document.body.append(canvas);
+	canvas.width = canvas.height = 100;
+	const ctx = canvas.getContext("2d");
+	ctx.save();
+	ctx.translate(canvas.width / 2, canvas.height / 2);
+	// ctx.rotate(Math.PI / 2); // or something?
+	const r = canvas.width / 2 * 0.9;
+	ctx.beginPath();
+	ctx.arc(0, 0, r, 0, Math.PI * 2);
+	ctx.stroke();
+
+	function drawArc(startAngle, angleDiff, radius, thickness, color) {
+		ctx.lineWidth = thickness;
+		ctx.strokeStyle = color;
+		ctx.beginPath();
+		ctx.arc(0, 0, radius, startAngle, startAngle + angleDiff, angleDiff < 0);
+		ctx.stroke();
+	}
+	drawArc(startAngle1, angleDiff1, r / 2, r / 2, "rgba(255, 0, 0, 0.7)");
+	drawArc(startAngle2, angleDiff2, r / 2 + 4, r / 2, "rgba(0, 0, 255, 0.5)");
+
+	ctx.restore();
+
+	const url = canvas.toDataURL();
+	const css = `
+		font-size: 1px;
+		padding:
+			${Math.floor(canvas.height / 2)}px
+			${Math.floor(canvas.width / 2)}px;
+		line-height: ${canvas.height}px;
+		background-image: url('${url}');
+		background-size: ${canvas.width}px ${canvas.height}px;
+		background-position: center center;
+		background-repeat: no-repeat;
+		color: transparent;
+	`;
+	console.log("%c.", css);
+}

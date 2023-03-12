@@ -1,6 +1,6 @@
 import PolygonStructure from "./structure/PolygonStructure.coffee"
 import {distanceToLineSegment, closestPointOnLineSegment} from "./helpers.coffee"
-import {arcsOverlap} from "./arcs-overlap.js"
+import {arcsOverlap, visualizeAngles} from "./arcs-overlap.js"
 
 towards = (starting_point, ending_point, max_distance)->
 	dx = ending_point.x - starting_point.x
@@ -278,6 +278,7 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			act_additive = brush_additive
 			for arc in generated_arcs
 				# If the new arc overlaps an arc we've already generated, we need to act subtractively.
+				visualizeAngles(arc.angle_a, arc.angle_diff, angle_a, short_arc)
 				if arcsOverlap(arc.angle_a, arc.angle_diff, angle_a, short_arc)
 					act_additive = false
 					break
