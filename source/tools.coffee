@@ -275,11 +275,14 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 				arc_signed_area = signed_area(arc_segments)
 				return Math.abs(arc_signed_area + shared_signed_area)
 			
+			use_long_arc = (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
+			use_arc = if use_long_arc then long_arc else short_arc
+
 			collided_arc = null
 			for arc in generated_arcs
 				# If the new arc overlaps an arc we've already generated, we need to act subtractively.
-				if arcsOverlap(arc.angle_a, arc.angle_diff, angle_a, short_arc)
-					visualizeAngles(arc.angle_a, arc.angle_diff, angle_a, short_arc)
+				if arcsOverlap(arc.angle_a, -arc.angle_diff, angle_a, -use_arc)
+					visualizeAngles(arc.angle_a, -arc.angle_diff, angle_a, -use_arc)
 					collided_arc = arc
 					break
 			
@@ -292,12 +295,12 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 					radius: brush_size
 					outset: -2
 					start_angle: angle_a
-					end_angle: angle_a - short_arc
-					anticlockwise: long_arc < 0
+					end_angle: angle_a - use_arc
+					anticlockwise: use_arc > 0
 					color: "rgba(255, 0, 0, 1)"
 				})
 			else
-				if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
+				if use_long_arc
 					new_points = new_points_long_arc
 					generated_arcs.push({ angle_a, angle_diff: long_arc, points: new_points })
 					editor._debug_arcs.push({
