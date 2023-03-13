@@ -42,6 +42,7 @@ export default class ToolsBar extends Component
 						onClick: (e)=>
 							editor.tool = name
 							editor.renderDOM()
+						title: name[0].toUpperCase() + name.slice(1)
 						# E "i.material-icons", E "i.material-symbols-outlined", icon
 						E "img", src: icon
 			E ".tool-options",
