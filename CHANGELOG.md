@@ -23,6 +23,14 @@ All notable changes to this project will be documented in this file.
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 - It will no longer create useless undo states if you hit <kbd>Delete</kbd> when nothing is selected.
 - Errors in entity construction, serialization, or rendering are now handled gracefully in the entities palette. The error message is shown in the palette, with hover text for the full error message. The errors are localized to the specific entity preview, instead of cascading to the whole palette.
+- You can now double click on a segment to add a point at the midpoint of the segment.
+- The "Sculpt mode" toggle is replaced with a tools bar with several tools.
+  - Sculpting now works on bone structures in addition to terrain.
+  - There are new Roughen and Smooth tools, which are useful for terrain, but also apply to bone structures
+  - There is a new Paint tool for terrain, which lets you shape the terrain with a brush, creating and removing points as you go.
+    - You can add by clicking and dragging from within the polygon, and subtract by dragging from outside the polygon.
+    - This tool uses a completely bespoke algorithm for polygon merging, which handles most edge cases, but you have to be careful not to create self-intersecting polygons, as it has no way to create "islands" or "holes" in the polygon, and it will currently *expand from both sides*, rather than meeting in the middle or expanding from one side, leading to more and more self-intersecting geometry. It will also occasionally choose the wrong arc, subtracting instead of adding or visa versa. (I have fixes in progress for both of these issues.)
+- You can now enable labeling points with their names or indices via the console with `localStorage["Skele2D show names"] = true` or `localStorage["Skele2D show indices"] = true`.
 
 </details>
 
