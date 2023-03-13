@@ -15,12 +15,14 @@ export default class ToolsBar extends Component
 		super()
 		@state = {visible: no}
 		@tools = [
-			{name: "select", icon: selectIcon, buttonRef: React.createRef()}
-			{name: "sculpt", icon: pushIcon, buttonRef: React.createRef()}
-			{name: "roughen", icon: roughenIcon, buttonRef: React.createRef()}
-			{name: "smooth", icon: smoothIcon, buttonRef: React.createRef()}
-			{name: "paint", icon: paintIcon, buttonRef: React.createRef()}
+			{name: "select", icon: selectIcon}
+			{name: "sculpt", icon: pushIcon}
+			{name: "roughen", icon: roughenIcon}
+			{name: "smooth", icon: smoothIcon}
+			{name: "paint", icon: paintIcon}
 		]
+		for tool in @tools
+			tool.buttonRef = React.createRef()
 	
 	render: ->
 		{editor} = @props
