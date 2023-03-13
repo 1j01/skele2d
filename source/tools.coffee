@@ -116,11 +116,13 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 		# First initialize strands from segments that cross or are within the brush radius.
 		strands = []
 		for segment_name, segment of editing_entity.structure.segments
+			a_index = original_points_list.indexOf(segment.a)
+			b_index = original_points_list.indexOf(segment.b)
 			if (
-				(segment.a in indices_within_radius and segment.b in indices_within_radius) or
+				(a_index in indices_within_radius and b_index in indices_within_radius) or
 				distanceToLineSegment(local_mouse_position, segment.a, segment.b) < brush_size
 			)
-				strands.push([original_points_list.indexOf(segment.a), original_points_list.indexOf(segment.b)])
+				strands.push([a_index, b_index])
 
 		# console.log("strands before joining", strands.join(" --- "))
 
