@@ -31,6 +31,7 @@ export default class ToolsBar extends Component
 						key: i
 						ariaPressed: name is editor.tool
 						ref: buttonRef
+						disabled: name is "paint" and not (editor.editing_entity instanceof Terrain)
 						onClick: (e)=>
 							editor.tool = name
 							editor.renderDOM()

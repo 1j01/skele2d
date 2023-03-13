@@ -311,6 +311,8 @@ export default class Editor
 		if @editing_entity?
 			for point_name in state.selected_point_names
 				@selected_points.push(@editing_entity.structure.points[point_name])
+			if @tool is "paint" and @editing_entity not instanceof Terrain
+				@tool = "select"
 	
 	undoable: (fn)->
 		@undos.push(JSON.stringify(@))
@@ -725,6 +727,8 @@ export default class Editor
 	editEntity: (entity)->
 		@editing_entity = entity
 		@selected_entities = [entity]
+		if @tool is "paint" and @editing_entity not instanceof Terrain
+			@tool = "select"
 	
 	finishEditingEntity: ->
 		@editing_entity = null
