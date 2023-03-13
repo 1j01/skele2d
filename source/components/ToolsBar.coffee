@@ -2,6 +2,11 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {Component} from "react"
 import E from "react-script"
+import selectIcon from "../icons/select.svg"
+import pushIcon from "../icons/push-arrows-in-circle.svg"
+import roughenIcon from "../icons/roughen.svg"
+import smoothIcon from "../icons/smooth.svg"
+import paintIcon from "../icons/brush.svg"
 
 import Terrain from "../base-entities/Terrain.coffee"
 
@@ -10,11 +15,11 @@ export default class ToolsBar extends Component
 		super()
 		@state = {visible: no}
 		@tools = [
-			{name: "select", icon: "arrow_selector_tool", buttonRef: React.createRef()}
-			{name: "sculpt", icon: "touch_app", buttonRef: React.createRef()}
-			{name: "roughen", icon: "floor", buttonRef: React.createRef()}
-			{name: "smooth", icon: "waves", buttonRef: React.createRef()}
-			{name: "paint", icon: "brush", buttonRef: React.createRef()}
+			{name: "select", icon: selectIcon, buttonRef: React.createRef()}
+			{name: "sculpt", icon: pushIcon, buttonRef: React.createRef()}
+			{name: "roughen", icon: roughenIcon, buttonRef: React.createRef()}
+			{name: "smooth", icon: smoothIcon, buttonRef: React.createRef()}
+			{name: "paint", icon: paintIcon, buttonRef: React.createRef()}
 		]
 	
 	render: ->
@@ -36,6 +41,8 @@ export default class ToolsBar extends Component
 							editor.tool = name
 							editor.renderDOM()
 						# E "i.material-icons", E "i.material-symbols-outlined", icon
+						E "img", src: icon
+						" "
 						name
 			E ".tool-options",
 				E "label",

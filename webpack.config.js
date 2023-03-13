@@ -28,6 +28,10 @@ const makeConfig = ({ minimize, esm }) => {
           test: /\.css$/,
           use: ['style-loader', 'css-loader']
         },
+        {
+          test: /\.(svg)$/i,
+          type: "asset",
+        },
       ],
     },
     optimization: {

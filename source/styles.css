@@ -86,6 +86,12 @@
 	background: rgba(0, 157, 255, 0.12);
 	box-shadow: 0 0 0 2px rgba(0, 157, 255, 0.5) inset;
 }
+.tools button img {
+	pointer-events: none;
+}
+.tools button:disabled img {
+	opacity: 0.4;
+}
 .tool-options label span {
 	text-align: center;
 	width: 100%;
