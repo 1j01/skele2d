@@ -33,8 +33,8 @@ export default class ToolsBar extends Component
 		E ".bar.tools-bar", class: {visible},
 			E ".tools",
 				@tools.map ({name, icon, buttonRef}, i)=>
-					# E "button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored",
-					E "button.mdl-button.mdl-js-button.mdl-button--colored",
+					E "button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored",
+					# E "button.mdl-button.mdl-js-button.mdl-button--colored",
 						key: i
 						ariaPressed: name is editor.tool
 						ref: buttonRef
@@ -44,8 +44,6 @@ export default class ToolsBar extends Component
 							editor.renderDOM()
 						# E "i.material-icons", E "i.material-symbols-outlined", icon
 						E "img", src: icon
-						" "
-						name
 			E ".tool-options",
 				E "label",
 					E "span.mdl-checkbox__label.mdl-slider__label", "Brush Size"

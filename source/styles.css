@@ -92,6 +92,11 @@
 .tools button:disabled img {
 	opacity: 0.4;
 }
+.mdl-button--icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
 .tool-options label span {
 	text-align: center;
 	width: 100%;
