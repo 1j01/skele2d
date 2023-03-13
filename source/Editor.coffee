@@ -596,6 +596,11 @@ export default class Editor
 			if @hovered_entities.length
 				if @hovered_entities[0] in @selected_entities
 					@editEntity(@hovered_entities[0])
+			###
+			This needs hover feedback. I implemented it mainly as a stepping stone
+			for the paint tool. (I needed to figure out how to splice in new points,
+			and this was a simple feature to implement.)
+			
 			else if @hovered_segments.length
 				# Add a point to the hovered segment, near the mouse.
 				segment = @hovered_segments[0]
@@ -608,6 +613,7 @@ export default class Editor
 						index = Math.min(index_a, index_b) + 1
 						vertices.splice(index, 0, new_point)
 						@editing_entity.structure.fromJSON({points: vertices})
+			###
 			else
 				# TODO: don't exit editing mode if the entity being edited is hovered
 				# except there needs to be a visual indication of hover for the editing entity
