@@ -14,6 +14,8 @@ export default class Anim extends Component
 	
 	render: ->
 		{entity, EntityClass, name, type_of_anims, selected, select, delete_item, update, editor} = @props
+		max_width = 200
+		max_height = 100
 		E "article",
 			class: {selected}
 			onClick: (e)=>
@@ -26,6 +28,7 @@ export default class Anim extends Component
 				# TODO: for animation-frames, instead of a textfield have a reorder handle and a duration control
 				# well, a reorder handle might be nice for the other anims too
 				E ".title-bar",
+					style: {maxWidth: max_width}
 					E ".mdl-textfield.mdl-js-textfield.name",
 						ref: (@mdl_textfield_el)=>
 						E "input.mdl-textfield__input",
@@ -59,7 +62,7 @@ export default class Anim extends Component
 							Entity.saveAnimations(EntityClass)
 						E "i.material-icons", "delete"
 			E EntityPreview, {
-				entity, max_width: 200, max_height: 100
+				entity, max_width, max_height
 				ref: (@entity_preview)=>
 			}
 	
