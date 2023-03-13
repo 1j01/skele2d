@@ -509,10 +509,6 @@ export default class Editor
 			
 			if @dragging_entities.length
 				@save()
-				for entity, i in @dragging_entities
-					if entity.vx? and entity.vy?
-						entity.vx = (mouse_in_world.x + @drag_offsets[i].x - entity.x) / 3
-						entity.vy = (mouse_in_world.y + @drag_offsets[i].y - entity.y) / 3
 				@dragging_entities = []
 			
 			if @selection_box
