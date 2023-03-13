@@ -3,6 +3,15 @@
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	/* This is to allow clicking through to the canvas which is underneath the editor.
+	It has to be carefully re-enabled on children with pointer-events: auto; */
+	pointer-events: none;
 }
 .grabbable {
 	cursor: move; /* fallback if grab cursor is unsupported */
@@ -23,6 +32,8 @@
 	display: flex;
 	align-items: stretch;
 	align-content: flex-start;
+	flex: 0 0 auto;
+	pointer-events: auto;
 }
 .bar:not(.visible) {
 	opacity: 0;
@@ -42,8 +53,30 @@
 .sidebar.right-sidebar {
 	right: 0;
 }
-.bar article,
-.tools {
+.tools-bar:not(.visible) {
+	/* It needs to not take up vertical space when hidden.
+	The opacity transition is bad with height: 0 here,
+	so just hide the element until a better transition is developed. */
+	/* height: 0; */
+	display: none;
+}
+.tools-bar {
+	z-index: 2;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+	flex-direction: row;
+	align-items: center;
+}
+.layout-horizontal {
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+}
+.layout-vertical {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+.bar article {
 	padding: 1rem;
 	padding-top: 0.5rem;
 	display: flex;
@@ -57,7 +90,6 @@
 	text-align: center;
 	width: 100%;
 	display: inline-block;
-	margin-top: 1rem;
 }
 .bar article:hover {
 	background: rgba(0, 0, 0, 0.08);
@@ -184,6 +216,7 @@ article.placeholder {
 	color: #BF360C;
 	border-radius: 2px;
 	transition: opacity 0.2s ease;
+	pointer-events: auto;
 }
 .warning:not(.show) {
 	pointer-events: none;

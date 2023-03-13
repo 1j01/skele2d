@@ -978,10 +978,19 @@ export default class Editor
 		, timeout
 	
 	renderDOM: ->
+		# Note that pointer-events: none is used on the editor
+		# to allow clicking through to the canvas, which is outside the editor.
+		# If changing the structure here, make sure pointer-events is enabled
+		# on any elements that should be clickable.
 		react_root = E ".editor",
-			E EntitiesBar, editor: @, ref: (@entities_bar)=>
-			E AnimBar, editor: @, ref: (@anim_bar)=>
-			E ToolsBar, editor: @, ref: (@tools_bar)=>
+			E ".layout-vertical",
+				E ".layout-horizontal",
+					# The Animation sidebar actually goes on top of the Entities sidebar
+					E "div", {style: {position: "relative", flex: 1}},
+						E EntitiesBar, editor: @, ref: (@entities_bar)=>
+						E AnimBar, editor: @, ref: (@anim_bar)=>
+					# E "div", {style: {flex: 1}}
+				E ToolsBar, editor: @, ref: (@tools_bar)=>
 			E ".warning",
 				class: ("show" if @show_warning)
 				@warning_message

@@ -23,8 +23,7 @@ export default class ToolsBar extends Component
 		
 		{tool, brush_size} = editor
 		
-		E ".bar.sidebar.right-sidebar.tools-bar", class: {visible},
-			E "h1", "Tools"
+		E ".bar.tools-bar", class: {visible},
 			E ".tools",
 				@tools.map ({name, icon, buttonRef}, i)=>
 					# E "button.mdl-button.mdl-js-button.mdl-button--icon.mdl-button--colored",
