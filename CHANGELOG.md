@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file.
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 - It will no longer create useless undo states if you hit <kbd>Delete</kbd> when nothing is selected.
 - Errors in entity construction, serialization, or rendering are now handled gracefully in the entities palette. The error message is shown in the palette, with hover text for the full error message. The errors are localized to the specific entity preview, instead of cascading to the whole palette.
-- You can now double click on a segment to add a point at the midpoint of the segment.
+- You can now double click on a segment to add a point at the mouse, when editing polygons.
 - The "Sculpt mode" toggle is replaced with a tools bar with several tools.
   - Sculpting now works on bone structures in addition to terrain.
   - There are new Roughen and Smooth tools, which are useful for terrain, but also apply to bone structures

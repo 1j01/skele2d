@@ -11,7 +11,7 @@ import Entity from "./base-entities/Entity.coffee"
 import Pose from "./structure/Pose.coffee"
 import BoneStructure from "./structure/BoneStructure.coffee"
 import PolygonStructure from "./structure/PolygonStructure.coffee"
-import {distanceToLineSegment, distance} from "./helpers.coffee"
+import {distanceToLineSegment, distance, closestPointOnLineSegment} from "./helpers.coffee"
 import {entityClasses} from "./entity-class-registry.coffee"
 import {run_tool} from "./tools.coffee"
 TAU = Math.PI * 2
@@ -597,18 +597,16 @@ export default class Editor
 				if @hovered_entities[0] in @selected_entities
 					@editEntity(@hovered_entities[0])
 			else if @hovered_segments.length
-				# Add a point in the middle of the hovered segment
+				# Add a point to the hovered segment, near the mouse.
 				segment = @hovered_segments[0]
 				if @editing_entity?.structure instanceof PolygonStructure
 					@undoable =>
+						new_point = closestPointOnLineSegment(mouse_in_world, segment.a, segment.b)
 						vertices = @editing_entity.structure.toJSON().points
 						index_a = Object.values(@editing_entity.structure.points).indexOf(segment.a)
 						index_b = Object.values(@editing_entity.structure.points).indexOf(segment.b)
 						index = Math.min(index_a, index_b) + 1
-						vertices.splice(index, 0, {
-							x: segment.a.x + (segment.b.x - segment.a.x) / 2
-							y: segment.a.y + (segment.b.y - segment.a.y) / 2
-						})
+						vertices.splice(index, 0, new_point)
 						@editing_entity.structure.fromJSON({points: vertices})
 			else
 				# TODO: don't exit editing mode if the entity being edited is hovered
