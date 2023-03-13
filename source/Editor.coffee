@@ -812,6 +812,13 @@ export default class Editor
 
 			if highlight_first_and_last or show_indices
 				keys = Object.keys(entity.structure.points)
+			if show_names
+				center = {x: 0, y: 0}
+				for point_name, point of entity.structure.points
+					center.x += point.x
+					center.y += point.y
+				center.x /= Object.keys(entity.structure.points).length
+				center.y /= Object.keys(entity.structure.points).length
 			for point_name, point of entity.structure.points
 				if highlight_first_and_last
 					first = point_name is keys[0]
@@ -822,8 +829,30 @@ export default class Editor
 						ctx.fillStyle = if first then "lime" else "blue"
 						ctx.fill()
 				if show_names
-					ctx.fillStyle = "black"
-					ctx.fillText(point_name, point.x + radius, point.y)
+					side = if point.x > center.x then 1 else -1
+					y_side = if point.y > center.y then 1 else -1
+					ctx.font = "20px sans-serif"
+					ctx.save()
+					ctx.translate(point.x, point.y)
+					ctx.scale(1 / view.scale, 1 / view.scale)
+					ctx.textAlign = if side is 1 then "left" else "right"
+					width = ctx.measureText(point_name).width
+					height = 20
+					x_padding = 20
+					y_padding = 5
+					ctx.strokeStyle = "black"
+					ctx.lineWidth = 2
+					ctx.beginPath()
+					ctx.moveTo(0, 0)
+					ctx.translate(side * 60, y_side * 30)
+					ctx.lineTo(0, 0)
+					ctx.stroke()
+					ctx.fillStyle = "rgba(0, 0, 0, 0.5)"
+					ctx.fillRect(0, -(height + y_padding)/2, side * (width + x_padding*2), height+y_padding*2)
+					ctx.fillStyle = "white"
+					ctx.textBaseline = "middle"
+					ctx.fillText(point_name, side * x_padding, height/2-y_padding)
+					ctx.restore()
 				if show_indices
 					index = keys.indexOf(point_name)
 					width = ctx.measureText(index).width
