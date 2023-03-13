@@ -279,6 +279,17 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 			
 			total_expected_area = (new_arc_points)->
 				arc_segments = [start_point, ...new_arc_points].map((point, i) -> {a: point, b: new_arc_points[i+1] ? end_point})
+				arc_segments = [start_point, ...new_arc_points].map((point, i) -> `{
+					a: point,
+					b: new_arc_points[i+1] ?? end_point,
+					get foo() { console.log("foo"); editor.selected_points = [point]; return 0; },
+				}`)
+				# for p in new_arc_points
+				# 	# create a dummy getter to expand in the console to highlight the point
+				# 	Object.defineProperty(p, "[show in world]", {
+				# 		get: () -> editor.selected_points = [p],
+				# 		enumerable: true,
+				# 	})
 				arc_signed_area = signed_area(arc_segments)
 				console.log("arc_signed_area", arc_signed_area, new_arc_points is new_points_long_arc)
 				return Math.abs(arc_signed_area + shared_signed_area)
