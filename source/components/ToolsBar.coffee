@@ -47,7 +47,7 @@ export default class ToolsBar extends Component
 						E "img", src: icon
 			E ".tool-options",
 				E "label",
-					E "span.mdl-checkbox__label.mdl-slider__label", "Brush Size"
+					E "span", "Brush Size:"
 					E "input.mdl-slider.mdl-js-slider",
 						type: "range", min: 0, max: 100, value: brush_size, tabIndex: 0
 						disabled: tool not in ["sculpt", "roughen", "smooth", "paint"]

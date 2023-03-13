@@ -97,10 +97,12 @@
 	align-items: center;
 	justify-content: center;
 }
+.tool-options label {
+	display: inline-flex;
+	margin-left: 2rem;
+}
 .tool-options label span {
-	text-align: center;
-	width: 100%;
-	display: inline-block;
+	margin-right: -20px;
 }
 .bar article:hover {
 	background: rgba(0, 0, 0, 0.08);
