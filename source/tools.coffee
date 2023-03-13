@@ -263,16 +263,24 @@ export run_tool = (tool, editing_entity, mouse_in_world, mouse_world_delta_x, mo
 
 			# Analytic solution using shoelace formula
 			signed_area = (segments) ->
+				console.log "including segments", segments
 				sum = 0
 				for segment in segments
 					sum += (segment.b.x - segment.a.x) * (segment.b.y + segment.a.y)
 				return sum / 2
 			
-			shared_signed_area = signed_area(Object.values(editing_entity.structure.segments).filter((segment) -> segment.a not in strand and segment.b not in strand))
+			shared_signed_area = signed_area(Object.values(editing_entity.structure.segments).filter((segment) =>
+				a_index = original_points_list.indexOf(segment.a)
+				b_index = original_points_list.indexOf(segment.b)
+				console.log("a_index", a_index, "b_index", b_index)
+				return not (a_index in strand and b_index in strand)
+			))
+			console.log("shared_signed_area", shared_signed_area, "strand", strand.join(","))
 			
 			total_expected_area = (new_arc_points)->
 				arc_segments = [start_point, ...new_arc_points].map((point, i) -> {a: point, b: new_arc_points[i+1] ? end_point})
 				arc_signed_area = signed_area(arc_segments)
+				console.log("arc_signed_area", arc_signed_area, new_arc_points is new_points_long_arc)
 				return Math.abs(arc_signed_area + shared_signed_area)
 			
 			if (total_expected_area(new_points_short_arc) < total_expected_area(new_points_long_arc)) == brush_additive
