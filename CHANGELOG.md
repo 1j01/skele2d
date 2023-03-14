@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - There is a new `signalChange` method on `PolygonStructure`, which should be used instead of calling `onchange` (if `onchange` is set), since it also updates the bounding box properties, and may in the future support multiple listeners.
 - `Terrain` no longer requires a global `SimplexNoise`; it will generate flat terrain if it's not available.
 - Added helper function `closestPointOnLineSegment(point, a, b)`
+- Removed icon font from demos. It was never used, and the editor now sports custom SVG icons, so I have no plans to use Material Icons. You can remove it from your project if you're including it.
 
 ### Editor
 
