@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+Nothing yet.
+
+</details>
+
+## [0.0.10] - 2023-03-14 (π day)
+
 ### Library
 
 - `PolygonStructure` now has `bbox_min` and `bbox_max` properties, which are the minimum and maximum coordinates of the bounding box of the polygon.
@@ -25,7 +31,6 @@ All notable changes to this project will be documented in this file.
 - Added "Select Same Type" to the context menu for entities. You can also select multiple entities and then right-click to select all entities any of the selected entity types.
 - It will no longer create useless undo states if you hit <kbd>Delete</kbd> when nothing is selected.
 - Errors in entity construction, serialization, or rendering are now handled gracefully in the entities palette. The error message is shown in the palette, with hover text for the full error message. The errors are localized to the specific entity preview, instead of cascading to the whole palette.
-<!-- - You can now double click on a segment to add a point at the mouse, when editing polygons. -->
 - The "Sculpt mode" toggle is replaced with a tools bar with several tools.
   - Sculpting now works on bone structures in addition to terrain.
   - There are new Roughen and Smooth tools, which are useful for terrain, but also apply to bone structures
@@ -34,8 +39,6 @@ All notable changes to this project will be documented in this file.
     - This tool uses a completely bespoke algorithm for polygon merging, which handles most edge cases, but you have to be careful not to create self-intersecting polygons, as it has no way to create "islands" or "holes" in the polygon, and it will currently *expand from both sides*, rather than meeting in the middle or expanding from one side, leading to more and more self-intersecting geometry. It will also occasionally choose the wrong arc, subtracting instead of adding or visa versa. (I have fixes in progress for both of these issues.)
 - You can now enable labeling points with their names or indices via the console with `localStorage["Skele2D show names"] = true` or `localStorage["Skele2D show indices"] = true`.
 - Dragging entities will no longer modify `entity.vx` and `entity.vy` to "throw" entities, behavior intended for editing while simulating, which is not currently... encouraged, in any of the demos. This behavior was confusing me when I was seeing the facing direction of a player entity sometimes change when starting the simulation, even for new entities, but not always. It took me a while to figure out it was due to `vx` changing when dragging the entity into the scene. Anyways the flinging behavior wasn't that good anyways, since it didn't average the mouse movement over a time period[.](https://github.com/1j01/mind-map/blob/857d8ed54f745cb0628378861df63f6ad9d02b1b/app.coffee#LL217C33-L217C33)
-
-</details>
 
 ## [0.0.9]
 
@@ -135,7 +138,8 @@ published so I can start referencing this package in Tiamblia.
 - Published as uncompiled CoffeeScript. So are any further versions until I mention otherwise.
 
 [Tiamblia]: https://github.com/1j01/tiamblia-game
-[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.9...HEAD
+[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.10...HEAD
+[0.0.10]: https://github.com/1j01/skele2d/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/1j01/skele2d/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/1j01/skele2d/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/1j01/skele2d/compare/v0.0.6...v0.0.7
