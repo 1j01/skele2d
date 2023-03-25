@@ -32,21 +32,38 @@ export default class Anim extends Component
 					E ".mdl-textfield.mdl-js-textfield.name",
 						ref: (@mdl_textfield_el)=>
 						E "input.mdl-textfield__input",
-							value: name
+							value: name.replace(/TEMP_NAME_SENTINEL\d*$/, "")
+							ref: (@name_input_el)=>
+							dataInvalidNotUnique: name.includes("TEMP_NAME_SENTINEL")
+							required: true
+							onFocus: (e)=>
+								@name_input_el.reportValidity()
 							onChange: (e)=>
 								new_name = e.target.value
 								# TODO: use error classes and messages instead of intrusive alerts
 								if type_of_anims is "animations"
 									if EntityClass.animations[new_name]
-										alert("There's already an animation with the name #{new_name}")
-										return
+										# editor.warn("There's already an animation with the name '#{new_name}'")
+										# setCustomValidity is better, more contextual.
+										@name_input_el.setCustomValidity("There's already an animation with the name '#{new_name}'")
+										needs_temp_name = true
 								else if type_of_anims is "poses"
 									if EntityClass.poses[new_name]
-										alert("There's already a pose with the name #{new_name}")
-										return
+										# editor.warn("There's already a pose with the name '#{new_name}'")
+										@name_input_el.setCustomValidity("There's already a pose with the name '#{new_name}'")
+										needs_temp_name = true
 								else
+									alert("This shouldn't happen. Unknown type: #{type_of_anims}")
 									return
-								
+
+								if needs_temp_name
+									new_name += "TEMP_NAME_SENTINEL"
+									while EntityClass[type_of_anims][new_name]
+										new_name += "1"
+								else
+									@name_input_el.setCustomValidity("")
+								@name_input_el.reportValidity()
+
 								anims_object = EntityClass[type_of_anims]
 								renameObjectKey(anims_object, name, new_name)
 								editor.editing_entity_anim_name = new_name
@@ -68,3 +85,6 @@ export default class Anim extends Component
 	
 	componentDidMount: ->
 		componentHandler.upgradeElement(ReactDOM.findDOMNode(@mdl_textfield_el)) if @mdl_textfield_el?
+
+		if @name_input_el?.dataset.invalidNotUnique
+			@name_input_el.setCustomValidity("Please enter a unique name.")

@@ -10,7 +10,9 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
-Nothing yet.
+### Editor
+
+- When naming animations or poses, it will now gracefully handle the case where the name is already taken, marking the input field as invalid, with a tooltip, and saving under a temporary name behind the scenes. Before it showed an alert, completely interrupting your typing, and you had to plan around it. For example if you were creating a second idle animation "Idle 2", it would trigger once you typed "Idle", and reject the input, and you'd have to type "Idl 2" and then go back and type the "e", or otherwise work around it.
 
 </details>
 

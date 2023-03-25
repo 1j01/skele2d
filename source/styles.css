@@ -235,3 +235,8 @@ article.placeholder {
 	pointer-events: none;
 	opacity: 0;
 }
+
+.mdl-textfield__input:invalid {
+	background: rgba(255, 0, 0, 0.1);
+	border-bottom-color: red;
+}
