@@ -24,9 +24,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="8.3109737"
-     inkscape:cx="-10.287603"
-     inkscape:cy="38.443149"
+     inkscape:zoom="16.386533"
+     inkscape:cx="12.05258"
+     inkscape:cy="3.6310305"
      inkscape:current-layer="layer1">
     <inkscape:grid
        type="xygrid"
@@ -40,23 +40,13 @@
      id="layer1">
     <path
        style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="M 4,6 H 3 V 3 h 7 V 1 h 4 v 2 h 7 V 6 H 20 L 18,21 H 6 Z"
+       d="M 4,6 C 2,6 2,3 4,3 h 6 c 0,0 0,-2 2,-2 2,0 2,2 2,2 h 6 c 2,0 2,3 0,3 z M 20,6 18,21 H 6 L 4,6 Z"
        id="path621"
-       sodipodi:nodetypes="ccccccccccccc" />
+       sodipodi:nodetypes="ccczccccccccc" />
     <path
-       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="M 8,6 9,19"
-       id="path625"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="M 16,6 15,19"
-       id="path627"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="M 12,6 V 19"
        id="path629"
-       sodipodi:nodetypes="cc" />
+       style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
+       d="M 12,8 V 19 M 16,8 15,19 M 8,8 9,19"
+       sodipodi:nodetypes="cccccc" />
   </g>
 </svg>
