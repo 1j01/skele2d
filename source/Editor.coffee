@@ -811,10 +811,10 @@ export default class Editor
 	draw: (ctx, view)->
 
 		show_indices_enabled = (try localStorage["Skele2D show indices"]) is "true"
-		show_names_enabled = (try localStorage["Skele2D show names"]) is "true"
+		show_names_option = (try localStorage["Skele2D show names"])
 
 		draw_points = (entity, radius, fillStyle)=>
-			show_names = show_names_enabled and entity is @editing_entity
+			show_names = show_names_option in ["always", "hovered-or-selected"] or (show_names_option in ["editing", "true"] and entity is @editing_entity)
 			show_indices = show_indices_enabled and entity is @editing_entity
 			highlight_first_and_last = show_indices
 
