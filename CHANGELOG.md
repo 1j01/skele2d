@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - It no longer loads a font called Arimo from Google Fonts just for a fallback font for context menus (a weird decision in jsMenus library)
 - Fixed a bug where if you right clicked an open context menu, the old context menu would stay open, unable to be closed.
 - `localStorage["Skele2D show names"]` flag now supports `"hovered-or-selected"` as an option, which shows the name labels also for hovered or selected entities, rather than just the entity being edited.
+- You can now set `localStorage["Skele2D allow posing animatable entities in world"] = "true"` to override the "No pose is selected. Select a pose to edit." error message, which is intended to avoid confusion since edits will not affect the animation data, and will generally have little affect once the game starts running, since the animation code will override the pose, perhaps with linear interpolation. Occasionally it's useful to just pose the entity ad-hoc, such as to test the entity's rendering in various scenarios without creating a pose for each one.
 
 </details>
 

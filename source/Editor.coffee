@@ -763,7 +763,7 @@ export default class Editor
 			EntityClass = entityClasses[@editing_entity._class_]
 			if EntityClass.poses? or EntityClass.animations?
 				@warn "No pose is selected. Select a pose to edit."
-				return
+				return unless (try localStorage["Skele2D allow posing animatable entities in world"]) is "true"
 		
 		@grab_start = {x: @mouse.x, y: @mouse.y}
 		@grab_start_in_world = mouse_in_world
