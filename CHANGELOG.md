@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Editor
 
 - When naming animations or poses, it will now gracefully handle the case where the name is already taken, marking the input field as invalid, with a tooltip, and saving under a temporary name behind the scenes. Before it showed an alert, completely interrupting your typing, and you had to plan around it. For example if you were creating a second idle animation "Idle 2", it would trigger once you typed "Idle", and reject the input, and you'd have to type "Idl 2" and then go back and type the "e", or otherwise work around it.
+- It no longer loads a font called Arimo from Google Fonts just for a fallback font for context menus (a weird decision in jsMenus library)
 
 </details>
 
