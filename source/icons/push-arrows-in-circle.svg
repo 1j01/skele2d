@@ -25,9 +25,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="46.317752"
-     inkscape:cx="13.547721"
-     inkscape:cy="10.892152"
+     inkscape:zoom="16.523047"
+     inkscape:cx="15.039599"
+     inkscape:cy="16.915766"
      inkscape:current-layer="layer1">
     <inkscape:grid
        type="xygrid"
@@ -42,19 +42,19 @@
     <circle
        style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stop-color:#000000"
        id="path26811"
-       cx="12"
-       cy="12"
+       cx="12.5"
+       cy="12.5"
        r="10" />
     <path
        id="path26815"
        style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="m 7,9 -3,3 3,3 m 10,0 3,-3 -3,-3 M 4,12 h 16"
+       d="m 7.5,9.5 -3,3 3,3 m 10,0 3,-3 -3,-3 m -13,3 h 16"
        sodipodi:nodetypes="cccccccc" />
     <use
        x="0"
        y="0"
        xlink:href="#path26815"
        id="use26875"
-       transform="rotate(-90,12,12)" />
+       transform="rotate(-90,12.5,12.5)" />
   </g>
 </svg>
