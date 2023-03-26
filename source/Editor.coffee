@@ -86,6 +86,10 @@ export default class Editor
 			e.preventDefault()
 			return unless @editing
 
+			# Fix jsMenus bug if you right click on an existing menu.
+			# Menu.popdownAll?() # ugh that doesn't even work, breaks if there's no menu open
+			Menu._topmostMenu?.popdown()
+
 			menu = new Menu
 			
 			# if @selected_entities.length is 0
