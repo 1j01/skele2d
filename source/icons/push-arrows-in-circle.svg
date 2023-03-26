@@ -7,7 +7,7 @@
    viewBox="0 0 24.0 24.0"
    version="1.1"
    id="SVGRoot"
-   sodipodi:docname="push.svg"
+   sodipodi:docname="push-arrows-in-circle.svg"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,9 +25,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="23.297496"
-     inkscape:cx="5.3009988"
-     inkscape:cy="15.945919"
+     inkscape:zoom="46.317752"
+     inkscape:cx="13.547721"
+     inkscape:cy="10.892152"
      inkscape:current-layer="layer1">
     <inkscape:grid
        type="xygrid"
@@ -48,12 +48,13 @@
     <path
        id="path26815"
        style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="m 7,9 -3,3 3,3 M 17.22804,15.21189 20,12 16.788109,9.2280405 M 4,12 h 16" />
+       d="m 7,9 -3,3 3,3 m 10,0 3,-3 -3,-3 M 4,12 h 16"
+       sodipodi:nodetypes="cccccccc" />
     <use
        x="0"
        y="0"
        xlink:href="#path26815"
        id="use26875"
-       transform="rotate(-90,11.999048,12.092508)" />
+       transform="rotate(-90,12,12)" />
   </g>
 </svg>
