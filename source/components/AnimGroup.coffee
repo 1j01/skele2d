@@ -4,6 +4,7 @@ import E from "react-script"
 import Anim from "./Anim.coffee"
 import Pose from "../structure/Pose.coffee"
 import Entity from "../base-entities/Entity.coffee"
+import plusIcon from "../icons/plus.svg"
 
 export default class AnimGroup extends Component
 	render: ->
@@ -144,7 +145,8 @@ export default class AnimGroup extends Component
 					
 					update()
 				
-				E "i.material-icons", "add"
+				# E "i.material-icons", "add"
+				E "img", src: plusIcon, style: {filter: "invert()"}
 	
 	componentDidMount: =>
 		componentHandler.upgradeElement(ReactDOM.findDOMNode(@new_anim_button))

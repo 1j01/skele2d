@@ -7,6 +7,7 @@ import E from "react-script"
 import EntityPreview from "./EntityPreview.coffee"
 import Entity from "../base-entities/Entity.coffee"
 import renameObjectKey from "../rename-object-key.coffee"
+import deleteIcon from "../icons/delete.svg"
 
 export default class Anim extends Component
 	constructor: ->
@@ -38,7 +39,7 @@ export default class Anim extends Component
 							required: true
 							onFocus: (e)=>
 								@name_input_el.reportValidity()
-							onChange: (e)=>
+							onInput: (e)=>
 								new_name = e.target.value
 								# TODO: use error classes and messages instead of intrusive alerts
 								if type_of_anims is "animations"
@@ -77,7 +78,8 @@ export default class Anim extends Component
 							e.preventDefault()
 							delete_item()
 							Entity.saveAnimations(EntityClass)
-						E "i.material-icons", "delete"
+						# E "i.material-icons", "delete"
+						E "img", src: deleteIcon
 			E EntityPreview, {
 				entity, max_width, max_height
 				ref: (@entity_preview)=>
