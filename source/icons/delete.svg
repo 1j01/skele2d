@@ -24,9 +24,9 @@
      inkscape:deskcolor="#505050"
      inkscape:document-units="px"
      showgrid="true"
-     inkscape:zoom="23.297496"
-     inkscape:cx="3.8416146"
-     inkscape:cy="9.0353058"
+     inkscape:zoom="8.3109737"
+     inkscape:cx="-10.287603"
+     inkscape:cy="38.443149"
      inkscape:current-layer="layer1">
     <inkscape:grid
        type="xygrid"
@@ -40,9 +40,9 @@
      id="layer1">
     <path
        style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
-       d="M 4,6 H 3 V 3 H 21 V 6 H 20 L 18,21 H 6 Z"
+       d="M 4,6 H 3 V 3 h 7 V 1 h 4 v 2 h 7 V 6 H 20 L 18,21 H 6 Z"
        id="path621"
-       sodipodi:nodetypes="ccccccccc" />
+       sodipodi:nodetypes="ccccccccccccc" />
     <path
        style="font-variation-settings:normal;opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000;stop-opacity:1"
        d="M 8,6 9,19"
