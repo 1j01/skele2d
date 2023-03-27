@@ -175,10 +175,6 @@ This can happen when updating dependencies, or (perhaps) when switching branches
 
 * Add <kbd>alt</kbd>+drag to drag the selection from anywhere (i.e. without having to have your mouse over part of the selection, especially for when the selection is a set of points) (inspired by [this video](https://youtu.be/elws59R9CrM))
 
-* Make current "sculpt mode" available as a tool for both polygon structures and bone structures
-
-* Add additive and subtractive brush tools for polygon structures (terrain)
-
 * Add undo/redo, frame reordering, and maybe variable delays to the animation editor
 
 * Make undo/redo efficient (currently it saves the entire world state every operation!)
