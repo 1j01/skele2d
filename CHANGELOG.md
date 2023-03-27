@@ -10,6 +10,12 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
+Nothing yet.
+
+</details>
+
+## [0.0.11] - 2023-03-27
+
 ### Editor
 
 - The editor now only uses custom SVG icons. You may remove Material Icons from your project if you're including it. (The previous release incorrectly stated that the editor never used Material Icons.)
@@ -20,8 +26,6 @@ All notable changes to this project will be documented in this file.
 - `localStorage["Skele2D show names"]` flag now supports `"hovered-or-selected"` as an option, which shows the name labels also for hovered or selected entities, rather than just the entity being edited.
 - You can now set `localStorage["Skele2D allow posing animatable entities in world"] = "true"` to override the "No pose is selected. Select a pose to edit." error message, which is intended to avoid confusion since edits will not affect the animation data, and will generally have little affect once the game starts running, since the animation code will override the pose, perhaps with linear interpolation. Occasionally it's useful to just pose the entity ad-hoc, such as to test the entity's rendering in various scenarios without creating a pose for each one.
 - You can now set `localStorage["Skele2D disable constraint solving"] = "true"` to disable automatic layout / constraint solving while editing an entity. This prevents calling `stepLayout` continuously while in entity editing mode. This can be useful for 1. defining animations/poses where the limbs of a character should become shorter for a pseudo 3D effect, or 2. to inspect the layout of an entity where points overlap. However for point 1. it would be nice to have max distance constraints instead of only exact distance constraints. These local storage flags are just escape hatches for annoyances to be smoothed out properly in the future.
-
-</details>
 
 ## [0.0.10] - 2023-03-14 (π day)
 
@@ -147,7 +151,8 @@ published so I can start referencing this package in Tiamblia.
 - Published as uncompiled CoffeeScript. So are any further versions until I mention otherwise.
 
 [Tiamblia]: https://github.com/1j01/tiamblia-game
-[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.10...HEAD
+[Unreleased]: https://github.com/1j01/skele2d/compare/v0.0.11...HEAD
+[0.0.11]: https://github.com/1j01/skele2d/compare/v0.0.10...v0.0.11
 [0.0.10]: https://github.com/1j01/skele2d/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/1j01/skele2d/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/1j01/skele2d/compare/v0.0.7...v0.0.8
