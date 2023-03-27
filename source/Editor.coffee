@@ -722,8 +722,9 @@ export default class Editor
 		if @editing_entity
 			if @editing_entity.structure instanceof BoneStructure
 			# TODO: and if there isn't an animation frame loaded
-				@editing_entity.structure.stepLayout() for [0..250]
-				# TODO: save afterwards at some point
+				unless (try localStorage["Skele2D disable constraint solving"]) is "true"
+					@editing_entity.structure.stepLayout() for [0..250]
+					# TODO: save afterwards at some point
 
 		@previous_mouse_world_x = mouse_in_world.x
 		@previous_mouse_world_y = mouse_in_world.y
