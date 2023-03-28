@@ -302,6 +302,9 @@ export default class Editor
 		{@world, selected_entity_ids, editing_entity_id, selected_point_names}
 	
 	fromJSON: (state)->
+		for entity in @world.entities
+			entity.destroy?()
+			entity.destroyed = true
 		@world.fromJSON(state.world)
 		@hovered_entities = []
 		@hovered_points = []
@@ -430,7 +433,7 @@ export default class Editor
 		else if @selected_entities.length
 			@undoable =>
 				for entity in @selected_entities
-					# entity.destroy()
+					entity.destroy?()
 					entity.destroyed = true
 					index = @world.entities.indexOf(entity)
 					@world.entities.splice(index, 1) if index >= 0
