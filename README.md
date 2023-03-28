@@ -55,14 +55,16 @@ Right now you have to include Material UI in addition to the module, as seen in 
 * [`examples/webpack-coffee/`](examples/webpack-coffee/) - Webpack usage example, with CoffeeScript. This uses Webpack to bundle module imports (including Skele2D and other parts of the example), and coffee-loader to compile CoffeeScript.
 * [`examples/script-tag-coffee/`](examples/script-tag-coffee/) - Script tag usage example, with CoffeeScript. This uses the in-browser CoffeeScript compiler, and uses globals instead of imports/exports.
 * [`examples/esm/`](examples/esm/) - ES Modules example. This uses a separate ESM build of Skele2D, and imports it from inside a `<script type="module">`.
+* [`examples/esm-pixi/`](examples/esm-pixi/) - ES Modules example using [PIXI.js](https://www.pixijs.com/) for rendering.
 * [Tiamblia](https://github.com/1j01/tiamblia-game) - A game built with Skele2D (or a fuller example, at least.)
 
-Both of the examples in this repo are super bare-bones, and don't actually show off all the entity types supported by the editor, only terrain — no posable or animated entities. (It was kind of an oversight when I was copying from Tiamblia and trimming it down.)
+The examples in this repo are super bare-bones, and don't actually show off the flexibility of the editor. There's no animated entities! (It was kind of an oversight when I was copying from Tiamblia and trimming it down.)
 
 <!--
 I'd also like to show off different things you can do with Skele2D, like:
 * Using Skele2D with a physics engine, like Matter.js
-* Using Skele2D with a rendering engine, like Pixi.js, or something that does textured polygons nicely. I'd want it to have a very different look, to show the breadth of what you can achieve.
+* Using Skele2D with a rendering engine, like Pixi. Done!
+* I'd like to show very different art styles, to show the breadth of what you can achieve.
 
 Since I want to show off functionality distinct from module setups, I think I should pick a module setup, probably ESM,
 for most of the examples to use, and then keep the other module setups super basic, just to show that it works with them.
