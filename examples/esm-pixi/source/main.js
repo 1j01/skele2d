@@ -117,18 +117,6 @@ app.ticker.add(function () {
 
 	editor.updateGUI();
 
-	// Destroy entities that were removed from the world.
-	// This handles undo/redo and delete, although I also have a destroyed setter in Snake.coffee which handles delete.
-	// TODO: make Skele2D call a destroy method on entities when they're removed from the world.
-	for (entity of Array.from(old_entities_list)) {
-		if (!Array.from(world.entities).includes(entity)) {
-			if (typeof entity.destroy === 'function') {
-				entity.destroy();
-			}
-		}
-	}
-	old_entities_list = [...world.entities];
-
 	// keyboard.resetForNextStep();
 
 });

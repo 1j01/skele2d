@@ -325,21 +325,3 @@ export default class Snake extends Entity {
 	}
 };
 addEntityClass(Snake);
-
-// This is a temporary holdover until I make Skele2D call a destroy() method on entities.
-// I can also probably find some cleaner patterns for cleaning up PIXI stuff.
-// This is my first time using PIXI.
-// Skele2D sets `destroyed` to true when you delete an entity in the editor.
-// Hm, it doesn't when you undo/redo, though, so this is still leaving behind PIXI objects in that case.
-Object.defineProperty(Snake.prototype, "destroyed", {
-	configurable: true,
-	get() {
-		return this.$_destroyed;
-	},
-	set(value) {
-		this.$_destroyed = value;
-		if (value) {
-			this.destroy();
-		}
-	}
-});
