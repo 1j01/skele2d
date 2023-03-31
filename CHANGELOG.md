@@ -10,9 +10,12 @@ All notable changes to this project will be documented in this file.
 		Click to see more.
 	</summary>
 
-### Library
+### Added
 
 - `entity.destroy()` is now called if it exists, when an entity is removed from the scene. This is useful for cleaning up any resources that the entity may have allocated, such as WebGL textures, or audio buffers, when these resources can't be shared by all instances of a class. It's also useful for managing a scene graph, when using PIXI.js or Three.js for example, so that visual representations of entities aren't left behind.
+
+### Changed
+
 - `entity.destroyed` is now set also for undo/redo, not just when deleting selected entities.
 
 </details>
