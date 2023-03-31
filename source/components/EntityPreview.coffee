@@ -15,8 +15,9 @@ export default class EntityPreview extends Component
 			entity_bbox = @entity.bbox()
 			center_x = entity_bbox.x + entity_bbox.width / 2 - @entity.x
 			center_y = entity_bbox.y + entity_bbox.height / 2 - @entity.y
+			width = Math.min(entity_bbox.width, max_width)
 			height = Math.min(entity_bbox.height, max_height)
-			scale = height / entity_bbox.height
+			scale = Math.min(width / entity_bbox.width, height / entity_bbox.height)
 		catch error
 			@state.preview_error = error
 		@view = new View
