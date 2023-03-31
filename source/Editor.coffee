@@ -221,21 +221,34 @@ export default class Editor
 			switch e.keyCode
 				when 32, 80 # Space or P
 					@toggleEditing()
+					e.preventDefault()
 				when 46 # Delete
 					@delete()
+					e.preventDefault()
 				when 90 # Z
 					if e.ctrlKey
 						if e.shiftKey then @redo() else @undo()
+						e.preventDefault()
 				when 89 # Y
-					@redo() if e.ctrlKey
+					if e.ctrlKey
+						@redo()
+						e.preventDefault()
 				when 88 # X
-					@cut() if e.ctrlKey
+					if e.ctrlKey
+						@cut()
+						e.preventDefault()
 				when 67 # C
-					@copy() if e.ctrlKey
+					if e.ctrlKey
+						@copy()
+						e.preventDefault()
 				when 86 # V
-					@paste() if e.ctrlKey
+					if e.ctrlKey
+						@paste()
+						e.preventDefault()
 				when 65 # A
-					@selectAll() if e.ctrlKey
+					if e.ctrlKey
+						@selectAll()
+						e.preventDefault()
 	
 	save: ->
 		json = JSON.stringify(@world, null, "\t")
