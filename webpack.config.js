@@ -1,3 +1,4 @@
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 
 const makeConfig = ({ minimize, esm }) => {
@@ -37,12 +38,15 @@ const makeConfig = ({ minimize, esm }) => {
     optimization: {
       minimize,
     },
+    plugins: [
+      new BundleAnalyzerPlugin()
+    ]
   };
 };
 
 const configs = [];
 for (const minimize of [false, true]) {
-  for (const esm of [false, true]) {
+  for (const esm of [false]) {
     configs.push(makeConfig({ minimize, esm }));
   }
 }
