@@ -13,10 +13,13 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - `entity.destroy()` is now called if it exists, when an entity is removed from the scene. This is useful for cleaning up any resources that the entity may have allocated, such as WebGL textures, or audio buffers, when these resources can't be shared by all instances of a class. It's also useful for managing a scene graph, when using PIXI.js or Three.js for example, so that visual representations of entities aren't left behind.
+- Helper function `closestPointOnInfiniteLine(point, a, b)` returns the closest point on the infinite line defined by `a` and `b` to `point`, i.e. the projection of `point` onto the line.
+- Helper function `ratioAlongLineSegment(point, a, b)` returns an unbounded value representing the position of the projection of `point` onto the line defined by `a` and `b`. A value of 0 indicates the projection is at `a`, 1 indicates it's at `b`, values between 0 and 1 are on the line segment, negative values are before `a`, and values greater than 1 are beyond `b`.
 
 ### Changed
 
 - `entity.destroyed` is now set also for undo/redo, not just when deleting selected entities.
+- Helper function `closestPointOnLineSegment(point, a, b)` now actually bounds the result to the line segment, instead of treating it as an infinite line. `closestPointOnInfiniteLine(point, a, b)` provides the old behavior.
 
 </details>
 

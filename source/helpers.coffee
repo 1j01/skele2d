@@ -23,7 +23,25 @@ export lineSegmentsIntersect = (x1, y1, x2, y2, x3, y3, x4, y4)->
 	t = (+b_dx * (y1 - y3) - b_dy * (x1 - x3)) / (-b_dx * a_dy + a_dx * b_dy)
 	(0 <= s <= 1 and 0 <= t <= 1)
 
+export ratioAlongLineSegment = (point, a, b)->
+	# https://stackoverflow.com/a/3122532/2624876
+	a_to_p = {x: point.x - a.x, y: point.y - a.y}
+	a_to_b = {x: b.x - a.x, y: b.y - a.y}
+	atb2 = a_to_b.x**2 + a_to_b.y**2
+	atp_dot_atb = a_to_p.x*a_to_b.x + a_to_p.y*a_to_b.y
+	return atp_dot_atb / atb2
+
 export closestPointOnLineSegment = (point, a, b)->
+	# https://stackoverflow.com/a/3122532/2624876
+	a_to_p = {x: point.x - a.x, y: point.y - a.y}
+	a_to_b = {x: b.x - a.x, y: b.y - a.y}
+	atb2 = a_to_b.x**2 + a_to_b.y**2
+	atp_dot_atb = a_to_p.x*a_to_b.x + a_to_p.y*a_to_b.y
+	t = atp_dot_atb / atb2
+	t = Math.max(0, Math.min(1, t))
+	return {x: a.x + a_to_b.x*t, y: a.y + a_to_b.y*t}
+
+export closestPointOnInfiniteLine = (point, a, b)->
 	# https://stackoverflow.com/a/3122532/2624876
 	a_to_p = {x: point.x - a.x, y: point.y - a.y}
 	a_to_b = {x: b.x - a.x, y: b.y - a.y}
